@@ -1,0 +1,919 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>れきしじんぶつ 完成版（全28人）</title>
+    <style>
+      :root{
+        --bg:#fdfcf8; --surface:#ffffff; --surface2:#f4f1e6;
+        --ink:#2e2a24; --ink-soft:#5d564a; --line:#e3dcc9;
+        --accent:#b3402a; --accent-ink:#ffffff;
+        --ai:#2f4a6b; --gold:#c9962e;
+        --good:#2e7d4f; --good-bg:#e3f2e7;
+        --almost:#b97a1e; --almost-bg:#fbf0da;
+        --yet-bg:#eeebe2;
+        --shadow:0 2px 10px rgba(60,45,20,.10);
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --bg:#17181c; --surface:#22242a; --surface2:#2a2d34;
+          --ink:#f0ead9; --ink-soft:#b9b2a0; --line:#3a3d46;
+          --accent:#d96a4e; --accent-ink:#ffffff;
+          --ai:#8fb0d8; --gold:#d9ab4a;
+          --good:#7cc79b; --good-bg:#22392c;
+          --almost:#e0aa54; --almost-bg:#3d3220;
+          --yet-bg:#2e3038;
+          --shadow:0 2px 10px rgba(0,0,0,.4);
+        }
+      }
+      *{ box-sizing:border-box; }
+      body{
+        margin:0; background:var(--bg); color:var(--ink);
+        font-family:"Hiragino Maru Gothic ProN","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;
+        line-height:1.6; -webkit-text-size-adjust:100%;
+      }
+      ruby rt{ font-size:.52em; font-weight:400; }
+      main{ max-width:960px; margin:0 auto; padding:16px 14px 56px; }
+      button{ font-family:inherit; cursor:pointer; }
+      .read-btn{
+        display:inline-flex; align-items:center; gap:6px;
+        border:2px solid var(--ai); color:var(--ai); background:var(--surface);
+        border-radius:999px; padding:4px 12px; font-size:.9rem; font-weight:700;
+      }
+      .read-btn svg{ width:16px; height:16px; flex:none; }
+      .read-btn:active{ transform:scale(.97); }
+
+      /* ---------- header / progress ---------- */
+      .app-title{ font-size:1.45rem; font-weight:800; margin:6px 0 2px; letter-spacing:.02em; }
+      .app-title .series{ color:var(--accent); }
+      .subtitle{ color:var(--ink-soft); margin:0 0 14px; font-size:.98rem; }
+      .version-tag{
+        display:inline-block; background:var(--accent); color:var(--accent-ink);
+        border-radius:8px; padding:1px 10px; font-weight:800; font-size:.85rem; margin-left:8px; vertical-align:middle;
+      }
+      .progress-card{
+        background:var(--surface); border:1px solid var(--line); border-radius:14px;
+        padding:14px 16px; box-shadow:var(--shadow); margin-bottom:18px;
+      }
+      .progress-top{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+      .progress-num{ font-size:1.5rem; font-weight:800; }
+      .progress-num small{ font-size:.95rem; color:var(--ink-soft); font-weight:700; }
+      .progress-bar{ height:16px; background:var(--yet-bg); border-radius:999px; overflow:hidden; margin-top:8px; }
+      .progress-fill{ height:100%; width:0%; background:var(--good); border-radius:999px; transition:width .4s ease; }
+      @media (prefers-reduced-motion: reduce){ .progress-fill{ transition:none; } }
+      .progress-msg{ margin:8px 0 0; color:var(--ink-soft); font-size:.95rem; }
+
+      /* ---------- step tabs ---------- */
+      .steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:18px; }
+      .step-tab{
+        border:2px solid var(--line); background:var(--surface); color:var(--ink);
+        border-radius:14px; padding:10px 6px; text-align:center; box-shadow:var(--shadow);
+      }
+      .step-tab .step-no{ display:block; font-size:.75rem; font-weight:800; color:var(--accent); letter-spacing:.15em; }
+      .step-tab .step-name{ display:block; font-size:1.25rem; font-weight:800; }
+      .step-tab .step-desc{ display:block; font-size:.8rem; color:var(--ink-soft); }
+      .step-tab[aria-selected="true"]{ border-color:var(--accent); background:var(--surface2); }
+
+      /* ---------- era chips ---------- */
+      .chips{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 14px; }
+      .chip{
+        border:2px solid var(--line); background:var(--surface); color:var(--ink);
+        border-radius:999px; padding:5px 14px; font-size:.95rem; font-weight:700;
+      }
+      .chip[aria-pressed="true"]{ border-color:var(--ai); background:var(--surface2); color:var(--ai); }
+
+      /* ---------- figure grid ---------- */
+      .era-head{ display:flex; align-items:center; gap:10px; margin:22px 0 10px; }
+      .era-head h2{ font-size:1.15rem; margin:0; }
+      .era-head .era-count{ color:var(--ink-soft); font-size:.9rem; }
+      .era-head::after{ content:""; flex:1; border-top:2px dashed var(--line); }
+      .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; }
+      .fig-card{
+        border:2px solid var(--line); background:var(--surface); border-radius:14px;
+        padding:10px 8px 12px; text-align:center; box-shadow:var(--shadow); color:var(--ink);
+        display:flex; flex-direction:column; align-items:center; gap:2px; width:100%;
+      }
+      .fig-card:active{ transform:scale(.98); }
+      .fig-card .portrait{ width:84px; height:84px; }
+      .fig-card .fname{ font-weight:800; font-size:1.02rem; }
+      .fig-card .fdeed{ font-size:.82rem; color:var(--ink-soft); }
+      .badge{ margin-top:6px; font-size:.78rem; font-weight:800; border-radius:999px; padding:1px 10px; }
+      .badge.learned{ background:var(--good-bg); color:var(--good); }
+      .badge.almost{ background:var(--almost-bg); color:var(--almost); }
+      .badge.yet{ background:var(--yet-bg); color:var(--ink-soft); }
+      .portrait svg{ width:100%; height:100%; display:block; }
+
+      /* ---------- panels ---------- */
+      .panel{ display:none; }
+      .panel.active{ display:block; }
+      .play-card{
+        background:var(--surface); border:1px solid var(--line); border-radius:14px;
+        box-shadow:var(--shadow); padding:18px 16px; margin-bottom:14px;
+      }
+      .play-card h2{ margin:0 0 6px; font-size:1.2rem; }
+      .q-text{ font-size:1.3rem; font-weight:800; margin:10px 0 4px; }
+      .q-sub{ color:var(--ink-soft); margin:0 0 10px; }
+      .q-portrait{ width:120px; height:120px; margin:6px auto; }
+      .q-portrait svg{ width:100%; height:100%; }
+      .center{ text-align:center; }
+      .feedback{ font-size:1.15rem; font-weight:800; min-height:1.8em; margin:10px 0 4px; }
+      .feedback.good{ color:var(--good); }
+      .feedback.try{ color:var(--almost); }
+      .big-btn{
+        border:none; border-radius:12px; background:var(--accent); color:var(--accent-ink);
+        font-size:1.1rem; font-weight:800; padding:12px 26px; box-shadow:var(--shadow);
+      }
+      .big-btn:active{ transform:scale(.97); }
+      .ghost-btn{
+        border:2px solid var(--line); background:var(--surface); color:var(--ink);
+        border-radius:12px; font-size:1rem; font-weight:700; padding:10px 20px;
+      }
+      .find-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:12px; }
+      @media (max-width:520px){ .find-grid{ grid-template-columns:repeat(2,1fr); } }
+      .find-btn{
+        border:2px solid var(--line); background:var(--surface); border-radius:14px;
+        padding:10px 6px; display:flex; flex-direction:column; align-items:center; gap:2px; color:var(--ink);
+      }
+      .find-btn .portrait{ width:76px; height:76px; }
+      .find-btn.picked-good{ border-color:var(--good); background:var(--good-bg); }
+      .find-btn.picked-bad{ border-color:var(--almost); background:var(--almost-bg); }
+      .choices{ display:flex; flex-direction:column; gap:10px; margin-top:12px; }
+      .choice-row{ display:flex; gap:8px; align-items:stretch; }
+      .choice-btn{
+        flex:1; text-align:left; border:2px solid var(--line); background:var(--surface);
+        border-radius:12px; padding:12px 14px; font-size:1.08rem; font-weight:700; color:var(--ink);
+      }
+      .choice-btn.picked-good{ border-color:var(--good); background:var(--good-bg); }
+      .choice-btn.picked-bad{ border-color:var(--almost); background:var(--almost-bg); }
+      .choice-btn:disabled{ opacity:.75; }
+      .choice-read{ flex:none; align-self:center; }
+      .score-line{ color:var(--ink-soft); font-weight:700; }
+
+      /* ---------- calendar ---------- */
+      .section-card{
+        background:var(--surface); border:1px solid var(--line); border-radius:14px;
+        box-shadow:var(--shadow); padding:18px 16px; margin-top:22px;
+      }
+      .section-card h2{ margin:0 0 4px; font-size:1.2rem; }
+      .section-card p{ margin:4px 0; }
+      .cal-head{ display:flex; align-items:center; justify-content:space-between; margin:10px 0 6px; }
+      .cal-title{ font-weight:800; font-size:1.05rem; }
+      .cal-nav{
+        border:2px solid var(--line); background:var(--surface); color:var(--ink);
+        border-radius:10px; padding:4px 14px; font-weight:800; font-size:1rem;
+      }
+      table.cal{ width:100%; border-collapse:collapse; table-layout:fixed; }
+      table.cal th{ font-size:.82rem; color:var(--ink-soft); padding:4px 0; }
+      table.cal td{ text-align:center; padding:3px; }
+      .cal-day{
+        width:100%; aspect-ratio:1; max-height:52px; border:none; border-radius:10px;
+        background:transparent; color:var(--ink); font-size:.95rem; font-weight:700; position:relative;
+      }
+      .cal-day.has-stamp{ background:var(--good-bg); color:var(--good); }
+      .cal-day .stamp{ position:absolute; inset:auto 2px 1px auto; font-size:.8rem; color:var(--accent); }
+      .cal-day.today{ outline:2px solid var(--ai); outline-offset:-2px; }
+      .cal-day:disabled{ color:var(--ink-soft); opacity:.45; }
+      .cal-detail{ margin-top:10px; background:var(--surface2); border-radius:10px; padding:10px 12px; min-height:3em; }
+
+      /* ---------- detail sheet ---------- */
+      .sheet-back{
+        position:fixed; inset:0; background:rgba(20,16,8,.45); display:none; z-index:40;
+      }
+      .sheet-back.open{ display:block; }
+      .sheet{
+        position:fixed; left:0; right:0; bottom:0; z-index:41; display:none;
+        background:var(--surface); border-radius:20px 20px 0 0; box-shadow:0 -6px 30px rgba(0,0,0,.25);
+        max-height:88vh; overflow:auto; padding:20px 18px 30px;
+      }
+      .sheet.open{ display:block; }
+      .sheet-inner{ max-width:640px; margin:0 auto; }
+      .sheet .portrait{ width:150px; height:150px; margin:0 auto; }
+      .sheet h2{ text-align:center; margin:6px 0 2px; font-size:1.5rem; }
+      .sheet .deed{ text-align:center; font-size:1.15rem; font-weight:700; margin:2px 0; }
+      .sheet .era{ text-align:center; color:var(--ink-soft); margin:2px 0 10px; }
+      .state-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:14px 0 8px; }
+      .state-btn{
+        border:2px solid var(--line); background:var(--surface); color:var(--ink);
+        border-radius:12px; padding:10px 4px; font-weight:800; font-size:1rem;
+      }
+      .state-btn[aria-pressed="true"]{ border-color:var(--good); background:var(--good-bg); color:var(--good); }
+      .sheet-meta{ color:var(--ink-soft); text-align:center; margin:6px 0 12px; }
+      .sheet-actions{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
+
+      /* ---------- info & reset ---------- */
+      .plan-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+      @media (max-width:560px){ .plan-grid{ grid-template-columns:1fr; } }
+      .plan-box{ border:2px solid var(--line); border-radius:12px; padding:12px 14px; background:var(--surface2); }
+      .plan-box h3{ margin:0 0 4px; font-size:1.05rem; }
+      .plan-box p{ margin:2px 0; font-size:.95rem; }
+      .plan-box.now{ border-color:var(--accent); }
+      .danger-btn{
+        border:2px solid var(--accent); background:var(--surface); color:var(--accent);
+        border-radius:12px; padding:10px 22px; font-weight:800; font-size:1rem;
+      }
+      .danger-solid{
+        border:none; background:var(--accent); color:var(--accent-ink);
+        border-radius:12px; padding:10px 22px; font-weight:800; font-size:1rem;
+      }
+      .reset-confirm{ display:none; margin-top:12px; background:var(--almost-bg); border-radius:12px; padding:12px 14px; }
+      .reset-confirm.open{ display:block; }
+      .reset-confirm .row{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+      .foot-note{ color:var(--ink-soft); font-size:.88rem; margin-top:26px; text-align:center; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1 class="app-title"><span class="series">さめちゃんとしまちゃんの</span> れきしじんぶつ<span class="version-tag">かんせい版</span></h1>
+      <p class="subtitle">れきしの 人物（じんぶつ）を、みて・さがして・えらんで おぼえる アプリです。<ruby>全<rt>ぜん</rt></ruby>28人（にん）、ぜんぶ あそべます。</p>
+
+      <section class="progress-card" aria-label="しんちょく">
+        <div class="progress-top">
+          <span class="progress-num"><span id="learnedCount">0</span> <small>／ 28人（にん）おぼえた</small></span>
+          <button type="button" class="read-btn" id="progressRead"></button>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <p class="progress-msg" id="progressMsg">まずは STEP1で 人物を みてみよう。</p>
+      </section>
+
+      <nav class="steps" aria-label="ステップ">
+        <button type="button" class="step-tab" data-tab="step1" aria-selected="true">
+          <span class="step-no">STEP 1</span><span class="step-name">みよう</span>
+          <span class="step-desc">人物を みる</span>
+        </button>
+        <button type="button" class="step-tab" data-tab="step2" aria-selected="false">
+          <span class="step-no">STEP 2</span><span class="step-name">さがそう</span>
+          <span class="step-desc">人物を さがす</span>
+        </button>
+        <button type="button" class="step-tab" data-tab="step3" aria-selected="false">
+          <span class="step-no">STEP 3</span><span class="step-name">えらぼう</span>
+          <span class="step-desc">クイズに こたえる</span>
+        </button>
+      </nav>
+
+      <!-- STEP1 -->
+      <section class="panel active" id="panel-step1">
+        <div class="chips" id="eraChips" role="group" aria-label="じだいで しぼる"></div>
+        <div id="zukan"></div>
+      </section>
+
+      <!-- STEP2 -->
+      <section class="panel" id="panel-step2">
+        <div class="play-card center">
+          <h2>この 人物は だれかな？</h2>
+          <p class="q-sub">したことを みて、おなじ 人物を さがしてね。</p>
+          <p class="q-text" id="findDeed"></p>
+          <p class="q-sub" id="findEra"></p>
+          <button type="button" class="read-btn" id="findRead"></button>
+          <div class="find-grid" id="findGrid"></div>
+          <p class="feedback" id="findFeedback" aria-live="polite"></p>
+          <button type="button" class="big-btn" id="findNext" style="display:none">つぎの もんだい</button>
+        </div>
+      </section>
+
+      <!-- STEP3 -->
+      <section class="panel" id="panel-step3">
+        <div class="play-card">
+          <div class="center">
+            <h2>クイズ</h2>
+            <div class="q-portrait portrait" id="quizPortrait" style="display:none"></div>
+            <p class="q-text" id="quizQuestion"></p>
+            <p class="q-sub" id="quizSub"></p>
+            <button type="button" class="read-btn" id="quizRead"></button>
+          </div>
+          <div class="choices" id="quizChoices"></div>
+          <p class="feedback center" id="quizFeedback" aria-live="polite"></p>
+          <div class="center">
+            <button type="button" class="big-btn" id="quizNext" style="display:none">つぎの もんだい</button>
+            <p class="score-line" id="quizScore"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- calendar -->
+      <section class="section-card" aria-label="きろくカレンダー">
+        <h2>きろくカレンダー</h2>
+        <p>べんきょうした 日（ひ）だけ、スタンプが つきます。おやすみの 日は、そのままで だいじょうぶです。</p>
+        <button type="button" class="read-btn" id="calRead"></button>
+        <div class="cal-head">
+          <button type="button" class="cal-nav" id="calPrev" aria-label="まえの月">‹</button>
+          <span class="cal-title" id="calTitle"></span>
+          <button type="button" class="cal-nav" id="calNext" aria-label="つぎの月">›</button>
+        </div>
+        <table class="cal" id="calTable" aria-label="カレンダー"></table>
+        <div class="cal-detail" id="calDetail">スタンプの ある 日を タップすると、その日に おぼえた 人物が みられます。</div>
+      </section>
+
+      <!-- trial / paid -->
+      <section class="section-card" aria-label="おためし版と有料版">
+        <h2>おためし<ruby>版<rt>ばん</rt></ruby>と <ruby>有料版<rt>ゆうりょうばん</rt></ruby></h2>
+        <p>この アプリには、むりょうの おためし版と、全28人（にん）あそべる 有料版が あります。</p>
+        <button type="button" class="read-btn" id="planRead"></button>
+        <div class="plan-grid">
+          <div class="plan-box">
+            <h3>おためし版（むりょう）</h3>
+            <p>あそべるのは 14人（にん）まで。</p>
+            <p>・<ruby>古代<rt>こだい</rt></ruby>〜<ruby>平安<rt>へいあん</rt></ruby>の 7人</p>
+            <p>・<ruby>鎌倉<rt>かまくら</rt></ruby>〜<ruby>室町<rt>むろまち</rt></ruby>の 7人</p>
+          </div>
+          <div class="plan-box now">
+            <h3>有料版（この ページ）</h3>
+            <p>全28人（にん）あそべます。</p>
+            <p>・<ruby>戦国<rt>せんごく</rt></ruby>〜<ruby>江戸<rt>えど</rt></ruby>の 7人</p>
+            <p>・<ruby>幕末<rt>ばくまつ</rt></ruby>〜<ruby>明治<rt>めいじ</rt></ruby>の 7人</p>
+            <p>くわしい 案内（あんない）は note に あります。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- reset -->
+      <section class="section-card" aria-label="きろくをリセット">
+        <h2>きろくを リセット</h2>
+        <p>おぼえた 人物・れんしゅう回数（かいすう）・カレンダーの スタンプを ぜんぶ けして、さいしょからに します。</p>
+        <button type="button" class="read-btn" id="resetRead"></button>
+        <div style="margin-top:12px">
+          <button type="button" class="danger-btn" id="resetBtn">きろくを リセットする</button>
+        </div>
+        <div class="reset-confirm" id="resetConfirm">
+          <p style="margin:0"><strong>ほんとうに けしますか？</strong> けした きろくは もとに もどりません。</p>
+          <div class="row">
+            <button type="button" class="danger-solid" id="resetYes">はい、けす</button>
+            <button type="button" class="ghost-btn" id="resetNo">やめる</button>
+          </div>
+        </div>
+        <p class="feedback" id="resetDone" aria-live="polite"></p>
+      </section>
+
+      <p class="foot-note">さめちゃんとしまちゃんの れきしじんぶつ（かんせい版）</p>
+    </main>
+
+    <!-- detail sheet -->
+    <div class="sheet-back" id="sheetBack"></div>
+    <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="人物のくわしい情報">
+      <div class="sheet-inner">
+        <div class="portrait" id="sheetPortrait"></div>
+        <h2 id="sheetName"></h2>
+        <p class="deed" id="sheetDeed"></p>
+        <p class="era" id="sheetEra"></p>
+        <div class="center"><button type="button" class="read-btn" id="sheetRead"></button></div>
+        <div class="state-row">
+          <button type="button" class="state-btn" data-state="learned">おぼえた</button>
+          <button type="button" class="state-btn" data-state="almost">もうすこし</button>
+          <button type="button" class="state-btn" data-state="yet">まだ</button>
+        </div>
+        <p class="sheet-meta" id="sheetMeta"></p>
+        <div class="sheet-actions">
+          <button type="button" class="ghost-btn" id="sheetClose">とじる</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /* ================= data ================= */
+      var BLOCKS = [
+        { id:'kodai',   label:'こだい〜へいあん',   labelRuby:'<ruby>古代<rt>こだい</rt></ruby>〜<ruby>平安<rt>へいあん</rt></ruby>' },
+        { id:'kamakura',label:'かまくら〜むろまち', labelRuby:'<ruby>鎌倉<rt>かまくら</rt></ruby>〜<ruby>室町<rt>むろまち</rt></ruby>' },
+        { id:'sengoku', label:'せんごく〜えど',     labelRuby:'<ruby>戦国<rt>せんごく</rt></ruby>〜<ruby>江戸<rt>えど</rt></ruby>' },
+        { id:'bakumatsu',label:'ばくまつ〜めいじ',  labelRuby:'<ruby>幕末<rt>ばくまつ</rt></ruby>〜<ruby>明治<rt>めいじ</rt></ruby>' }
+      ];
+      /* n:name kanji / y:yomi / d:deed / dy:deed yomi / dr:deed ruby html / e:era / ey:era yomi / hair / color / prop */
+      var FIGURES = [
+        { id:'himiko', block:'kodai', n:'卑弥呼', y:'ひみこ', d:'邪馬台国の女王', dy:'やまたいこくの じょおう',
+          dr:'<ruby>邪馬台国<rt>やまたいこく</rt></ruby>の<ruby>女王<rt>じょおう</rt></ruby>', e:'やよいじだい', ey:'やよいじだい', hair:'long', color:'#8a4b6b', prop:'mirror' },
+        { id:'shotoku', block:'kodai', n:'聖徳太子', y:'しょうとくたいし', d:'十七条の憲法をつくった', dy:'じゅうしちじょうの けんぽうを つくった',
+          dr:'<ruby>十七条<rt>じゅうしちじょう</rt></ruby>の<ruby>憲法<rt>けんぽう</rt></ruby>を つくった', e:'あすかじだい', ey:'あすかじだい', hair:'crown', color:'#2f4a6b', prop:'scroll' },
+        { id:'nakanoooe', block:'kodai', n:'中大兄皇子', y:'なかのおおえのおうじ', d:'大化の改新', dy:'たいかの かいしん',
+          dr:'<ruby>大化<rt>たいか</rt></ruby>の<ruby>改新<rt>かいしん</rt></ruby>', e:'あすかじだい', ey:'あすかじだい', hair:'eboshi', color:'#3f6212', prop:'sword' },
+        { id:'shomu', block:'kodai', n:'聖武天皇', y:'しょうむてんのう', d:'東大寺の大仏', dy:'とうだいじの だいぶつ',
+          dr:'<ruby>東大寺<rt>とうだいじ</rt></ruby>の<ruby>大仏<rt>だいぶつ</rt></ruby>', e:'ならじだい', ey:'ならじだい', hair:'crown', color:'#7c5a16', prop:'temple' },
+        { id:'murasaki', block:'kodai', n:'紫式部', y:'むらさきしきぶ', d:'源氏物語を書いた', dy:'げんじものがたりを かいた',
+          dr:'<ruby>源氏物語<rt>げんじものがたり</rt></ruby>を <ruby>書<rt>か</rt></ruby>いた', e:'へいあんじだい', ey:'へいあんじだい', hair:'long', color:'#6d4a8a', prop:'book' },
+        { id:'seisho', block:'kodai', n:'清少納言', y:'せいしょうなごん', d:'枕草子を書いた', dy:'まくらのそうしを かいた',
+          dr:'<ruby>枕草子<rt>まくらのそうし</rt></ruby>を <ruby>書<rt>か</rt></ruby>いた', e:'へいあんじだい', ey:'へいあんじだい', hair:'long', color:'#a3543a', prop:'fan' },
+        { id:'michinaga', block:'kodai', n:'藤原道長', y:'ふじわらのみちなが', d:'摂関政治', dy:'せっかんせいじ',
+          dr:'<ruby>摂関政治<rt>せっかんせいじ</rt></ruby>', e:'へいあんじだい', ey:'へいあんじだい', hair:'eboshi', color:'#54427a', prop:'fan' },
+        { id:'yoritomo', block:'kamakura', n:'源頼朝', y:'みなもとのよりとも', d:'鎌倉幕府を開いた', dy:'かまくらばくふを ひらいた',
+          dr:'<ruby>鎌倉幕府<rt>かまくらばくふ</rt></ruby>を <ruby>開<rt>ひら</rt></ruby>いた', e:'かまくらじだい', ey:'かまくらじだい', hair:'topknot', color:'#33526e', prop:'sword' },
+        { id:'tokimune', block:'kamakura', n:'北条時宗', y:'ほうじょうときむね', d:'元寇を退けた', dy:'げんこうを しりぞけた',
+          dr:'<ruby>元寇<rt>げんこう</rt></ruby>を <ruby>退<rt>しりぞ</rt></ruby>けた', e:'かまくらじだい', ey:'かまくらじだい', hair:'topknot', color:'#5d6b2f', prop:'wave' },
+        { id:'takauji', block:'kamakura', n:'足利尊氏', y:'あしかがたかうじ', d:'室町幕府を開いた', dy:'むろまちばくふを ひらいた',
+          dr:'<ruby>室町幕府<rt>むろまちばくふ</rt></ruby>を <ruby>開<rt>ひら</rt></ruby>いた', e:'むろまちじだい', ey:'むろまちじだい', hair:'topknot', color:'#6e4533', prop:'sword' },
+        { id:'yoshimitsu', block:'kamakura', n:'足利義満', y:'あしかがよしみつ', d:'金閣寺を建てた', dy:'きんかくじを たてた',
+          dr:'<ruby>金閣寺<rt>きんかくじ</rt></ruby>を <ruby>建<rt>た</rt></ruby>てた', e:'むろまちじだい', ey:'むろまちじだい', hair:'topknot', color:'#8a6d1f', prop:'temple' },
+        { id:'ikkyu', block:'kamakura', n:'一休宗純', y:'いっきゅうそうじゅん', d:'とんちで有名な禅僧', dy:'とんちで ゆうめいな ぜんそう',
+          dr:'とんちで<ruby>有名<rt>ゆうめい</rt></ruby>な<ruby>禅僧<rt>ぜんそう</rt></ruby>', e:'むろまちじだい', ey:'むろまちじだい', hair:'bald', color:'#7a6a53', prop:'beads' },
+        { id:'sesshu', block:'kamakura', n:'雪舟', y:'せっしゅう', d:'水墨画を描いた', dy:'すいぼくがを かいた',
+          dr:'<ruby>水墨画<rt>すいぼくが</rt></ruby>を <ruby>描<rt>か</rt></ruby>いた', e:'むろまちじだい', ey:'むろまちじだい', hair:'bald', color:'#4a4a52', prop:'brush' },
+        { id:'rikyu', block:'kamakura', n:'千利休', y:'せんのりきゅう', d:'茶道を完成させた', dy:'さどうを かんせいさせた',
+          dr:'<ruby>茶道<rt>さどう</rt></ruby>を <ruby>完成<rt>かんせい</rt></ruby>させた', e:'あずちももやまじだい', ey:'あずちももやまじだい', hair:'bald', color:'#5f7050', prop:'teabowl' },
+        { id:'nobunaga', block:'sengoku', n:'織田信長', y:'おだのぶなが', d:'天下統一を目指した', dy:'てんかとういつを めざした',
+          dr:'<ruby>天下統一<rt>てんかとういつ</rt></ruby>を <ruby>目指<rt>めざ</rt></ruby>した', e:'あずちももやまじだい', ey:'あずちももやまじだい', hair:'topknot', color:'#7a2e2e', prop:'sword' },
+        { id:'hideyoshi', block:'sengoku', n:'豊臣秀吉', y:'とよとみひでよし', d:'天下統一を成し遂げた', dy:'てんかとういつを なしとげた',
+          dr:'<ruby>天下統一<rt>てんかとういつ</rt></ruby>を <ruby>成<rt>な</rt></ruby>し<ruby>遂<rt>と</rt></ruby>げた', e:'あずちももやまじだい', ey:'あずちももやまじだい', hair:'topknot', color:'#a3701c', prop:'gourd' },
+        { id:'ieyasu', block:'sengoku', n:'徳川家康', y:'とくがわいえやす', d:'江戸幕府を開いた', dy:'えどばくふを ひらいた',
+          dr:'<ruby>江戸幕府<rt>えどばくふ</rt></ruby>を <ruby>開<rt>ひら</rt></ruby>いた', e:'えどじだい', ey:'えどじだい', hair:'topknot', color:'#2f5d50', prop:'crest' },
+        { id:'masamune', block:'sengoku', n:'伊達政宗', y:'だてまさむね', d:'独眼竜・仙台藩を開いた', dy:'どくがんりゅう、せんだいはんを ひらいた',
+          dr:'<ruby>独眼竜<rt>どくがんりゅう</rt></ruby>・<ruby>仙台藩<rt>せんだいはん</rt></ruby>を <ruby>開<rt>ひら</rt></ruby>いた', e:'えどじだい', ey:'えどじだい', hair:'helmet', color:'#31456e', prop:'sword' },
+        { id:'musashi', block:'sengoku', n:'宮本武蔵', y:'みやもとむさし', d:'有名な剣豪', dy:'ゆうめいな けんごう',
+          dr:'<ruby>有名<rt>ゆうめい</rt></ruby>な<ruby>剣豪<rt>けんごう</rt></ruby>', e:'えどじだい', ey:'えどじだい', hair:'band', color:'#5a4632', prop:'sword' },
+        { id:'hokusai', block:'sengoku', n:'葛飾北斎', y:'かつしかほくさい', d:'浮世絵を描いた', dy:'うきよえを かいた',
+          dr:'<ruby>浮世絵<rt>うきよえ</rt></ruby>を <ruby>描<rt>か</rt></ruby>いた', e:'えどじだい', ey:'えどじだい', hair:'gray', color:'#2e5f7a', prop:'wave' },
+        { id:'tadataka', block:'sengoku', n:'伊能忠敬', y:'いのうただたか', d:'日本地図を作った', dy:'にっぽんちずを つくった',
+          dr:'<ruby>日本地図<rt>にっぽんちず</rt></ruby>を <ruby>作<rt>つく</rt></ruby>った', e:'えどじだい', ey:'えどじだい', hair:'gray', color:'#6b5636', prop:'compass' },
+        { id:'ryoma', block:'bakumatsu', n:'坂本龍馬', y:'さかもとりょうま', d:'薩長同盟を仲立ちした', dy:'さっちょうどうめいを なかだちした',
+          dr:'<ruby>薩長同盟<rt>さっちょうどうめい</rt></ruby>を <ruby>仲立<rt>なかだ</rt></ruby>ちした', e:'ばくまつ', ey:'ばくまつ', hair:'short', color:'#4a3b5e', prop:'letter' },
+        { id:'saigo', block:'bakumatsu', n:'西郷隆盛', y:'さいごうたかもり', d:'明治維新の中心人物', dy:'めいじいしんの ちゅうしんじんぶつ',
+          dr:'<ruby>明治維新<rt>めいじいしん</rt></ruby>の<ruby>中心人物<rt>ちゅうしんじんぶつ</rt></ruby>', e:'ばくまつ', ey:'ばくまつ', hair:'short', color:'#5e4632', prop:'dog' },
+        { id:'kaishu', block:'bakumatsu', n:'勝海舟', y:'かつかいしゅう', d:'江戸城の無血開城を話し合った', dy:'えどじょうの むけつかいじょうを はなしあった',
+          dr:'<ruby>江戸城<rt>えどじょう</rt></ruby>の<ruby>無血開城<rt>むけつかいじょう</rt></ruby>を <ruby>話<rt>はな</rt></ruby>し<ruby>合<rt>あ</rt></ruby>った', e:'ばくまつ', ey:'ばくまつ', hair:'short', color:'#31555e', prop:'ship' },
+        { id:'yukichi', block:'bakumatsu', n:'福沢諭吉', y:'ふくざわゆきち', d:'『学問のすゝめ』を書いた', dy:'がくもんのすすめを かいた',
+          dr:'『<ruby>学問<rt>がくもん</rt></ruby>のすゝめ』を <ruby>書<rt>か</rt></ruby>いた', e:'めいじじだい', ey:'めいじじだい', hair:'short', color:'#374f35', prop:'book' },
+        { id:'eiichi', block:'bakumatsu', n:'渋沢栄一', y:'しぶさわえいいち', d:'日本の銀行や会社をたくさん作った', dy:'にっぽんの ぎんこうや かいしゃを たくさん つくった',
+          dr:'<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>銀行<rt>ぎんこう</rt></ruby>や<ruby>会社<rt>かいしゃ</rt></ruby>を たくさん <ruby>作<rt>つく</rt></ruby>った', e:'めいじじだい', ey:'めいじじだい', hair:'short', color:'#71563a', prop:'abacus' },
+        { id:'hideyo', block:'bakumatsu', n:'野口英世', y:'のぐちひでよ', d:'細菌の研究をした', dy:'さいきんの けんきゅうを した',
+          dr:'<ruby>細菌<rt>さいきん</rt></ruby>の<ruby>研究<rt>けんきゅう</rt></ruby>を した', e:'めいじじだい', ey:'めいじじだい', hair:'short', color:'#4f615e', prop:'flask' },
+        { id:'umeko', block:'bakumatsu', n:'津田梅子', y:'つだうめこ', d:'女性の教育を広めた', dy:'じょせいの きょういくを ひろめた',
+          dr:'<ruby>女性<rt>じょせい</rt></ruby>の<ruby>教育<rt>きょういく</rt></ruby>を <ruby>広<rt>ひろ</rt></ruby>めた', e:'めいじじだい', ey:'めいじじだい', hair:'bun', color:'#7a4460', prop:'book' }
+      ];
+      var FIG = {};
+      FIGURES.forEach(function(f){ FIG[f.id] = f; });
+
+      /* ============ records (saved on this device, paid version only) ============ */
+      var STORAGE_KEY = 'same-shima-rekishi-records-paid-v1';
+      var records = {};        /* id -> {state:'yet|almost|learned', count:n, learnedOn:'YYYY-MM-DD'|null} */
+      FIGURES.forEach(function(f){ records[f.id] = { state:'yet', count:0, learnedOn:null }; });
+      var studiedDays = {};    /* 'YYYY-MM-DD' -> true */
+      var learnedByDay = {};   /* 'YYYY-MM-DD' -> [ids] */
+
+      function saveRecords(){
+        try{
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            records: records, studiedDays: studiedDays, learnedByDay: learnedByDay
+          }));
+        }catch(e){ /* storage unavailable: keep working for this session */ }
+      }
+      function loadRecords(){
+        try{
+          var raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return;
+          var data = JSON.parse(raw);
+          if (!data || typeof data !== 'object') return;
+          if (data.records){
+            FIGURES.forEach(function(f){
+              var r = data.records[f.id];
+              if (r && (r.state === 'yet' || r.state === 'almost' || r.state === 'learned')){
+                records[f.id] = {
+                  state: r.state,
+                  count: (typeof r.count === 'number' && r.count >= 0) ? Math.floor(r.count) : 0,
+                  learnedOn: (typeof r.learnedOn === 'string') ? r.learnedOn : null
+                };
+              }
+            });
+          }
+          if (data.studiedDays && typeof data.studiedDays === 'object'){
+            Object.keys(data.studiedDays).forEach(function(k){
+              if (data.studiedDays[k]) studiedDays[k] = true;
+            });
+          }
+          if (data.learnedByDay && typeof data.learnedByDay === 'object'){
+            Object.keys(data.learnedByDay).forEach(function(k){
+              var arr = data.learnedByDay[k];
+              if (Array.isArray(arr)){
+                learnedByDay[k] = arr.filter(function(id){ return !!FIG[id]; });
+              }
+            });
+          }
+        }catch(e){ /* corrupted storage: start fresh */ }
+      }
+      loadRecords();
+
+      function todayKey(){
+        var d = new Date();
+        return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+      }
+      function markStudied(){
+        studiedDays[todayKey()] = true;
+        saveRecords();
+      }
+      function practice(id){
+        records[id].count += 1;
+        markStudied();
+      }
+      function setState(id, state){
+        var r = records[id], tk = todayKey();
+        if (state === 'learned' && r.state !== 'learned'){
+          r.learnedOn = tk;
+          (learnedByDay[tk] = learnedByDay[tk] || []).push(id);
+          markStudied();
+        }
+        if (state !== 'learned' && r.state === 'learned' && r.learnedOn){
+          var arr = learnedByDay[r.learnedOn] || [];
+          var i = arr.indexOf(id); if (i >= 0) arr.splice(i,1);
+          r.learnedOn = null;
+        }
+        r.state = state;
+        saveRecords();
+        renderProgress();
+      }
+
+      /* ================= speech ================= */
+      var speakerSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4z" fill="currentColor" stroke="none"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.4 5.6a9 9 0 0 1 0 12.8"/></svg>';
+      function speak(text){
+        try{
+          if (!('speechSynthesis' in window)) return;
+          window.speechSynthesis.cancel();
+          var u = new SpeechSynthesisUtterance(text);
+          u.lang = 'ja-JP'; u.rate = 0.92;
+          window.speechSynthesis.speak(u);
+        }catch(e){ /* speech unavailable: reading buttons simply do nothing */ }
+      }
+      function readBtn(el, textFn){
+        el.innerHTML = speakerSVG + '<span>よんで</span>';
+        el.addEventListener('click', function(){ speak(typeof textFn === 'function' ? textFn() : textFn); });
+      }
+
+      /* ================= portraits (inline SVG) ================= */
+      var ERA_BG = { kodai:'#f3e3ee', kamakura:'#e0e9f2', sengoku:'#f6e3d3', bakumatsu:'#ddeadd' };
+      function propSVG(prop){
+        var s = '#5b4636';
+        switch(prop){
+          case 'mirror': return '<circle cx="15" cy="12" r="7" fill="#e8c85a" stroke="'+s+'" stroke-width="1.6"/><line x1="15" y1="19" x2="15" y2="27" stroke="'+s+'" stroke-width="2.4"/>';
+          case 'scroll': return '<rect x="6" y="9" width="18" height="12" rx="2" fill="#f7efdb" stroke="'+s+'" stroke-width="1.6"/><line x1="10" y1="13" x2="20" y2="13" stroke="'+s+'" stroke-width="1.4"/><line x1="10" y1="17" x2="18" y2="17" stroke="'+s+'" stroke-width="1.4"/>';
+          case 'sword': return '<line x1="8" y1="24" x2="21" y2="9" stroke="#9aa3ab" stroke-width="3"/><line x1="6" y1="22" x2="11" y2="27" stroke="'+s+'" stroke-width="2.6"/><rect x="10" y="19" width="7" height="3" rx="1" transform="rotate(-45 13 20)" fill="#c9962e"/>';
+          case 'temple': return '<path d="M4 12 L15 5 L26 12 Z" fill="#8a6d3b"/><path d="M7 18 L15 12 L23 18 Z" fill="#a3814a"/><rect x="9" y="18" width="12" height="7" fill="#caa96a" stroke="'+s+'" stroke-width="1.2"/>';
+          case 'book': return '<path d="M15 8 C12 6 8 6 6 7 V24 C8 23 12 23 15 25 C18 23 22 23 24 24 V7 C22 6 18 6 15 8 Z" fill="#f7efdb" stroke="'+s+'" stroke-width="1.6"/><line x1="15" y1="8" x2="15" y2="25" stroke="'+s+'" stroke-width="1.2"/>';
+          case 'fan': return '<path d="M5 22 A11 11 0 0 1 25 22 Z" fill="#e8b4a0" stroke="'+s+'" stroke-width="1.4"/><line x1="15" y1="22" x2="15" y2="11" stroke="'+s+'" stroke-width="1.2"/><line x1="15" y1="22" x2="8" y2="13" stroke="'+s+'" stroke-width="1.2"/><line x1="15" y1="22" x2="22" y2="13" stroke="'+s+'" stroke-width="1.2"/>';
+          case 'beads': return '<circle cx="15" cy="15" r="9" fill="none" stroke="#7a5a34" stroke-width="2.6" stroke-dasharray="3.4 2.6"/><circle cx="15" cy="25" r="2.2" fill="#b3402a"/>';
+          case 'brush': return '<path d="M11 4 L15 4 L14 14 C13 18 11 20 9 21 C10 17 10 10 11 4 Z" fill="#3a3a3a"/><rect x="12" y="14" width="4" height="11" rx="1.6" transform="rotate(18 14 20)" fill="#a3701c"/>';
+          case 'teabowl': return '<path d="M6 12 H24 A9 8 0 0 1 6 12 Z" fill="#5f7050"/><rect x="11" y="21" width="8" height="2.6" fill="'+s+'"/><path d="M9 9 C12 7 18 7 21 9" fill="none" stroke="#8fa583" stroke-width="1.6"/>';
+          case 'gourd': return '<circle cx="15" cy="19" r="6.4" fill="#d9a03c" stroke="'+s+'" stroke-width="1.4"/><circle cx="15" cy="10" r="4.4" fill="#e5b85c" stroke="'+s+'" stroke-width="1.4"/>';
+          case 'crest': return '<circle cx="15" cy="15" r="10" fill="none" stroke="'+s+'" stroke-width="1.8"/><circle cx="15" cy="10" r="2.6" fill="#2f5d50"/><circle cx="10.6" cy="17.6" r="2.6" fill="#2f5d50"/><circle cx="19.4" cy="17.6" r="2.6" fill="#2f5d50"/>';
+          case 'wave': return '<path d="M4 20 C7 13 12 12 14 16 C15 10 21 8 24 12 C21 12 20 14 21 16 C23 14 25 14 26 15 C24 20 19 23 14 22 C9 23 5 22 4 20 Z" fill="#3d7ea6"/><circle cx="10" cy="10" r="1.6" fill="#3d7ea6"/><circle cx="15" cy="7" r="1.4" fill="#3d7ea6"/>';
+          case 'compass': return '<circle cx="15" cy="15" r="10" fill="#f7efdb" stroke="'+s+'" stroke-width="1.6"/><path d="M15 8 L18 15 L15 22 L12 15 Z" fill="#b3402a"/><circle cx="15" cy="15" r="1.8" fill="'+s+'"/>';
+          case 'letter': return '<rect x="5" y="9" width="20" height="13" rx="1.6" fill="#f7efdb" stroke="'+s+'" stroke-width="1.6"/><path d="M5 10 L15 17 L25 10" fill="none" stroke="'+s+'" stroke-width="1.4"/>';
+          case 'dog': return '<circle cx="15" cy="17" r="7" fill="#d9b98c" stroke="'+s+'" stroke-width="1.4"/><path d="M9 13 L7 7 L12 10 Z" fill="#c4a06e"/><path d="M21 13 L23 7 L18 10 Z" fill="#c4a06e"/><circle cx="12.6" cy="16" r="1.1" fill="'+s+'"/><circle cx="17.4" cy="16" r="1.1" fill="'+s+'"/><circle cx="15" cy="19" r="1.3" fill="'+s+'"/>';
+          case 'ship': return '<path d="M5 20 H25 L22 25 H9 Z" fill="#7a5230"/><line x1="15" y1="20" x2="15" y2="6" stroke="'+s+'" stroke-width="1.8"/><path d="M15 6 L22 17 H15 Z" fill="#f7efdb" stroke="'+s+'" stroke-width="1.2"/>';
+          case 'abacus': return '<rect x="5" y="7" width="20" height="16" rx="2" fill="#caa06a" stroke="'+s+'" stroke-width="1.6"/><line x1="5" y1="13" x2="25" y2="13" stroke="'+s+'" stroke-width="1.6"/><circle cx="11" cy="10" r="1.8" fill="#7a2e2e"/><circle cx="19" cy="16.6" r="1.8" fill="#2f4a6b"/><circle cx="15" cy="19.4" r="1.8" fill="#2f5d50"/>';
+          case 'flask': return '<path d="M13 5 H17 V11 L22 21 A2.4 2.4 0 0 1 20 24.6 H10 A2.4 2.4 0 0 1 8 21 L13 11 Z" fill="#bcd8e8" stroke="'+s+'" stroke-width="1.5"/><path d="M10.6 18 H19.4 L21 21.4 H9 Z" fill="#3d7ea6"/>';
+          default: return '';
+        }
+      }
+      function portraitSVG(f){
+        var hairColor = '#4a3423';
+        var hair = '';
+        if (f.hair === 'long') hair = '<path d="M28 44 C26 22 36 12 50 12 C64 12 74 22 72 44 L72 74 L64 74 L64 46 C64 34 58 28 50 28 C42 28 36 34 36 46 L36 74 L28 74 Z" fill="'+hairColor+'"/>';
+        else if (f.hair === 'bun') hair = '<circle cx="50" cy="11" r="7" fill="'+hairColor+'"/><path d="M30 40 C30 24 38 15 50 15 C62 15 70 24 70 40 C70 30 60 26 50 26 C40 26 30 30 30 40 Z" fill="'+hairColor+'"/>';
+        else if (f.hair === 'topknot') hair = '<path d="M31 38 C32 24 40 16 50 16 C60 16 68 24 69 38 C66 29 59 25 50 25 C41 25 34 29 31 38 Z" fill="'+hairColor+'"/><rect x="46" y="6" width="8" height="11" rx="3.4" fill="'+hairColor+'"/>';
+        else if (f.hair === 'eboshi') hair = '<path d="M40 30 L42 8 C42 4 58 4 58 8 L60 30 C55 26 45 26 40 30 Z" fill="#2b2b30"/>';
+        else if (f.hair === 'crown') hair = '<path d="M34 26 L36 12 L44 20 L50 9 L56 20 L64 12 L66 26 C58 22 42 22 34 26 Z" fill="#e0aa3e" stroke="#a87c1e" stroke-width="1.4"/>';
+        else if (f.hair === 'helmet') hair = '<path d="M30 40 C30 24 39 15 50 15 C61 15 70 24 70 40 L62 40 C62 31 57 27 50 27 C43 27 38 31 38 40 Z" fill="#5a6068"/><path d="M50 4 A9 9 0 0 1 59 13 L55.4 13 A5.4 5.4 0 0 0 50 7.6 A5.4 5.4 0 0 0 44.6 13 L41 13 A9 9 0 0 1 50 4 Z" fill="#e0aa3e"/>';
+        else if (f.hair === 'band') hair = '<path d="M31 38 C32 24 40 16 50 16 C60 16 68 24 69 38 C66 29 59 25 50 25 C41 25 34 29 31 38 Z" fill="'+hairColor+'"/><rect x="30" y="24" width="40" height="6" fill="#b3402a"/>';
+        else if (f.hair === 'gray') hair = '<path d="M31 38 C32 24 40 16 50 16 C60 16 68 24 69 38 C66 29 59 25 50 25 C41 25 34 29 31 38 Z" fill="#9a958c"/>';
+        else if (f.hair === 'short') hair = '<path d="M31 38 C32 23 40 15 50 15 C60 15 68 23 69 38 C66 28 59 24 50 24 C41 24 34 28 31 38 Z" fill="'+hairColor+'"/>';
+        /* bald: no hair */
+        var patch = (f.id === 'masamune') ? '<rect x="56" y="40" width="11" height="6" rx="3" fill="#2b2b30"/>' : '';
+        var glasses = (f.id === 'hideyo') ? '<circle cx="42" cy="44" r="6" fill="none" stroke="#2b2b30" stroke-width="1.6"/><circle cx="58" cy="44" r="6" fill="none" stroke="#2b2b30" stroke-width="1.6"/><line x1="48" y1="44" x2="52" y2="44" stroke="#2b2b30" stroke-width="1.6"/>' : '';
+        return '<svg viewBox="0 0 100 100" role="img" aria-label="' + f.n + 'の イラスト">'
+          + '<rect x="0" y="0" width="100" height="100" fill="' + (ERA_BG[f.block] || '#eee') + '"/>'
+          + '<path d="M22 100 C24 78 36 70 50 70 C64 70 76 78 78 100 Z" fill="' + f.color + '"/>'
+          + '<path d="M44 72 L50 82 L56 72 L53 70 L50 74 L47 70 Z" fill="#f7efdb"/>'
+          + hair
+          + '<circle cx="50" cy="45" r="19" fill="#ffe0c2"/>'
+          + '<circle cx="43" cy="44" r="2" fill="#2e2a24"/><circle cx="57" cy="44" r="2" fill="#2e2a24"/>'
+          + '<path d="M45 53 C47 55.4 53 55.4 55 53" fill="none" stroke="#2e2a24" stroke-width="1.8" stroke-linecap="round"/>'
+          + '<circle cx="36.6" cy="50" r="3" fill="#f5a58e" opacity=".65"/><circle cx="63.4" cy="50" r="3" fill="#f5a58e" opacity=".65"/>'
+          + patch + glasses
+          + '<g transform="translate(63,63)"><circle cx="15" cy="15" r="16.5" fill="#ffffff" stroke="#e3dcc9" stroke-width="1.4"/>' + propSVG(f.prop) + '</g>'
+          + '</svg>';
+      }
+      function nameRuby(f){ return '<ruby>' + f.n + '<rt>' + f.y + '</rt></ruby>'; }
+    </script>
+    <script>
+      var $ = function(id){ return document.getElementById(id); };
+      function shuffle(a){
+        var arr = a.slice();
+        for (var i = arr.length - 1; i > 0; i--){
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+        }
+        return arr;
+      }
+      function sampleOthers(id, n){
+        var pool = FIGURES.filter(function(f){ return f.id !== id; });
+        return shuffle(pool).slice(0, n);
+      }
+      function stateLabel(s){ return s === 'learned' ? 'おぼえた' : (s === 'almost' ? 'もうすこし' : 'まだ'); }
+
+      /* ---------- progress ---------- */
+      function learnedCount(){ return FIGURES.filter(function(f){ return records[f.id].state === 'learned'; }).length; }
+      function renderProgress(){
+        var c = learnedCount();
+        $('learnedCount').textContent = c;
+        $('progressFill').style.width = (c / FIGURES.length * 100) + '%';
+        $('progressMsg').textContent =
+          c === 0 ? 'まずは STEP1で 人物を みてみよう。' :
+          c === FIGURES.length ? '28人 ぜんいん おぼえたよ。すごい！' :
+          'あと ' + (FIGURES.length - c) + '人。ゆっくり すすもう。';
+        if (typeof renderCalendar === 'function') renderCalendar();
+      }
+
+      /* ---------- tabs ---------- */
+      var tabs = document.querySelectorAll('.step-tab');
+      tabs.forEach(function(tab){
+        tab.addEventListener('click', function(){
+          tabs.forEach(function(t){ t.setAttribute('aria-selected', 'false'); });
+          tab.setAttribute('aria-selected', 'true');
+          document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+          $('panel-' + tab.getAttribute('data-tab')).classList.add('active');
+        });
+      });
+
+      /* ---------- STEP1: zukan ---------- */
+      var eraFilter = 'all';
+      function renderChips(){
+        var html = '<button type="button" class="chip" data-era="all" aria-pressed="' + (eraFilter === 'all') + '">ぜんぶ</button>';
+        BLOCKS.forEach(function(b){
+          html += '<button type="button" class="chip" data-era="' + b.id + '" aria-pressed="' + (eraFilter === b.id) + '">' + b.labelRuby + '</button>';
+        });
+        $('eraChips').innerHTML = html;
+        $('eraChips').querySelectorAll('.chip').forEach(function(chip){
+          chip.addEventListener('click', function(){ eraFilter = chip.getAttribute('data-era'); renderChips(); renderZukan(); });
+        });
+      }
+      function figCard(f){
+        var r = records[f.id];
+        return '<button type="button" class="fig-card" data-fig="' + f.id + '">'
+          + '<span class="portrait">' + portraitSVG(f) + '</span>'
+          + '<span class="fname">' + nameRuby(f) + '</span>'
+          + '<span class="fdeed">' + f.dr + '</span>'
+          + '<span class="badge ' + r.state + '">' + stateLabel(r.state) + '</span>'
+          + '</button>';
+      }
+      function renderZukan(){
+        var html = '';
+        BLOCKS.forEach(function(b){
+          if (eraFilter !== 'all' && eraFilter !== b.id) return;
+          var figs = FIGURES.filter(function(f){ return f.block === b.id; });
+          var done = figs.filter(function(f){ return records[f.id].state === 'learned'; }).length;
+          html += '<div class="era-head"><h2>' + b.labelRuby + '</h2><span class="era-count">' + done + ' ／ ' + figs.length + '人 おぼえた</span></div>';
+          html += '<div class="grid">' + figs.map(figCard).join('') + '</div>';
+        });
+        $('zukan').innerHTML = html;
+        $('zukan').querySelectorAll('.fig-card').forEach(function(card){
+          card.addEventListener('click', function(){ openSheet(card.getAttribute('data-fig')); });
+        });
+      }
+
+      /* ---------- detail sheet ---------- */
+      var sheetId = null;
+      function openSheet(id){
+        sheetId = id;
+        var f = FIG[id], r = records[id];
+        $('sheetPortrait').innerHTML = portraitSVG(f);
+        $('sheetName').innerHTML = nameRuby(f);
+        $('sheetDeed').innerHTML = f.dr;
+        $('sheetEra').textContent = 'じだい： ' + f.e;
+        document.querySelectorAll('.state-btn').forEach(function(b){
+          b.setAttribute('aria-pressed', b.getAttribute('data-state') === r.state ? 'true' : 'false');
+        });
+        renderSheetMeta();
+        $('sheetBack').classList.add('open');
+        $('sheet').classList.add('open');
+      }
+      function renderSheetMeta(){
+        if (!sheetId) return;
+        var r = records[sheetId];
+        var txt = 'れんしゅう回数： ' + r.count + '回';
+        if (r.state === 'learned' && r.learnedOn){
+          var p = r.learnedOn.split('-');
+          txt += ' ／ おぼえた日： ' + Number(p[1]) + '月' + Number(p[2]) + '日';
+        }
+        $('sheetMeta').textContent = txt;
+      }
+      function closeSheet(){
+        $('sheetBack').classList.remove('open');
+        $('sheet').classList.remove('open');
+        sheetId = null;
+      }
+      document.querySelectorAll('.state-btn').forEach(function(b){
+        b.addEventListener('click', function(){
+          if (!sheetId) return;
+          setState(sheetId, b.getAttribute('data-state'));
+          document.querySelectorAll('.state-btn').forEach(function(x){
+            x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+          });
+          renderSheetMeta(); renderZukan();
+        });
+      });
+      $('sheetClose').addEventListener('click', closeSheet);
+      $('sheetBack').addEventListener('click', closeSheet);
+      readBtn($('sheetRead'), function(){
+        if (!sheetId) return '';
+        var f = FIG[sheetId];
+        return f.y + '。' + f.dy + '。' + f.ey + 'の 人物です。';
+      });
+
+      /* ---------- STEP2: sagasou ---------- */
+      var findAnswer = null, findLocked = false;
+      function newFind(){
+        findLocked = false;
+        findAnswer = FIGURES[Math.floor(Math.random() * FIGURES.length)];
+        var choices = shuffle([findAnswer].concat(sampleOthers(findAnswer.id, 5)));
+        $('findDeed').innerHTML = findAnswer.dr;
+        $('findEra').textContent = 'じだい： ' + findAnswer.e;
+        $('findFeedback').textContent = '';
+        $('findFeedback').className = 'feedback';
+        $('findNext').style.display = 'none';
+        $('findGrid').innerHTML = choices.map(function(f){
+          return '<button type="button" class="find-btn" data-fig="' + f.id + '">'
+            + '<span class="portrait">' + portraitSVG(f) + '</span>'
+            + '<span>' + nameRuby(f) + '</span></button>';
+        }).join('');
+        $('findGrid').querySelectorAll('.find-btn').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            if (findLocked) return;
+            var id = btn.getAttribute('data-fig');
+            practice(findAnswer.id);
+            if (id === findAnswer.id){
+              findLocked = true;
+              btn.classList.add('picked-good');
+              $('findFeedback').textContent = 'せいかい！ ' + findAnswer.n + ' だよ。';
+              $('findFeedback').className = 'feedback good';
+              speak('せいかい！ こたえは ' + findAnswer.y + ' だよ。');
+              $('findNext').style.display = '';
+              renderProgress();
+            } else {
+              btn.classList.add('picked-bad');
+              btn.disabled = true;
+              $('findFeedback').textContent = 'ちがうよ。もういちど さがしてね。';
+              $('findFeedback').className = 'feedback try';
+            }
+          });
+        });
+      }
+      $('findNext').addEventListener('click', newFind);
+      readBtn($('findRead'), function(){
+        return 'もんだい。' + findAnswer.dy + '。' + findAnswer.ey + 'の 人物は、だれかな？';
+      });
+
+      /* ---------- STEP3: erabou quiz ---------- */
+      var quiz = null, quizTotal = 0, quizRight = 0, quizLocked = false, quizCounted = false;
+      function renderScore(){
+        $('quizScore').textContent = quizTotal > 0 ? ('もんだい ' + quizTotal + '問 ／ せいかい ' + quizRight + '問') : '';
+      }
+      function newQuiz(){
+        quizLocked = false; quizCounted = false;
+        var f = FIGURES[Math.floor(Math.random() * FIGURES.length)];
+        var type = ['deed', 'name', 'era'][Math.floor(Math.random() * 3)];
+        var q, sub, choices, answerText, answerYomi, showPortrait = false;
+        if (type === 'deed'){
+          q = f.y + ' が したことは？';
+          sub = 'じだい： ' + f.e;
+          showPortrait = true;
+          var pool = sampleOthers(f.id, 8).filter(function(o){ return o.d !== f.d; });
+          var others = [], seen = {};
+          for (var i = 0; i < pool.length && others.length < 2; i++){
+            if (!seen[pool[i].d]){ seen[pool[i].d] = true; others.push(pool[i]); }
+          }
+          choices = shuffle([f].concat(others)).map(function(o){ return { text: o.dr, plain: o.d, yomi: o.dy, fig: o }; });
+          answerText = f.d; answerYomi = f.dy;
+        } else if (type === 'name'){
+          q = '「' + f.d + '」をした 人物は だれ？';
+          sub = 'じだい： ' + f.e;
+          choices = shuffle([f].concat(sampleOthers(f.id, 2))).map(function(o){ return { text: nameRuby(o), plain: o.n, yomi: o.y, fig: o }; });
+          answerText = f.n; answerYomi = f.y;
+        } else {
+          q = f.y + ' は、いつの じだいの 人物？';
+          sub = f.d;
+          showPortrait = true;
+          var eras = [], seenE = {};
+          FIGURES.forEach(function(o){ if (!seenE[o.e]){ seenE[o.e] = true; eras.push(o); } });
+          var eOthers = shuffle(eras.filter(function(o){ return o.e !== f.e; })).slice(0, 2);
+          choices = shuffle([f].concat(eOthers)).map(function(o){ return { text: o.e, plain: o.e, yomi: o.ey, fig: o }; });
+          answerText = f.e; answerYomi = f.ey;
+        }
+        quiz = { fig: f, question: q, choices: choices, answerText: answerText, answerYomi: answerYomi };
+        $('quizPortrait').style.display = showPortrait ? '' : 'none';
+        if (showPortrait) $('quizPortrait').innerHTML = portraitSVG(f);
+        $('quizQuestion').textContent = q;
+        $('quizSub').innerHTML = sub;
+        $('quizFeedback').textContent = '';
+        $('quizFeedback').className = 'feedback center';
+        $('quizNext').style.display = 'none';
+        $('quizChoices').innerHTML = choices.map(function(c, i){
+          return '<div class="choice-row">'
+            + '<button type="button" class="choice-btn" data-i="' + i + '">' + c.text + '</button>'
+            + '<button type="button" class="read-btn choice-read" data-read="' + i + '"></button>'
+            + '</div>';
+        }).join('');
+        $('quizChoices').querySelectorAll('.choice-read').forEach(function(b){
+          var c = choices[Number(b.getAttribute('data-read'))];
+          readBtn(b, c.yomi);
+        });
+        $('quizChoices').querySelectorAll('.choice-btn').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            if (quizLocked) return;
+            var c = choices[Number(btn.getAttribute('data-i'))];
+            practice(f.id);
+            if (!quizCounted){ quizCounted = true; quizTotal += 1; }
+            if (c.plain === quiz.answerText){
+              quizLocked = true; quizRight += 1;
+              btn.classList.add('picked-good');
+              $('quizChoices').querySelectorAll('.choice-btn').forEach(function(x){ x.disabled = true; });
+              $('quizFeedback').textContent = 'せいかい！ こたえは「' + quiz.answerText + '」だよ。';
+              $('quizFeedback').className = 'feedback center good';
+              speak('せいかい！ こたえは ' + quiz.answerYomi + ' だよ。');
+              $('quizNext').style.display = '';
+            } else {
+              btn.classList.add('picked-bad');
+              btn.disabled = true;
+              $('quizFeedback').textContent = 'ちがうよ。もういちど かんがえてね。';
+              $('quizFeedback').className = 'feedback center try';
+            }
+            renderScore(); renderProgress();
+          });
+        });
+      }
+      $('quizNext').addEventListener('click', newQuiz);
+      readBtn($('quizRead'), function(){
+        if (!quiz) return '';
+        var t = 'もんだい。' + quiz.question + ' こたえは、';
+        quiz.choices.forEach(function(c, i){ t += (i + 1) + '、' + c.yomi + '。'; });
+        return t + 'どれかな？';
+      });
+
+      /* ---------- calendar ---------- */
+      var calCursor = new Date(); calCursor.setDate(1);
+      var calSelected = null;
+      function renderCalendar(){
+        var y = calCursor.getFullYear(), m = calCursor.getMonth();
+        $('calTitle').textContent = y + '年 ' + (m + 1) + '月';
+        var first = new Date(y, m, 1).getDay();
+        var days = new Date(y, m + 1, 0).getDate();
+        var tk = todayKey();
+        var html = '<tr><th>日</th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th></tr><tr>';
+        var cell = 0;
+        for (var i = 0; i < first; i++){ html += '<td></td>'; cell++; }
+        for (var d = 1; d <= days; d++){
+          var key = y + '-' + String(m + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+          var has = !!studiedDays[key];
+          html += '<td><button type="button" class="cal-day' + (has ? ' has-stamp' : '') + (key === tk ? ' today' : '') + '" data-day="' + key + '"' + (has ? '' : ' disabled') + '>'
+            + d + (has ? '<span class="stamp">✔</span>' : '') + '</button></td>';
+          cell++;
+          if (cell % 7 === 0 && d < days) html += '</tr><tr>';
+        }
+        html += '</tr>';
+        $('calTable').innerHTML = html;
+        $('calTable').querySelectorAll('.cal-day[data-day]').forEach(function(b){
+          b.addEventListener('click', function(){ showCalDay(b.getAttribute('data-day')); });
+        });
+      }
+      function showCalDay(key){
+        calSelected = key;
+        var p = key.split('-');
+        var ids = learnedByDay[key] || [];
+        var head = Number(p[1]) + '月' + Number(p[2]) + '日： べんきょうした スタンプが あります。';
+        if (ids.length){
+          $('calDetail').innerHTML = head + '<br>この日に おぼえた 人物： ' + ids.map(function(id){ return FIG[id].n; }).join('、');
+        } else {
+          $('calDetail').textContent = head + ' クイズや さがす練習を がんばった日です。';
+        }
+      }
+      $('calPrev').addEventListener('click', function(){ calCursor.setMonth(calCursor.getMonth() - 1); renderCalendar(); });
+      $('calNext').addEventListener('click', function(){ calCursor.setMonth(calCursor.getMonth() + 1); renderCalendar(); });
+      readBtn($('calRead'), 'きろくカレンダー。べんきょうした 日だけ、スタンプが つきます。おやすみの 日は、そのままで だいじょうぶです。');
+
+      /* ---------- read buttons (static sections) ---------- */
+      readBtn($('progressRead'), function(){
+        return 'しんちょく。28人の うち、' + learnedCount() + '人 おぼえました。';
+      });
+      readBtn($('planRead'), 'おためし版は むりょうで、14人まで あそべます。有料版は、全28人 あそべます。くわしい 案内は、noteに あります。');
+      readBtn($('resetRead'), 'きろくを リセット。おぼえた 人物、れんしゅう回数、カレンダーの スタンプを ぜんぶ けして、さいしょからに します。');
+
+      /* ---------- reset (two-step) ---------- */
+      $('resetBtn').addEventListener('click', function(){
+        $('resetDone').textContent = '';
+        $('resetConfirm').classList.add('open');
+      });
+      $('resetNo').addEventListener('click', function(){ $('resetConfirm').classList.remove('open'); });
+      $('resetYes').addEventListener('click', function(){
+        FIGURES.forEach(function(f){ records[f.id] = { state:'yet', count:0, learnedOn:null }; });
+        studiedDays = {}; learnedByDay = {};
+        try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+        quizTotal = 0; quizRight = 0; renderScore();
+        $('resetConfirm').classList.remove('open');
+        $('resetDone').textContent = 'きろくを ぜんぶ けしました。さいしょから はじめられます。';
+        $('resetDone').className = 'feedback good';
+        $('calDetail').textContent = 'スタンプの ある 日を タップすると、その日に おぼえた 人物が みられます。';
+        renderProgress(); renderZukan(); renderCalendar();
+        if (sheetId) closeSheet();
+      });
+
+      /* ---------- init ---------- */
+      renderChips(); renderZukan(); renderProgress(); renderCalendar();
+      newFind(); newQuiz(); renderScore();
+    </script>
+  </body>
+</html>
