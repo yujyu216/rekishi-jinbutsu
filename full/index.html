@@ -229,6 +229,27 @@
       .reset-confirm.open{ display:block; }
       .reset-confirm .row{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
       .foot-note{ color:var(--ink-soft); font-size:.88rem; margin-top:26px; text-align:center; }
+    
+      /* ---------- なりきりゲーム ---------- */
+      .gmenu { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+      .gcard { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 6px; border: 2px solid #d9c9a8; border-radius: 14px; background: #fffdf6; font: inherit; cursor: pointer; }
+      .gcard img { width: 72px; height: 72px; object-fit: cover; border-radius: 50%; }
+      .gname { font-weight: 700; }
+      .gstate { font-size: 0.85em; color: #7a6a4f; }
+      #gameOverlay { position: fixed; inset: 0; background: #fdf6e3; z-index: 999; overflow-y: auto; display: none; }
+      #gameOverlay.open { display: block; }
+      .gwrap { max-width: 560px; margin: 0 auto; padding: 16px; }
+      .ghead { display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1.1em; }
+      .gclose { font: inherit; padding: 6px 12px; border-radius: 999px; border: 2px solid #d9c9a8; background: #fff; cursor: pointer; }
+      .gimgwrap { text-align: center; margin: 10px 0; }
+      .gimgwrap img { width: 140px; height: 140px; object-fit: cover; border-radius: 18px; }
+      .gtext { background: #fff; border: 2px solid #e5d9bd; border-radius: 14px; padding: 14px; line-height: 2; font-size: 1.05em; }
+      .gSpeak { font: inherit; padding: 8px 16px; border-radius: 999px; border: 2px solid #c9b98f; background: #fff; cursor: pointer; margin: 8px 0; }
+      .gchoices { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+      .gchoice { font: inherit; text-align: left; padding: 12px 14px; border-radius: 12px; border: 2px solid #c9b98f; background: #fff; cursor: pointer; line-height: 1.7; }
+      .gchoice:disabled { opacity: 0.45; }
+      .gchoice.gok { border-color: #5da85d; background: #eef7ee; opacity: 1; }
+      .gfb { margin-top: 12px; line-height: 1.9; font-weight: 600; }
     </style>
   </head>
   <body>
@@ -306,6 +327,26 @@
       </section>
 
       <!-- calendar -->
+
+      <!-- なりきりゲーム -->
+      <section class="section-card" aria-label="なりきりゲーム">
+        <h2>なりきり ゲーム</h2>
+        <p class="lead">その ひとに なりきって、ものがたりを すすめる ゲームだよ。「どうする？」と きかれたら、その ひとが ほんとうに したことを えらんでみよう。まちがえても だいじょうぶ。なんどでも やりなおせるよ。</p>
+        <div class="gmenu" id="gameMenu"></div>
+        <p class="lead">ほかの じんぶつは じゅんびちゅう。おたのしみに！</p>
+      </section>
+
+      <div id="gameOverlay" aria-hidden="true">
+        <div class="gwrap">
+          <div class="ghead"><span id="gameTitle"></span><button type="button" class="gclose" id="gameClose">✕ とじる</button></div>
+          <div class="gimgwrap"><img id="gameImg" alt=""></div>
+          <p class="gtext" id="gameText"></p>
+          <button type="button" class="gSpeak" id="gameSpeak">🔊 よんで</button>
+          <div class="gchoices" id="gameChoices"></div>
+          <p class="gfb" id="gameFb" aria-live="polite"></p>
+        </div>
+      </div>
+
       <section class="section-card" aria-label="きろくカレンダー">
         <h2>きろくカレンダー</h2>
         <p>べんきょうした 日（ひ）だけ、スタンプが つきます。おやすみの 日は、そのままで だいじょうぶです。</p>
@@ -913,6 +954,252 @@
       /* ---------- init ---------- */
       renderChips(); renderZukan(); renderProgress(); renderCalendar();
       newFind(); newQuiz(); renderScore();
+
+      // ---------------- なりきりゲーム ----------------
+      var SCEN = {
+        himiko: {
+          introHtml: "いまから およそ 1800<ruby>年<rt>ねん</rt></ruby>まえ、<ruby>弥生<rt>やよい</rt></ruby>じだいの おわりごろ。<ruby>日本<rt>にっぽん</rt></ruby>は たくさんの <ruby>小<rt>ちい</rt></ruby>さな <ruby>国<rt>くに</rt></ruby>に <ruby>分<rt>わ</rt></ruby>かれて、あらそいが つづいていた。きみは <ruby>邪馬台国<rt>やまたいこく</rt></ruby>の <ruby>女王<rt>じょおう</rt></ruby>、ひみこ。うらないの <ruby>力<rt>ちから</rt></ruby>で <ruby>人々<rt>ひとびと</rt></ruby>を まとめている。",
+          introRead: "いまから およそ せんはっぴゃくねん まえ、やよいじだいの おわりごろ。にっぽんは たくさんの ちいさな くにに わかれて、あらそいが つづいていた。きみは やまたいこくの じょおう、ひみこ。うらないの ちからで ひとびとを まとめている。",
+          scenes: [
+            {
+              qHtml: "<ruby>国<rt>くに</rt></ruby>どうしの あらそいが なかなか <ruby>止<rt>と</rt></ruby>まらない。ひみこ、どうする？",
+              qRead: "くにどうしの あらそいが なかなか とまらない。ひみこ、どうする？",
+              choices: [
+                { ok: true,
+                  tHtml: "うらないで <ruby>神<rt>かみ</rt></ruby>の ことばを つたえて、<ruby>人々<rt>ひとびと</rt></ruby>の <ruby>気持<rt>きも</rt></ruby>ちを ひとつに する",
+                  tRead: "うらないで かみの ことばを つたえて、ひとびとの きもちを ひとつに する",
+                  fbHtml: "せいかい！ ひみこは「きどう」という うらないで <ruby>国<rt>くに</rt></ruby>を おさめたと いわれているよ。みんなが ひみこの ことばを <ruby>信<rt>しん</rt></ruby>じたんだ。",
+                  fbRead: "せいかい！ ひみこは、きどうという うらないで くにを おさめたと いわれているよ。みんなが ひみこの ことばを しんじたんだ。" },
+                { ok: false,
+                  tHtml: "<ruby>武器<rt>ぶき</rt></ruby>を <ruby>持<rt>も</rt></ruby>って、<ruby>自分<rt>じぶん</rt></ruby>で <ruby>戦<rt>たたか</rt></ruby>いに <ruby>行<rt>い</rt></ruby>く",
+                  tRead: "ぶきを もって、じぶんで たたかいに いく",
+                  fbHtml: "じつは ひみこは <ruby>戦<rt>たたか</rt></ruby>いに <ruby>行<rt>い</rt></ruby>かなかったよ。うらないの <ruby>力<rt>ちから</rt></ruby>で <ruby>国<rt>くに</rt></ruby>を まとめたんだ。もう<ruby>一度<rt>いちど</rt></ruby> <ruby>考<rt>かんが</rt></ruby>えてみよう。",
+                  fbRead: "じつは ひみこは たたかいに いかなかったよ。うらないの ちからで くにを まとめたんだ。もういちど かんがえてみよう。" },
+                { ok: false,
+                  tHtml: "<ruby>部屋<rt>へや</rt></ruby>に こもって、<ruby>何<rt>なに</rt></ruby>も しない",
+                  tRead: "へやに こもって、なにも しない",
+                  fbHtml: "<ruby>何<rt>なに</rt></ruby>も しないと あらそいは <ruby>止<rt>と</rt></ruby>まらないね。ひみこが したことを <ruby>思<rt>おも</rt></ruby>い<ruby>出<rt>だ</rt></ruby>してみよう。",
+                  fbRead: "なにも しないと あらそいは とまらないね。ひみこが したことを おもいだしてみよう。" }
+              ]
+            },
+            {
+              qHtml: "<ruby>海<rt>うみ</rt></ruby>の むこうには「ぎ」という <ruby>大<rt>おお</rt></ruby>きな <ruby>国<rt>くに</rt></ruby>が ある。どうする？",
+              qRead: "うみの むこうには、ぎという おおきな くにが ある。どうする？",
+              choices: [
+                { ok: false,
+                  tHtml: "<ruby>船<rt>ふね</rt></ruby>で <ruby>攻<rt>せ</rt></ruby>めに <ruby>行<rt>い</rt></ruby>く",
+                  tRead: "ふねで せめに いく",
+                  fbHtml: "ひみこは <ruby>戦<rt>たたか</rt></ruby>うのではなく、なかよく することを <ruby>選<rt>えら</rt></ruby>んだよ。",
+                  fbRead: "ひみこは たたかうのではなく、なかよく することを えらんだよ。" },
+                { ok: true,
+                  tHtml: "<ruby>使<rt>つか</rt></ruby>いを <ruby>送<rt>おく</rt></ruby>って、なかよく したいと つたえる",
+                  tRead: "つかいを おくって、なかよく したいと つたえる",
+                  fbHtml: "せいかい！ <ruby>使<rt>つか</rt></ruby>いは「しんぎわおう」という <ruby>名前<rt>なまえ</rt></ruby>と、たくさんの <ruby>銅鏡<rt>どうきょう</rt></ruby>を もらって <ruby>帰<rt>かえ</rt></ruby>ってきたよ。",
+                  fbRead: "せいかい！ つかいは、しんぎわおうという なまえと、たくさんの どうきょうを もらって かえってきたよ。" },
+                { ok: false,
+                  tHtml: "<ruby>知<rt>し</rt></ruby>らない ふりを する",
+                  tRead: "しらない ふりを する",
+                  fbHtml: "<ruby>大<rt>おお</rt></ruby>きな <ruby>国<rt>くに</rt></ruby>と つながると、<ruby>国<rt>くに</rt></ruby>が <ruby>豊<rt>ゆた</rt></ruby>かに なるよ。ひみこは どうしたかな？",
+                  fbRead: "おおきな くにと つながると、くにが ゆたかに なるよ。ひみこは どうしたかな？" }
+              ]
+            }
+          ],
+          endHtml: "ひみこは、うらないの <ruby>力<rt>ちから</rt></ruby>と <ruby>外国<rt>がいこく</rt></ruby>との つながりで <ruby>国<rt>くに</rt></ruby>を まとめた <ruby>女王<rt>じょおう</rt></ruby>だった。もらった <ruby>銅鏡<rt>どうきょう</rt></ruby>は、<ruby>大切<rt>たいせつ</rt></ruby>な <ruby>宝物<rt>たからもの</rt></ruby>に なったんだよ。",
+          endRead: "ひみこは、うらないの ちからと がいこくとの つながりで くにを まとめた じょおうだった。もらった どうきょうは、たいせつな たからものに なったんだよ。"
+        },
+        nobunaga: {
+          introHtml: "いまから およそ 460<ruby>年<rt>ねん</rt></ruby>まえ、<ruby>戦国<rt>せんごく</rt></ruby>じだい。<ruby>日本中<rt>にっぽんじゅう</rt></ruby>が <ruby>戦<rt>たたか</rt></ruby>いの まっ<ruby>最中<rt>さいちゅう</rt></ruby>。きみは <ruby>尾張<rt>おわり</rt></ruby>の <ruby>国<rt>くに</rt></ruby>の <ruby>若<rt>わか</rt></ruby>い <ruby>大名<rt>だいみょう</rt></ruby>、おだ のぶなが。<ruby>天下<rt>てんか</rt></ruby>を ひとつに することを <ruby>目指<rt>めざ</rt></ruby>している。",
+          introRead: "いまから およそ よんひゃくろくじゅうねん まえ、せんごくじだい。にっぽんじゅうが たたかいの まっさいちゅう。きみは おわりの くにの わかい だいみょう、おだ のぶなが。てんかを ひとつに することを めざしている。",
+          scenes: [
+            {
+              qHtml: "<ruby>大軍<rt>たいぐん</rt></ruby>の いまがわ よしもとが <ruby>攻<rt>せ</rt></ruby>めてきた！ <ruby>相手<rt>あいて</rt></ruby>は およそ 2<ruby>万<rt>まん</rt></ruby>5<ruby>千人<rt>せんにん</rt></ruby>、こちらは 3<ruby>千人<rt>せんにん</rt></ruby>ほど。どうする？",
+              qRead: "たいぐんの いまがわ よしもとが せめてきた！ あいては およそ にまんごせんにん、こちらは さんぜんにんほど。どうする？",
+              choices: [
+                { ok: false,
+                  tHtml: "<ruby>城<rt>しろ</rt></ruby>に こもって、じっと <ruby>守<rt>まも</rt></ruby>る",
+                  tRead: "しろに こもって、じっと まもる",
+                  fbHtml: "<ruby>守<rt>まも</rt></ruby>るだけでは、<ruby>大軍<rt>たいぐん</rt></ruby>には <ruby>勝<rt>か</rt></ruby>てなかったかも。のぶながは <ruby>思<rt>おも</rt></ruby>い<ruby>切<rt>き</rt></ruby>った <ruby>作戦<rt>さくせん</rt></ruby>を <ruby>選<rt>えら</rt></ruby>んだよ。",
+                  fbRead: "まもるだけでは、たいぐんには かてなかったかも。のぶながは おもいきった さくせんを えらんだよ。" },
+                { ok: false,
+                  tHtml: "あきらめて <ruby>逃<rt>に</rt></ruby>げる",
+                  tRead: "あきらめて にげる",
+                  fbHtml: "のぶながは <ruby>逃<rt>に</rt></ruby>げなかったよ。<ruby>少<rt>すく</rt></ruby>ない <ruby>人数<rt>にんずう</rt></ruby>でも <ruby>勝<rt>か</rt></ruby>てる <ruby>方法<rt>ほうほう</rt></ruby>を <ruby>考<rt>かんが</rt></ruby>えたんだ。",
+                  fbRead: "のぶながは にげなかったよ。すくない にんずうでも かてる ほうほうを かんがえたんだ。" },
+                { ok: true,
+                  tHtml: "<ruby>雨<rt>あめ</rt></ruby>の <ruby>日<rt>ひ</rt></ruby>を ねらって、<ruby>相手<rt>あいて</rt></ruby>の <ruby>本陣<rt>ほんじん</rt></ruby>を こっそり <ruby>攻<rt>せ</rt></ruby>める",
+                  tRead: "あめの ひを ねらって、あいての ほんじんを こっそり せめる",
+                  fbHtml: "せいかい！ これが「おけはざまの たたかい」。のぶながは <ruby>大軍<rt>たいぐん</rt></ruby>に <ruby>勝<rt>か</rt></ruby>って、いっきに <ruby>有名<rt>ゆうめい</rt></ruby>に なったよ。",
+                  fbRead: "せいかい！ これが、おけはざまの たたかい。のぶながは たいぐんに かって、いっきに ゆうめいに なったよ。" }
+              ]
+            },
+            {
+              qHtml: "<ruby>新<rt>あたら</rt></ruby>しい <ruby>武器<rt>ぶき</rt></ruby>「<ruby>鉄砲<rt>てっぽう</rt></ruby>」が つたわってきた。どう <ruby>使<rt>つか</rt></ruby>う？",
+              qRead: "あたらしい ぶき、てっぽうが つたわってきた。どう つかう？",
+              choices: [
+                { ok: true,
+                  tHtml: "<ruby>鉄砲<rt>てっぽう</rt></ruby>を たくさん <ruby>集<rt>あつ</rt></ruby>めて、<ruby>交代<rt>こうたい</rt></ruby>で <ruby>撃<rt>う</rt></ruby>つ <ruby>練習<rt>れんしゅう</rt></ruby>を する",
+                  tRead: "てっぽうを たくさん あつめて、こうたいで うつ れんしゅうを する",
+                  fbHtml: "せいかい！ 「ながしのの たたかい」では、およそ 3<ruby>千丁<rt>せんちょう</rt></ruby>の <ruby>鉄砲<rt>てっぽう</rt></ruby>が かつやくしたよ。<ruby>新<rt>あたら</rt></ruby>しいものを <ruby>取<rt>と</rt></ruby>り<ruby>入<rt>い</rt></ruby>れるのが のぶながの <ruby>強<rt>つよ</rt></ruby>さだね。",
+                  fbRead: "せいかい！ ながしのの たたかいでは、およそ さんぜんちょうの てっぽうが かつやくしたよ。あたらしいものを とりいれるのが のぶながの つよさだね。" },
+                { ok: false,
+                  tHtml: "<ruby>鉄砲<rt>てっぽう</rt></ruby>は <ruby>高<rt>たか</rt></ruby>いから、<ruby>少<rt>すこ</rt></ruby>しだけ <ruby>買<rt>か</rt></ruby>う",
+                  tRead: "てっぽうは たかいから、すこしだけ かう",
+                  fbHtml: "<ruby>少<rt>すこ</rt></ruby>しだけでは <ruby>戦<rt>たたか</rt></ruby>いの <ruby>流<rt>なが</rt></ruby>れは <ruby>変<rt>か</rt></ruby>わらなかったかも。のぶながは <ruby>思<rt>おも</rt></ruby>い<ruby>切<rt>き</rt></ruby>って たくさん <ruby>用意<rt>ようい</rt></ruby>したよ。",
+                  fbRead: "すこしだけでは たたかいの ながれは かわらなかったかも。のぶながは おもいきって たくさん よういしたよ。" },
+                { ok: false,
+                  tHtml: "いままで どおり、<ruby>刀<rt>かたな</rt></ruby>だけで <ruby>戦<rt>たたか</rt></ruby>う",
+                  tRead: "いままで どおり、かたなだけで たたかう",
+                  fbHtml: "<ruby>刀<rt>かたな</rt></ruby>も <ruby>大切<rt>たいせつ</rt></ruby>だけど、のぶながは <ruby>新<rt>あたら</rt></ruby>しい <ruby>武器<rt>ぶき</rt></ruby>の <ruby>力<rt>ちから</rt></ruby>を <ruby>見抜<rt>みぬ</rt></ruby>いたんだ。",
+                  fbRead: "かたなも たいせつだけど、のぶながは あたらしい ぶきの ちからを みぬいたんだ。" }
+              ]
+            }
+          ],
+          endHtml: "のぶながは、<ruby>新<rt>あたら</rt></ruby>しい <ruby>考<rt>かんが</rt></ruby>えと <ruby>武器<rt>ぶき</rt></ruby>で、<ruby>戦国<rt>せんごく</rt></ruby>じだいを <ruby>大<rt>おお</rt></ruby>きく <ruby>変<rt>か</rt></ruby>えた <ruby>大名<rt>だいみょう</rt></ruby>。<ruby>天下統一<rt>てんかとういつ</rt></ruby>まで あと<ruby>一歩<rt>いっぽ</rt></ruby>の ところで、ほんのうじで <ruby>倒<rt>たお</rt></ruby>れたんだ。",
+          endRead: "のぶながは、あたらしい かんがえと ぶきで、せんごくじだいを おおきく かえた だいみょう。てんかとういつまで あと いっぽの ところで、ほんのうじで たおれたんだ。"
+        },
+        ryoma: {
+          introHtml: "いまから およそ 160<ruby>年<rt>ねん</rt></ruby>まえ、<ruby>江戸<rt>えど</rt></ruby>じだいの おわり。<ruby>外国<rt>がいこく</rt></ruby>から <ruby>黒船<rt>くろふね</rt></ruby>が <ruby>来<rt>き</rt></ruby>て、<ruby>日本中<rt>にっぽんじゅう</rt></ruby>が <ruby>大<rt>おお</rt></ruby>さわぎ。きみは <ruby>土佐<rt>とさ</rt></ruby>の さかもと りょうま。<ruby>新<rt>あたら</rt></ruby>しい <ruby>日本<rt>にっぽん</rt></ruby>の <ruby>形<rt>かたち</rt></ruby>を <ruby>考<rt>かんが</rt></ruby>えている。",
+          introRead: "いまから およそ ひゃくろくじゅうねん まえ、えどじだいの おわり。がいこくから くろふねが きて、にっぽんじゅうが おおさわぎ。きみは とさの さかもと りょうま。あたらしい にっぽんの かたちを かんがえている。",
+          scenes: [
+            {
+              qHtml: "さつまと ちょうしゅうは、<ruby>仲<rt>なか</rt></ruby>が <ruby>悪<rt>わる</rt></ruby>くて ケンカばかり。このままでは <ruby>日本<rt>にっぽん</rt></ruby>が <ruby>外国<rt>がいこく</rt></ruby>に <ruby>乗<rt>の</rt></ruby>っ<ruby>取<rt>と</rt></ruby>られるかも。どうする？",
+              qRead: "さつまと ちょうしゅうは、なかが わるくて ケンカばかり。このままでは にっぽんが がいこくに のっとられるかも。どうする？",
+              choices: [
+                { ok: false,
+                  tHtml: "<ruby>片方<rt>かたほう</rt></ruby>だけを <ruby>応援<rt>おうえん</rt></ruby>する",
+                  tRead: "かたほうだけを おうえんする",
+                  fbHtml: "<ruby>片方<rt>かたほう</rt></ruby>だけでは <ruby>大<rt>おお</rt></ruby>きな <ruby>力<rt>ちから</rt></ruby>には ならないね。りょうまは <ruby>両方<rt>りょうほう</rt></ruby>を つなごうとしたよ。",
+                  fbRead: "かたほうだけでは おおきな ちからには ならないね。りょうまは りょうほうを つなごうとしたよ。" },
+                { ok: true,
+                  tHtml: "<ruby>両方<rt>りょうほう</rt></ruby>に <ruby>会<rt>あ</rt></ruby>って <ruby>話<rt>はな</rt></ruby>し<ruby>合<rt>あ</rt></ruby>い、<ruby>同盟<rt>どうめい</rt></ruby>を <ruby>結<rt>むす</rt></ruby>ばせる",
+                  tRead: "りょうほうに あって はなしあい、どうめいを むすばせる",
+                  fbHtml: "せいかい！ これが「さっちょう <ruby>同盟<rt>どうめい</rt></ruby>」。りょうまの おかげで、<ruby>力<rt>ちから</rt></ruby>を <ruby>合<rt>あ</rt></ruby>わせられるように なったよ。",
+                  fbRead: "せいかい！ これが、さっちょう どうめい。りょうまの おかげで、ちからを あわせられるように なったよ。" },
+                { ok: false,
+                  tHtml: "ケンカは <ruby>放<rt>ほう</rt></ruby>っておく",
+                  tRead: "ケンカは ほうっておく",
+                  fbHtml: "<ruby>放<rt>ほう</rt></ruby>っておくと、<ruby>日本<rt>にっぽん</rt></ruby>は バラバラの まま。りょうまは <ruby>行動<rt>こうどう</rt></ruby>したよ。",
+                  fbRead: "ほうっておくと、にっぽんは バラバラの まま。りょうまは こうどうしたよ。" }
+              ]
+            },
+            {
+              qHtml: "<ruby>将軍<rt>しょうぐん</rt></ruby>の とくがわ よしのぶに、<ruby>政権<rt>せいけん</rt></ruby>を どうして もらうのが いい？",
+              qRead: "しょうぐんの とくがわ よしのぶに、せいけんを どうして もらうのが いい？",
+              choices: [
+                { ok: true,
+                  tHtml: "<ruby>戦<rt>たたか</rt></ruby>いなしで、<ruby>政権<rt>せいけん</rt></ruby>を <ruby>朝廷<rt>ちょうてい</rt></ruby>に <ruby>返<rt>かえ</rt></ruby>すよう <ruby>提案<rt>ていあん</rt></ruby>する",
+                  tRead: "たたかいなしで、せいけんを ちょうていに かえすよう ていあんする",
+                  fbHtml: "せいかい！ これが「たいせいほうかん」。<ruby>戦<rt>たたか</rt></ruby>わずに <ruby>新<rt>あたら</rt></ruby>しい <ruby>国<rt>くに</rt></ruby>づくりが <ruby>始<rt>はじ</rt></ruby>まったよ。",
+                  fbRead: "せいかい！ これが、たいせいほうかん。たたかわずに あたらしい くにづくりが はじまったよ。" },
+                { ok: false,
+                  tHtml: "<ruby>戦<rt>たたか</rt></ruby>いで <ruby>倒<rt>たお</rt></ruby>す",
+                  tRead: "たたかいで たおす",
+                  fbHtml: "りょうまは、なるべく <ruby>戦<rt>たたか</rt></ruby>わずに <ruby>変<rt>か</rt></ruby>える <ruby>方法<rt>ほうほう</rt></ruby>を <ruby>探<rt>さが</rt></ruby>したよ。",
+                  fbRead: "りょうまは、なるべく たたかわずに かえる ほうほうを さがしたよ。" },
+                { ok: false,
+                  tHtml: "<ruby>何<rt>なに</rt></ruby>も <ruby>言<rt>い</rt></ruby>わない",
+                  tRead: "なにも いわない",
+                  fbHtml: "りょうまは <ruby>考<rt>かんが</rt></ruby>えを まとめて、たくさんの <ruby>人<rt>ひと</rt></ruby>に つたえたんだ。",
+                  fbRead: "りょうまは かんがえを まとめて、たくさんの ひとに つたえたんだ。" }
+              ]
+            }
+          ],
+          endHtml: "りょうまは、<ruby>戦<rt>たたか</rt></ruby>わずに <ruby>新<rt>あたら</rt></ruby>しい <ruby>国<rt>くに</rt></ruby>を <ruby>作<rt>つく</rt></ruby>ろうとした しし。<ruby>船<rt>ふね</rt></ruby>の <ruby>上<rt>うえ</rt></ruby>で <ruby>考<rt>かんが</rt></ruby>えた「せんちゅう はっさく」は、<ruby>新<rt>あたら</rt></ruby>しい <ruby>国<rt>くに</rt></ruby>の <ruby>設計図<rt>せっけいず</rt></ruby>に なったんだよ。",
+          endRead: "りょうまは、たたかわずに あたらしい くにを つくろうとした しし。ふねの うえで かんがえた、せんちゅう はっさくは、あたらしい くにの せっけいずに なったんだよ。"
+        }
+      };
+      var GAME_IDS = ["himiko", "nobunaga", "ryoma"];
+      var GAME_KEY = "rekishiGamePaidV1";
+      var gCleared = {};
+      try { gCleared = JSON.parse(localStorage.getItem(GAME_KEY) || "{}") || {}; } catch (e) { gCleared = {}; }
+      var gState = null;
+      function gSave() { try { localStorage.setItem(GAME_KEY, JSON.stringify(gCleared)); } catch (e) {} }
+      function gameFig(id) { var f = FIG[id]; if (!f) return null; return { nameHtml: f.n, nameRead: f.y, img: FIGIMG[id] || "" }; }
+      function gameLocked(id) { return false; }
+
+      function renderGameMenu() {
+        var el = $("gameMenu"); if (!el) return;
+        el.innerHTML = GAME_IDS.map(function (id) {
+          var f = gameFig(id); if (!f) return "";
+          var locked = gameLocked(id), done = !!gCleared[id];
+          return '<button type="button" class="gcard" data-gid="' + id + '">' +
+            (f.img ? '<img src="' + f.img + '" alt="">' : "") +
+            '<span class="gname">' + f.nameHtml + '</span>' +
+            '<span class="gstate">' + (locked ? "🔒 ゆうりょうばん" : done ? "💮 クリア！" : "▶ あそぶ") + '</span></button>';
+        }).join("");
+        el.querySelectorAll(".gcard").forEach(function (b) {
+          b.addEventListener("click", function () { gameTap(b.getAttribute("data-gid")); });
+        });
+      }
+      function gameTap(id) {
+        if (gameLocked(id)) { showLocked(id); return; }
+        startGame(id);
+      }
+      function showGameText(html, read) {
+        $("gameText").innerHTML = html;
+        $("gameFb").innerHTML = "";
+        gState.readNow = read;
+      }
+      function setGameChoices(list) {
+        var box = $("gameChoices");
+        box.innerHTML = "";
+        list.forEach(function (item) {
+          var b = document.createElement("button");
+          b.type = "button"; b.className = "gchoice"; b.innerHTML = item.labelHtml;
+          b.addEventListener("click", function () { item.onPick(b); });
+          box.appendChild(b);
+        });
+      }
+      function startGame(id) {
+        gState = { id: id, scene: 0, readNow: "" };
+        var f = gameFig(id), s = SCEN[id];
+        $("gameTitle").innerHTML = f.nameHtml + "に なりきり！";
+        $("gameImg").src = f.img || "";
+        $("gameOverlay").classList.add("open");
+        $("gameOverlay").setAttribute("aria-hidden", "false");
+        showGameText(s.introHtml, s.introRead);
+        setGameChoices([{ labelHtml: "ものがたりを はじめる", onPick: function () { showScene(0); } }]);
+        $("gameOverlay").scrollTop = 0;
+      }
+      function showScene(i) {
+        var s = SCEN[gState.id]; gState.scene = i;
+        var sc = s.scenes[i];
+        showGameText(sc.qHtml, sc.qRead);
+        setGameChoices(sc.choices.map(function (c, j) {
+          return { labelHtml: c.tHtml, onPick: function (btn) { pickChoice(j, btn); } };
+        }));
+      }
+      function pickChoice(j, btn) {
+        var s = SCEN[gState.id];
+        var sc = s.scenes[gState.scene];
+        var c = sc.choices[j];
+        $("gameFb").innerHTML = c.fbHtml;
+        gState.readNow = c.fbRead;
+        if (c.ok) {
+          btn.classList.add("gok");
+          var last = gState.scene >= s.scenes.length - 1;
+          setGameChoices([{ labelHtml: last ? "おわりを みる" : "つぎの ばめんへ", onPick: function () { if (last) showEnding(); else showScene(gState.scene + 1); } }]);
+        } else {
+          btn.disabled = true;
+        }
+      }
+      function showEnding() {
+        var s = SCEN[gState.id];
+        gCleared[gState.id] = true; gSave();
+        showGameText(s.endHtml, s.endRead);
+        $("gameFb").innerHTML = "💮 クリア！ よく がんばったね。";
+        gState.readNow = s.endRead;
+        setGameChoices([{ labelHtml: "もどる", onPick: function () { closeGame(); } }]);
+      }
+      function closeGame() {
+        $("gameOverlay").classList.remove("open");
+        $("gameOverlay").setAttribute("aria-hidden", "true");
+        if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+        renderGameMenu();
+      }
+      $("gameClose").addEventListener("click", closeGame);
+      $("gameSpeak").addEventListener("click", function () { if (gState) speak(gState.readNow, $("gameSpeak")); });
+      renderGameMenu();
     </script>
   </body>
 </html>
