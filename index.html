@@ -323,17 +323,34 @@
       #gameOverlay { position: fixed; inset: 0; background: #fdf6e3; z-index: 999; overflow-y: auto; display: none; }
       #gameOverlay.open { display: block; }
       .gwrap { max-width: 560px; margin: 0 auto; padding: 16px; }
-      .ghead { display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1.1em; }
-      .gclose { font: inherit; padding: 6px 12px; border-radius: 999px; border: 2px solid #d9c9a8; background: #fff; cursor: pointer; }
-      .gimgwrap { text-align: center; margin: 10px 0; }
-      .gimgwrap img { width: 140px; height: 140px; object-fit: cover; border-radius: 18px; }
+      .ghead { display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 1.05em; gap: 8px; flex-wrap: wrap; }
+      .gheadbtns { display: flex; gap: 6px; }
+      .gclose, .gsound { font: inherit; font-size: 0.85em; padding: 6px 10px; border-radius: 999px; border: 2px solid #d9c9a8; background: #fff; cursor: pointer; }
+      .gplace { display: inline-block; margin-top: 10px; padding: 4px 14px; border-radius: 999px; background: #7a5c2e; color: #fff8e7; font-weight: 700; font-size: 0.95em; }
+      .gimgwrap { text-align: center; margin: 10px 0 4px; }
+      .gimgwrap img { width: 132px; height: 132px; object-fit: cover; border-radius: 18px; animation: gfloat 3.2s ease-in-out infinite; }
+      @keyframes gfloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+      .gfade { animation: gfadein 0.45s ease; }
+      @keyframes gfadein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
       .gtext { background: #fff; border: 2px solid #e5d9bd; border-radius: 14px; padding: 14px; line-height: 2; font-size: 1.05em; }
-      .gSpeak { font: inherit; padding: 8px 16px; border-radius: 999px; border: 2px solid #c9b98f; background: #fff; cursor: pointer; margin: 8px 0; }
+      .gsit { background: #fff8e7; border: 2px dashed #c9a959; border-radius: 14px; padding: 10px 14px; margin-top: 10px; line-height: 1.9; }
+      .gsit .gsit-title { font-weight: 700; color: #7a5c2e; }
+      .gsit .gsit-row b { color: #7a5c2e; }
+      .glines { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+      .gline { background: #fff; border: 2px solid #d9c9a8; border-radius: 14px; padding: 8px 12px; line-height: 1.8; max-width: 92%; }
+      .gline .gwho { display: inline-block; font-size: 0.78em; font-weight: 700; color: #fff; background: #a3803f; border-radius: 999px; padding: 1px 8px; margin-right: 6px; vertical-align: 2px; }
+      .gq { margin-top: 12px; background: #eef4ff; border: 2px dashed #7d9cc6; border-radius: 14px; padding: 10px 14px; line-height: 1.9; font-weight: 600; }
+      .gSpeak { font: inherit; padding: 8px 16px; border-radius: 999px; border: 2px solid #c9b98f; background: #fff; cursor: pointer; margin: 10px 0 2px; }
       .gchoices { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-      .gchoice { font: inherit; text-align: left; padding: 12px 14px; border-radius: 12px; border: 2px solid #c9b98f; background: #fff; cursor: pointer; line-height: 1.7; }
+      .gchoice { font: inherit; text-align: left; padding: 12px 14px; border-radius: 12px; border: 2px solid #c9b98f; background: #fff; cursor: pointer; line-height: 1.7; transition: transform 0.08s ease; }
+      .gchoice:active { transform: scale(0.97); }
       .gchoice:disabled { opacity: 0.45; }
-      .gchoice.gok { border-color: #5da85d; background: #eef7ee; opacity: 1; }
+      .gchoice.gok { border-color: #5da85d; background: #eef7ee; opacity: 1; animation: gpulse 0.5s ease; }
+      @keyframes gpulse { 0% { transform: scale(1); } 40% { transform: scale(1.04); } 100% { transform: scale(1); } }
       .gfb { margin-top: 12px; line-height: 1.9; font-weight: 600; }
+      .gstamp { text-align: center; font-size: 84px; line-height: 1.1; margin-top: 6px; animation: gpop 0.6s cubic-bezier(0.2, 1.6, 0.4, 1); }
+      @keyframes gpop { 0% { transform: scale(0) rotate(-20deg); opacity: 0; } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
+      .hidden { display: none !important; }
     </style>
   </head>
   <body>
@@ -486,19 +503,26 @@
       <!-- なりきりゲーム -->
       <section class="block" aria-label="なりきりゲーム">
         <h2>なりきり ゲーム</h2>
-        <p class="lead">その ひとに なりきって、ものがたりを すすめる ゲームだよ。「どうする？」と きかれたら、その ひとが ほんとうに したことを えらんでみよう。まちがえても だいじょうぶ。なんどでも やりなおせるよ。</p>
+        <p class="lead">その ひとに なりきって、ものがたりを すすめる ゲームだよ。まわりの ひとの セリフを きいて、その ひとが ほんとうに したことを えらんでみよう。まちがえても だいじょうぶ。なんどでも やりなおせるよ。</p>
         <div class="gmenu" id="gameMenu"></div>
         <p class="lead">ほかの じんぶつは じゅんびちゅう。おたのしみに！</p>
       </section>
 
       <div id="gameOverlay" aria-hidden="true">
         <div class="gwrap">
-          <div class="ghead"><span id="gameTitle"></span><button type="button" class="gclose" id="gameClose">✕ とじる</button></div>
+          <div class="ghead"><span id="gameTitle"></span><span class="gheadbtns"><button type="button" class="gsound" id="gameSound">🔊 おと オン</button><button type="button" class="gclose" id="gameClose">✕ とじる</button></span></div>
+          <span class="gplace" id="gamePlace"></span>
           <div class="gimgwrap"><img id="gameImg" alt=""></div>
-          <p class="gtext" id="gameText"></p>
-          <button type="button" class="gSpeak" id="gameSpeak">🔊 よんで</button>
-          <div class="gchoices" id="gameChoices"></div>
-          <p class="gfb" id="gameFb" aria-live="polite"></p>
+          <div id="gameBody">
+            <p class="gtext" id="gameText"></p>
+            <div class="gstamp hidden" id="gameStamp">💮</div>
+            <div class="gsit hidden" id="gameSit"></div>
+            <div class="glines" id="gameLines"></div>
+            <p class="gq hidden" id="gameQ"></p>
+            <button type="button" class="gSpeak" id="gameSpeak">🔊 よんで</button>
+            <div class="gchoices" id="gameChoices"></div>
+            <p class="gfb" id="gameFb" aria-live="polite"></p>
+          </div>
         </div>
       </div>
 
@@ -1498,13 +1522,26 @@
       newFindRound();
       newQuizRound();
 
-      // ---------------- なりきりゲーム ----------------
+// ---------------- なりきりゲーム ----------------
       var SCEN = {
         himiko: {
+          placeHtml: "<ruby>弥生<rt>やよい</rt></ruby>じだい・<ruby>邪馬台国<rt>やまたいこく</rt></ruby>",
+          placeRead: "やよいじだい、やまたいこく",
           introHtml: "いまから およそ 1800<ruby>年<rt>ねん</rt></ruby>まえ、<ruby>弥生<rt>やよい</rt></ruby>じだいの おわりごろ。<ruby>日本<rt>にっぽん</rt></ruby>は たくさんの <ruby>小<rt>ちい</rt></ruby>さな <ruby>国<rt>くに</rt></ruby>に <ruby>分<rt>わ</rt></ruby>かれて、あらそいが つづいていた。きみは <ruby>邪馬台国<rt>やまたいこく</rt></ruby>の <ruby>女王<rt>じょおう</rt></ruby>、ひみこ。うらないの <ruby>力<rt>ちから</rt></ruby>で <ruby>人々<rt>ひとびと</rt></ruby>を まとめている。",
           introRead: "いまから およそ せんはっぴゃくねん まえ、やよいじだいの おわりごろ。にっぽんは たくさんの ちいさな くにに わかれて、あらそいが つづいていた。きみは やまたいこくの じょおう、ひみこ。うらないの ちからで ひとびとを まとめている。",
+          introLines: [
+            { who: "村の人", html: "ひみこさま！ あらそいが <ruby>止<rt>と</rt></ruby>まらなくて、みんな <ruby>困<rt>こま</rt></ruby>っています…", read: "ひみこさま！ あらそいが とまらなくて、みんな こまっています" }
+          ],
           scenes: [
             {
+              placeHtml: "<ruby>邪馬台国<rt>やまたいこく</rt></ruby>",
+              placeRead: "やまたいこく",
+              sit: [["くにの ようす", "あらそいが つづいている"], ["人々", "こまっている"], ["ひみこの 力", "うらない"]],
+              sitRead: "じょうきょう。くにの ようすは、あらそいが つづいている。人々は こまっている。ひみこの ちからは、うらない。",
+              lines: [
+                { who: "村の人", html: "ひみこさま！ また となりの <ruby>国<rt>くに</rt></ruby>と あらそいが はじまりました…", read: "ひみこさま！ また となりの くにと あらそいが はじまりました" },
+                { who: "ひみこの弟", html: "ねえさま、<ruby>人々<rt>ひとびと</rt></ruby>が <ruby>困<rt>こま</rt></ruby>っています。なんとか してください！", read: "ねえさま、ひとびとが こまっています。なんとか してください" }
+              ],
               qHtml: "<ruby>国<rt>くに</rt></ruby>どうしの あらそいが なかなか <ruby>止<rt>と</rt></ruby>まらない。ひみこ、どうする？",
               qRead: "くにどうしの あらそいが なかなか とまらない。ひみこ、どうする？",
               choices: [
@@ -1526,6 +1563,14 @@
               ]
             },
             {
+              placeHtml: "<ruby>海<rt>うみ</rt></ruby>の むこうの <ruby>国<rt>くに</rt></ruby>「ぎ」",
+              placeRead: "うみの むこうの くに、ぎ",
+              sit: [["海の むこう", "大きな 国「ぎ」"], ["船", "ある"], ["力の ちがい", "ぎ のほうが ずっと 大きい"]],
+              sitRead: "じょうきょう。うみの むこうは、おおきな くに、ぎ。ふねは ある。ちからの ちがいは、ぎのほうが ずっと おおきい。",
+              lines: [
+                { who: "家臣", html: "ひみこさま、<ruby>海<rt>うみ</rt></ruby>の むこうの「ぎ」は、とても <ruby>大<rt>おお</rt></ruby>きな <ruby>国<rt>くに</rt></ruby>だそうです！", read: "ひみこさま、うみの むこうの ぎは、とても おおきな くにだそうです" },
+                { who: "村の人", html: "なかよく なれたら、いいものを もらえるかもしれません…", read: "なかよく なれたら、いいものを もらえるかもしれません" }
+              ],
               qHtml: "<ruby>海<rt>うみ</rt></ruby>の むこうには「ぎ」という <ruby>大<rt>おお</rt></ruby>きな <ruby>国<rt>くに</rt></ruby>が ある。どうする？",
               qRead: "うみの むこうには、ぎという おおきな くにが ある。どうする？",
               choices: [
@@ -1551,12 +1596,25 @@
           endRead: "ひみこは、うらないの ちからと がいこくとの つながりで くにを まとめた じょおうだった。もらった どうきょうは、たいせつな たからものに なったんだよ。"
         },
         nobunaga: {
+          placeHtml: "<ruby>戦国<rt>せんごく</rt></ruby>じだい・<ruby>尾張<rt>おわり</rt></ruby>の<ruby>国<rt>くに</rt></ruby>",
+          placeRead: "せんごくじだい、おわりの くに",
           introHtml: "いまから およそ 460<ruby>年<rt>ねん</rt></ruby>まえ、<ruby>戦国<rt>せんごく</rt></ruby>じだい。<ruby>日本中<rt>にっぽんじゅう</rt></ruby>が <ruby>戦<rt>たたか</rt></ruby>いの まっ<ruby>最中<rt>さいちゅう</rt></ruby>。きみは <ruby>尾張<rt>おわり</rt></ruby>の <ruby>国<rt>くに</rt></ruby>の <ruby>若<rt>わか</rt></ruby>い <ruby>大名<rt>だいみょう</rt></ruby>、おだ のぶなが。<ruby>天下<rt>てんか</rt></ruby>を ひとつに することを <ruby>目指<rt>めざ</rt></ruby>している。",
           introRead: "いまから およそ よんひゃくろくじゅうねん まえ、せんごくじだい。にっぽんじゅうが たたかいの まっさいちゅう。きみは おわりの くにの わかい だいみょう、おだ のぶなが。てんかを ひとつに することを めざしている。",
+          introLines: [
+            { who: "家臣", html: "との、<ruby>天下<rt>てんか</rt></ruby>を ひとつにする たたかいが はじまりますぞ！", read: "との、てんかを ひとつにする たたかいが はじまりますぞ" }
+          ],
           scenes: [
             {
-              qHtml: "<ruby>大軍<rt>たいぐん</rt></ruby>の いまがわ よしもとが <ruby>攻<rt>せ</rt></ruby>めてきた！ <ruby>相手<rt>あいて</rt></ruby>は およそ 2<ruby>万<rt>まん</rt></ruby>5<ruby>千人<rt>せんにん</rt></ruby>、こちらは 3<ruby>千人<rt>せんにん</rt></ruby>ほど。どうする？",
-              qRead: "たいぐんの いまがわ よしもとが せめてきた！ あいては およそ にまんごせんにん、こちらは さんぜんにんほど。どうする？",
+              placeHtml: "おけはざま",
+              placeRead: "おけはざま",
+              sit: [["天気", "大雨が 近づいている"], ["敵・いまがわ軍", "およそ 25,000人"], ["味方", "およそ 3,000人"]],
+              sitRead: "じょうきょう。てんきは、おおあめが ちかづいている。てき、いまがわぐんは およそ にまんごせんにん。みかたは およそ さんぜんにん。",
+              lines: [
+                { who: "家臣", html: "との！ いまがわ よしもとの <ruby>大軍<rt>たいぐん</rt></ruby>が、すぐ そこまで <ruby>来<rt>き</rt></ruby>ております！", read: "との！ いまがわ よしもとの たいぐんが、すぐ そこまで きております" },
+                { who: "家臣", html: "あいては われらの 8<ruby>倍<rt>ばい</rt></ruby><ruby>以上<rt>いじょう</rt></ruby>…どう なさいますか！", read: "あいては われらの はちばい いじょう。どう なさいますか" }
+              ],
+              qHtml: "<ruby>大軍<rt>たいぐん</rt></ruby>の いまがわ よしもとが <ruby>攻<rt>せ</rt></ruby>めてきた！ のぶなが、どうする？",
+              qRead: "たいぐんの いまがわ よしもとが せめてきた！ のぶなが、どうする？",
               choices: [
                 { ok: false,
                   tHtml: "<ruby>城<rt>しろ</rt></ruby>に こもって、じっと <ruby>守<rt>まも</rt></ruby>る",
@@ -1576,6 +1634,14 @@
               ]
             },
             {
+              placeHtml: "ながしの",
+              placeRead: "ながしの",
+              sit: [["新しい 武器", "鉄砲（撃つたびに 玉を こめる）"], ["鉄砲の 値段", "とても 高い"], ["今までの 武器", "刀や ゆみ"]],
+              sitRead: "じょうきょう。あたらしい ぶきは、てっぽう。うつたびに たまを こめる。てっぽうの ねだんは、とても たかい。いままでの ぶきは、かたなや ゆみ。",
+              lines: [
+                { who: "家臣", html: "との、<ruby>鉄砲<rt>てっぽう</rt></ruby>という <ruby>新<rt>あたら</rt></ruby>しい <ruby>武器<rt>ぶき</rt></ruby>が つたわってきました！", read: "との、てっぽうという あたらしい ぶきが つたわってきました" },
+                { who: "家臣", html: "でも、とても <ruby>高<rt>たか</rt></ruby>いですぞ…", read: "でも、とても たかいですぞ" }
+              ],
               qHtml: "<ruby>新<rt>あたら</rt></ruby>しい <ruby>武器<rt>ぶき</rt></ruby>「<ruby>鉄砲<rt>てっぽう</rt></ruby>」が つたわってきた。どう <ruby>使<rt>つか</rt></ruby>う？",
               qRead: "あたらしい ぶき、てっぽうが つたわってきた。どう つかう？",
               choices: [
@@ -1601,12 +1667,25 @@
           endRead: "のぶながは、あたらしい かんがえと ぶきで、せんごくじだいを おおきく かえた だいみょう。てんかとういつまで あと いっぽの ところで、ほんのうじで たおれたんだ。"
         },
         ryoma: {
+          placeHtml: "<ruby>江戸<rt>えど</rt></ruby>じだいの おわり・<ruby>土佐<rt>とさ</rt></ruby>",
+          placeRead: "えどじだいの おわり、とさ",
           introHtml: "いまから およそ 160<ruby>年<rt>ねん</rt></ruby>まえ、<ruby>江戸<rt>えど</rt></ruby>じだいの おわり。<ruby>外国<rt>がいこく</rt></ruby>から <ruby>黒船<rt>くろふね</rt></ruby>が <ruby>来<rt>き</rt></ruby>て、<ruby>日本中<rt>にっぽんじゅう</rt></ruby>が <ruby>大<rt>おお</rt></ruby>さわぎ。きみは <ruby>土佐<rt>とさ</rt></ruby>の さかもと りょうま。<ruby>新<rt>あたら</rt></ruby>しい <ruby>日本<rt>にっぽん</rt></ruby>の <ruby>形<rt>かたち</rt></ruby>を <ruby>考<rt>かんが</rt></ruby>えている。",
           introRead: "いまから およそ ひゃくろくじゅうねん まえ、えどじだいの おわり。がいこくから くろふねが きて、にっぽんじゅうが おおさわぎ。きみは とさの さかもと りょうま。あたらしい にっぽんの かたちを かんがえている。",
+          introLines: [
+            { who: "なかま", html: "りょうま、<ruby>日本<rt>にっぽん</rt></ruby>が <ruby>大変<rt>たいへん</rt></ruby>なことに なっているぞ！", read: "りょうま、にっぽんが たいへんなことに なっているぞ" }
+          ],
           scenes: [
             {
-              qHtml: "さつまと ちょうしゅうは、<ruby>仲<rt>なか</rt></ruby>が <ruby>悪<rt>わる</rt></ruby>くて ケンカばかり。このままでは <ruby>日本<rt>にっぽん</rt></ruby>が <ruby>外国<rt>がいこく</rt></ruby>に <ruby>乗<rt>の</rt></ruby>っ<ruby>取<rt>と</rt></ruby>られるかも。どうする？",
-              qRead: "さつまと ちょうしゅうは、なかが わるくて ケンカばかり。このままでは にっぽんが がいこくに のっとられるかも。どうする？",
+              placeHtml: "さつまと ちょうしゅう",
+              placeRead: "さつまと ちょうしゅう",
+              sit: [["さつま", "力が 強い"], ["ちょうしゅう", "力が 強い"], ["ふたりの 仲", "とても 悪い"]],
+              sitRead: "じょうきょう。さつまは ちからが つよい。ちょうしゅうも ちからが つよい。ふたりの なかは、とても わるい。",
+              lines: [
+                { who: "なかま", html: "りょうま！ さつまと ちょうしゅうが、また ケンカを はじめたぞ！", read: "りょうま！ さつまと ちょうしゅうが、また ケンカを はじめたぞ" },
+                { who: "なかま", html: "このままでは、<ruby>外国<rt>がいこく</rt></ruby>に <ruby>日本<rt>にっぽん</rt></ruby>が とられてしまう…", read: "このままでは、がいこくに にっぽんが とられてしまう" }
+              ],
+              qHtml: "さつまと ちょうしゅうは、<ruby>仲<rt>なか</rt></ruby>が <ruby>悪<rt>わる</rt></ruby>くて ケンカばかり。りょうま、どうする？",
+              qRead: "さつまと ちょうしゅうは、なかが わるくて ケンカばかり。りょうま、どうする？",
               choices: [
                 { ok: false,
                   tHtml: "<ruby>片方<rt>かたほう</rt></ruby>だけを <ruby>応援<rt>おうえん</rt></ruby>する",
@@ -1626,6 +1705,14 @@
               ]
             },
             {
+              placeHtml: "<ruby>江戸<rt>えど</rt></ruby>・<ruby>将軍<rt>しょうぐん</rt></ruby>のところ",
+              placeRead: "えど、しょうぐんのところ",
+              sit: [["将軍", "とくがわ よしのぶ"], ["政権", "幕府が 持っている"], ["人々", "新しい 国を 求めている"]],
+              sitRead: "じょうきょう。しょうぐんは、とくがわ よしのぶ。せいけんは、ばくふが もっている。ひとびとは、あたらしい くにを もとめている。",
+              lines: [
+                { who: "なかま", html: "りょうま、<ruby>将軍<rt>しょうぐん</rt></ruby>に <ruby>政権<rt>せいけん</rt></ruby>を <ruby>返<rt>かえ</rt></ruby>して もらうなんて、できるのか？", read: "りょうま、しょうぐんに せいけんを かえして もらうなんて、できるのか" },
+                { who: "なかま", html: "<ruby>戦<rt>たたか</rt></ruby>いに なったら、たくさんの <ruby>人<rt>ひと</rt></ruby>が <ruby>困<rt>こま</rt></ruby>るぞ…", read: "たたかいに なったら、たくさんの ひとが こまるぞ" }
+              ],
               qHtml: "<ruby>将軍<rt>しょうぐん</rt></ruby>の とくがわ よしのぶに、<ruby>政権<rt>せいけん</rt></ruby>を どうして もらうのが いい？",
               qRead: "しょうぐんの とくがわ よしのぶに、せいけんを どうして もらうのが いい？",
               choices: [
@@ -1660,6 +1747,35 @@
       function gameFig(id) { var p = personById(id); if (!p) return null; return { nameHtml: p.nameHtml, nameRead: p.nameRead, img: p.img || "" }; }
       function gameLocked(id) { return !isTrial(id); }
 
+      // ---------------- おと ----------------
+      var gSoundOn = true;
+      try { gSoundOn = localStorage.getItem("rekishiGameSoundV1") !== "0"; } catch (e) {}
+      var gAC = null;
+      function gCtx() {
+        if (!gAC) { try { gAC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { gAC = null; } }
+        if (gAC && gAC.state === "suspended") gAC.resume();
+        return gAC;
+      }
+      function gTone(freq, delay, dur, type, vol) {
+        if (!gSoundOn) return;
+        var ac = gCtx(); if (!ac) return;
+        try {
+          var o = ac.createOscillator(), g = ac.createGain();
+          o.type = type || "sine"; o.frequency.value = freq;
+          var s = ac.currentTime + (delay || 0);
+          g.gain.setValueAtTime(0.0001, s);
+          g.gain.exponentialRampToValueAtTime(vol || 0.12, s + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.0001, s + dur);
+          o.connect(g); g.connect(ac.destination);
+          o.start(s); o.stop(s + dur + 0.05);
+        } catch (e) {}
+      }
+      function sndTap() { gTone(660, 0, 0.08, "triangle", 0.10); }
+      function sndGood() { [523, 659, 784, 1047].forEach(function (f, i) { gTone(f, i * 0.09, 0.18, "triangle", 0.12); }); }
+      function sndBad() { gTone(196, 0, 0.22, "sine", 0.10); gTone(147, 0.04, 0.28, "sine", 0.08); }
+      function sndFanfare() { [523, 523, 523, 659, 784, 1047].forEach(function (f, i) { gTone(f, i * 0.11, 0.2, "square", 0.05); }); gTone(1319, 0.68, 0.4, "triangle", 0.10); }
+      function renderSoundBtn() { $("gameSound").textContent = gSoundOn ? "🔊 おと オン" : "🔇 おと オフ"; }
+      // ---------------- がめん ----------------
       function renderGameMenu() {
         var el = $("gameMenu"); if (!el) return;
         el.innerHTML = GAME_IDS.map(function (id) {
@@ -1676,12 +1792,30 @@
       }
       function gameTap(id) {
         if (gameLocked(id)) { showLocked(id); return; }
+        sndTap();
         startGame(id);
       }
-      function showGameText(html, read) {
-        $("gameText").innerHTML = html;
-        $("gameFb").innerHTML = "";
-        gState.readNow = read;
+      function gAnimate() {
+        var b = $("gameBody");
+        b.classList.remove("gfade"); void b.offsetWidth; b.classList.add("gfade");
+        $("gameOverlay").scrollTop = 0;
+      }
+      function setLines(lines) {
+        $("gameLines").innerHTML = (lines || []).map(function (ln) {
+          return '<div class="gline"><span class="gwho">' + ln.who + '</span>' + ln.html + '</div>';
+        }).join("");
+      }
+      function linesRead(lines) {
+        return (lines || []).map(function (ln) { return ln.who + "。" + ln.read; }).join("。");
+      }
+      function showSit(sit, sitRead) {
+        var el = $("gameSit");
+        if (!sit) { el.classList.add("hidden"); el.innerHTML = ""; return ""; }
+        el.classList.remove("hidden");
+        el.innerHTML = '<span class="gsit-title">📋 じょうきょう</span><br>' + sit.map(function (row) {
+          return '<span class="gsit-row"><b>' + row[0] + '</b>：' + row[1] + '</span>';
+        }).join("<br>");
+        return sitRead ? "。" + sitRead : "";
       }
       function setGameChoices(list) {
         var box = $("gameChoices");
@@ -1698,19 +1832,37 @@
         var f = gameFig(id), s = SCEN[id];
         $("gameTitle").innerHTML = f.nameHtml + "に なりきり！";
         $("gameImg").src = f.img || "";
+        $("gamePlace").innerHTML = s.placeHtml;
         $("gameOverlay").classList.add("open");
         $("gameOverlay").setAttribute("aria-hidden", "false");
-        showGameText(s.introHtml, s.introRead);
-        setGameChoices([{ labelHtml: "ものがたりを はじめる", onPick: function () { showScene(0); } }]);
-        $("gameOverlay").scrollTop = 0;
+        $("gameText").classList.remove("hidden");
+        $("gameText").innerHTML = s.introHtml;
+        $("gameStamp").classList.add("hidden");
+        showSit(null);
+        setLines(s.introLines);
+        $("gameQ").classList.add("hidden");
+        $("gameFb").innerHTML = "";
+        gState.readNow = s.introRead + (s.introLines && s.introLines.length ? "。" + linesRead(s.introLines) : "");
+        setGameChoices([{ labelHtml: "ものがたりを はじめる", onPick: function () { sndTap(); showScene(0); } }]);
+        gAnimate();
       }
       function showScene(i) {
         var s = SCEN[gState.id]; gState.scene = i;
         var sc = s.scenes[i];
-        showGameText(sc.qHtml, sc.qRead);
+        $("gamePlace").innerHTML = sc.placeHtml;
+        $("gameText").classList.add("hidden");
+        $("gameStamp").classList.add("hidden");
+        var sitRead = showSit(sc.sit, sc.sitRead);
+        setLines(sc.lines);
+        var q = $("gameQ");
+        q.classList.remove("hidden");
+        q.innerHTML = "💭 " + sc.qHtml;
+        $("gameFb").innerHTML = "";
+        gState.readNow = linesRead(sc.lines) + sitRead + "。" + sc.qRead;
         setGameChoices(sc.choices.map(function (c, j) {
           return { labelHtml: c.tHtml, onPick: function (btn) { pickChoice(j, btn); } };
         }));
+        gAnimate();
       }
       function pickChoice(j, btn) {
         var s = SCEN[gState.id];
@@ -1719,20 +1871,30 @@
         $("gameFb").innerHTML = c.fbHtml;
         gState.readNow = c.fbRead;
         if (c.ok) {
+          sndGood();
           btn.classList.add("gok");
           var last = gState.scene >= s.scenes.length - 1;
-          setGameChoices([{ labelHtml: last ? "おわりを みる" : "つぎの ばめんへ", onPick: function () { if (last) showEnding(); else showScene(gState.scene + 1); } }]);
+          setGameChoices([{ labelHtml: last ? "おわりを みる" : "つぎの ばめんへ", onPick: function () { sndTap(); if (last) showEnding(); else showScene(gState.scene + 1); } }]);
         } else {
+          sndBad();
           btn.disabled = true;
         }
       }
       function showEnding() {
         var s = SCEN[gState.id];
         gCleared[gState.id] = true; gSave();
-        showGameText(s.endHtml, s.endRead);
+        sndFanfare();
+        $("gamePlace").innerHTML = s.placeHtml;
+        $("gameText").classList.remove("hidden");
+        $("gameText").innerHTML = s.endHtml;
+        $("gameStamp").classList.remove("hidden");
+        showSit(null);
+        setLines(null);
+        $("gameQ").classList.add("hidden");
         $("gameFb").innerHTML = "💮 クリア！ よく がんばったね。";
         gState.readNow = s.endRead;
-        setGameChoices([{ labelHtml: "もどる", onPick: function () { closeGame(); } }]);
+        setGameChoices([{ labelHtml: "もどる", onPick: function () { sndTap(); closeGame(); } }]);
+        gAnimate();
       }
       function closeGame() {
         $("gameOverlay").classList.remove("open");
@@ -1742,6 +1904,13 @@
       }
       $("gameClose").addEventListener("click", closeGame);
       $("gameSpeak").addEventListener("click", function () { if (gState) speak(gState.readNow, $("gameSpeak")); });
+      $("gameSound").addEventListener("click", function () {
+        gSoundOn = !gSoundOn;
+        try { localStorage.setItem("rekishiGameSoundV1", gSoundOn ? "1" : "0"); } catch (e) {}
+        renderSoundBtn();
+        if (gSoundOn) sndTap();
+      });
+      renderSoundBtn();
       renderGameMenu();
     </script>
   </body>
