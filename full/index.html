@@ -419,7 +419,7 @@
       <!-- reset -->
       <section class="section-card" aria-label="きろくをリセット">
         <h2>きろくを リセット</h2>
-        <p>おぼえた 人物・れんしゅう回数（かいすう）・カレンダーの スタンプを ぜんぶ けして、さいしょからに します。</p>
+        <p>おぼえた 人物・れんしゅう回数（かいすう）・カレンダーの スタンプを ぜんぶ けして、さいしょからに します。<br>🃏 あつめた カードは のこるよ。</p>
         <button type="button" class="read-btn" id="resetRead"></button>
         <div style="margin-top:12px">
           <button type="button" class="danger-btn" id="resetBtn">きろくを リセットする</button>
@@ -964,7 +964,7 @@
         return 'しんちょく。28人の うち、' + learnedCount() + '人 おぼえました。';
       });
       readBtn($('planRead'), 'おためし版は むりょうで、14人まで あそべます。有料版は、全28人 あそべます。くわしい 案内は、noteに あります。');
-      readBtn($('resetRead'), 'きろくを リセット。おぼえた 人物、れんしゅう回数、カレンダーの スタンプを ぜんぶ けして、さいしょからに します。');
+      readBtn($('resetRead'), 'きろくを リセット。おぼえた 人物、れんしゅう回数、カレンダーの スタンプを ぜんぶ けして、さいしょからに します。あつめた カードは のこるよ。');
 
       /* ---------- reset (two-step) ---------- */
       $('resetBtn').addEventListener('click', function(){
