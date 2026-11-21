@@ -267,6 +267,36 @@
       .gstamp { text-align: center; font-size: 84px; line-height: 1.1; margin-top: 6px; animation: gpop 0.6s cubic-bezier(0.2, 1.6, 0.4, 1); }
       @keyframes gpop { 0% { transform: scale(0) rotate(-20deg); opacity: 0; } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
       .hidden { display: none !important; }
+    
+      /* ---------- カードゲーム ---------- */
+      .gcoll-title { margin-top: 18px; }
+      .ghand { flex-direction: row; align-items: stretch; }
+      .gacard { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 6px 10px; border-radius: 14px; border: 2px solid #b08d3f; background: linear-gradient(180deg, #fffdf4, #fdf0cd); box-shadow: 0 3px 0 #d9c9a8; font: inherit; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+      .ghand .gacard:nth-child(1) { transform: rotate(-2.5deg); }
+      .ghand .gacard:nth-child(2) { transform: translateY(5px); }
+      .ghand .gacard:nth-child(3) { transform: rotate(2.5deg); }
+      .gacard .gic { font-size: 30px; line-height: 1.1; }
+      .gacard .gct { font-weight: 700; font-size: 0.92em; text-align: center; }
+      .gacard .gcd { font-size: 0.72em; line-height: 1.5; color: #5c4d2e; text-align: left; }
+      .gacard.played { transform: translateY(-12px) scale(1.04) rotate(0deg) !important; box-shadow: 0 0 0 3px #ffd94d, 0 10px 18px rgba(0,0,0,0.18); z-index: 2; position: relative; }
+      .gacard.gok { border-color: #5da85d; background: linear-gradient(180deg, #f4fbf2, #dff2da); }
+      .gacard:disabled { opacity: 0.45; }
+      .gacard.gshake { animation: gshake 0.5s ease; }
+      @keyframes gshake { 0%, 100% { margin-left: 0; } 20% { margin-left: -5px; } 40% { margin-left: 5px; } 60% { margin-left: -4px; } 80% { margin-left: 4px; } }
+      .ccoll { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+      .ccard { border: 2px solid #d4af37; border-radius: 14px; background: linear-gradient(160deg, #fffbe8, #ffe9a8); padding: 10px 8px; text-align: center; box-shadow: 0 2px 6px rgba(160, 120, 20, 0.25); }
+      .ccard img { width: 76px; height: 76px; object-fit: cover; border-radius: 10px; }
+      .ccard .ccname { font-weight: 700; margin-top: 4px; }
+      .ccard .ccera { font-size: 0.8em; color: #7a5c2e; }
+      .ccard .ccdeed { font-size: 0.82em; line-height: 1.6; margin-top: 2px; }
+      .ccard .ccget { margin-top: 4px; font-weight: 700; color: #b8860b; }
+      .ccard.locked { border-color: #c9c9c9; background: #f0f0f0; box-shadow: none; }
+      .ccard.locked img { filter: brightness(0); opacity: 0.28; }
+      .ccard.locked .ccname { color: #888; }
+      .gearn { margin-top: 10px; }
+      .gearn .gearn-title { text-align: center; font-weight: 700; margin-bottom: 8px; }
+      .gearn .ccard { max-width: 240px; margin: 0 auto; animation: gcardin 0.7s ease; }
+      @keyframes gcardin { from { transform: rotateY(90deg) scale(0.85); opacity: 0; } to { transform: rotateY(0deg) scale(1); opacity: 1; } }
     </style>
   </head>
   <body>
@@ -348,8 +378,10 @@
       <!-- なりきりゲーム -->
       <section class="section-card" aria-label="なりきりゲーム">
         <h2>なりきり ゲーム</h2>
-        <p class="lead">その ひとに なりきって、ものがたりを すすめる ゲームだよ。まわりの ひとの セリフを きいて、その ひとが ほんとうに したことを えらんでみよう。まちがえても だいじょうぶ。なんどでも やりなおせるよ。</p>
+        <p class="lead">その ひとに なりきって、ものがたりを すすめる ゲームだよ。まわりの ひとの セリフを きいて、その ひとが ほんとうに したことを カードで えらんでみよう。クリアすると、その ひとの カードが もらえるよ。まちがえても だいじょうぶ。なんどでも やりなおせるよ。</p>
         <div class="gmenu" id="gameMenu"></div>
+        <h3 class="gcoll-title">カード コレクション</h3>
+        <div class="ccoll" id="cardColl"></div>
         <p class="lead">ほかの じんぶつは じゅんびちゅう。おたのしみに！</p>
       </section>
 
@@ -361,6 +393,7 @@
           <div id="gameBody">
             <p class="gtext" id="gameText"></p>
             <div class="gstamp hidden" id="gameStamp">💮</div>
+            <div class="gearn hidden" id="gameEarn"></div>
             <div class="gsit hidden" id="gameSit"></div>
             <div class="glines" id="gameLines"></div>
             <p class="gq hidden" id="gameQ"></p>
@@ -1201,7 +1234,7 @@
       try { gCleared = JSON.parse(localStorage.getItem(GAME_KEY) || "{}") || {}; } catch (e) { gCleared = {}; }
       var gState = null;
       function gSave() { try { localStorage.setItem(GAME_KEY, JSON.stringify(gCleared)); } catch (e) {} }
-      function gameFig(id) { var f = FIG[id]; if (!f) return null; return { nameHtml: f.n, nameRead: f.y, img: FIGIMG[id] || "" }; }
+      function gameFig(id) { var f = FIG[id]; if (!f) return null; return { nameHtml: f.n, nameRead: f.y, img: FIGIMG[id] || "", eraHtml: f.e, deedHtml: f.dr }; }
       function gameLocked(id) { return false; }
 
       // ---------------- おと ----------------
@@ -1277,6 +1310,7 @@
       function setGameChoices(list) {
         var box = $("gameChoices");
         box.innerHTML = "";
+        box.className = "gchoices";
         list.forEach(function (item) {
           var b = document.createElement("button");
           b.type = "button"; b.className = "gchoice"; b.innerHTML = item.labelHtml;
@@ -1295,6 +1329,7 @@
         $("gameText").classList.remove("hidden");
         $("gameText").innerHTML = s.introHtml;
         $("gameStamp").classList.add("hidden");
+        $("gameEarn").classList.add("hidden");
         showSit(null);
         setLines(s.introLines);
         $("gameQ").classList.add("hidden");
@@ -1309,16 +1344,15 @@
         $("gamePlace").innerHTML = sc.placeHtml;
         $("gameText").classList.add("hidden");
         $("gameStamp").classList.add("hidden");
+        $("gameEarn").classList.add("hidden");
         var sitRead = showSit(sc.sit, sc.sitRead);
         setLines(sc.lines);
         var q = $("gameQ");
         q.classList.remove("hidden");
         q.innerHTML = "💭 " + sc.qHtml;
         $("gameFb").innerHTML = "";
-        gState.readNow = linesRead(sc.lines) + sitRead + "。" + sc.qRead;
-        setGameChoices(sc.choices.map(function (c, j) {
-          return { labelHtml: c.tHtml, onPick: function (btn) { pickChoice(j, btn); } };
-        }));
+        gState.readNow = linesRead(sc.lines) + sitRead + "。" + sc.qRead + "。" + sc.choices.map(function (c) { return c.tRead; }).join("。");
+        renderHand(sc);
         gAnimate();
       }
       function pickChoice(j, btn) {
@@ -1331,10 +1365,14 @@
           sndGood();
           btn.classList.add("gok");
           var last = gState.scene >= s.scenes.length - 1;
-          setGameChoices([{ labelHtml: last ? "おわりを みる" : "つぎの ばめんへ", onPick: function () { sndTap(); if (last) showEnding(); else showScene(gState.scene + 1); } }]);
+          $("gameChoices").querySelectorAll(".gacard").forEach(function (b) { b.disabled = true; });
+          setTimeout(function () {
+            setGameChoices([{ labelHtml: last ? "おわりを みる" : "つぎの ばめんへ", onPick: function () { sndTap(); if (last) showEnding(); else showScene(gState.scene + 1); } }]);
+          }, 900);
         } else {
           sndBad();
-          btn.disabled = true;
+          btn.classList.add("gshake");
+          setTimeout(function () { btn.classList.remove("gshake"); btn.classList.remove("played"); btn.disabled = true; }, 520);
         }
       }
       function showEnding() {
@@ -1345,6 +1383,9 @@
         $("gameText").classList.remove("hidden");
         $("gameText").innerHTML = s.endHtml;
         $("gameStamp").classList.remove("hidden");
+        var earnEl = $("gameEarn");
+        earnEl.classList.remove("hidden");
+        earnEl.innerHTML = '<div class="gearn-title">🎉 カードを 手に 入れた！</div>' + cardHtml(gState.id);
         showSit(null);
         setLines(null);
         $("gameQ").classList.add("hidden");
@@ -1358,6 +1399,7 @@
         $("gameOverlay").setAttribute("aria-hidden", "true");
         if ("speechSynthesis" in window) window.speechSynthesis.cancel();
         renderGameMenu();
+        renderCollection();
       }
       $("gameClose").addEventListener("click", closeGame);
       $("gameSpeak").addEventListener("click", function () { if (gState) speak(gState.readNow, $("gameSpeak")); });
@@ -1367,8 +1409,53 @@
         renderSoundBtn();
         if (gSoundOn) sndTap();
       });
+
+      // ---------------- カード ----------------
+      var CHOICE_META = {
+        himiko: [
+          [["🔮", "うらない作戦"], ["⚔️", "戦いに 行く"], ["🚪", "部屋に こもる"]],
+          [["🚢", "攻めに 行く"], ["🕊️", "使いを 送る"], ["🙈", "知らない ふり"]]
+        ],
+        nobunaga: [
+          [["🏯", "城で 守る"], ["🏃", "逃げる"], ["🌧️", "雨の日の 奇襲"]],
+          [["🎯", "鉄砲隊を 作る"], ["🪙", "少しだけ 買う"], ["⚔️", "刀で 戦う"]]
+        ],
+        ryoma: [
+          [["👆", "片方を 応援"], ["🤝", "同盟を 結ぶ"], ["😴", "放っておく"]],
+          [["📜", "政権を 返す提案"], ["⚔️", "戦いで 倒す"], ["🤐", "何も 言わない"]]
+        ]
+      };
+      function renderHand(sc) {
+        var box = $("gameChoices");
+        box.innerHTML = "";
+        box.className = "gchoices ghand";
+        var meta = (CHOICE_META[gState.id] || [])[gState.scene] || [];
+        sc.choices.forEach(function (c, j) {
+          var m = meta[j] || ["⭐", ""];
+          var b = document.createElement("button");
+          b.type = "button"; b.className = "gacard";
+          b.innerHTML = '<span class="gic">' + m[0] + '</span><span class="gct">' + m[1] + '</span><span class="gcd">' + c.tHtml + '</span>';
+          b.addEventListener("click", function () { b.classList.add("played"); pickChoice(j, b); });
+          box.appendChild(b);
+        });
+      }
+      function cardHtml(id) {
+        var f = gameFig(id); if (!f) return "";
+        var owned = !!gCleared[id], locked = gameLocked(id);
+        if (!owned) {
+          return '<div class="ccard locked">' + (f.img ? '<img src="' + f.img + '" alt="">' : "") +
+            '<div class="ccname">？？？</div><div class="ccdeed">' + (locked ? "🔒 ゆうりょうばんで あそべるよ" : "クリアすると もらえるよ") + '</div></div>';
+        }
+        return '<div class="ccard">' + (f.img ? '<img src="' + f.img + '" alt="">' : "") +
+          '<div class="ccname">' + f.nameHtml + '</div><div class="ccera">' + (f.eraHtml || "") + '</div><div class="ccdeed">' + (f.deedHtml || "") + '</div><div class="ccget">💮 ゲット！</div></div>';
+      }
+      function renderCollection() {
+        var el = $("cardColl"); if (!el) return;
+        el.innerHTML = GAME_IDS.map(function (id) { return cardHtml(id); }).join("");
+      }
       renderSoundBtn();
       renderGameMenu();
+      renderCollection();
     </script>
   </body>
 </html>
