@@ -230,6 +230,64 @@
       .reset-confirm .row{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
       .foot-note{ color:var(--ink-soft); font-size:.88rem; margin-top:26px; text-align:center; }
     
+    /* ---------- カード機能 ---------- */
+.cd-home-btns{ display:flex; flex-wrap:wrap; gap:10px; margin:10px 0 4px; }
+.cd-big-btn{ flex:1 1 140px; font-size:1.05rem; font-weight:900; padding:14px 8px; border-radius:14px; border:2px solid #d9c9a8; background:#fff8ea; color:#4a3b28; cursor:pointer; }
+.cd-big-btn:active{ transform:scale(.97); }
+.cd-count{ font-weight:900; color:#7a5b23; margin:6px 0 0; }
+.cd-overlay{ position:fixed; inset:0; background:#fdf6e3; z-index:60; overflow-y:auto; padding:0 0 40px; }
+.cd-head{ position:sticky; top:0; background:#fdf6e3; display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:2px solid #e8dcc0; z-index:2; }
+.cd-head span{ font-size:1.2rem; font-weight:900; }
+.cd-close{ font-size:1.1rem; font-weight:900; width:42px; height:42px; border-radius:50%; border:2px solid #d9c9a8; background:#fff; cursor:pointer; }
+.cd-body{ max-width:560px; margin:0 auto; padding:14px 14px 10px; }
+.cd-block-title{ font-size:1.05rem; font-weight:900; margin:18px 0 8px; color:#5b4a2f; }
+.cd-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.cd-tile{ position:relative; border:2px solid #e3d3ac; border-radius:12px; background:#fff; padding:6px 4px 8px; text-align:center; cursor:pointer; }
+.cd-tile img{ width:100%; height:110px; object-fit:cover; object-position:top; border-radius:8px; display:block; }
+.cd-tile .cd-name{ font-weight:900; font-size:.86rem; margin-top:5px; line-height:1.25; }
+.cd-tile .cd-tag{ display:inline-block; font-size:.66rem; font-weight:900; background:#ffe9a8; border-radius:8px; padding:1px 7px; margin-top:3px; color:#7a5b23; }
+.cd-tile .cd-tag.known{ background:#cdeac0; color:#2e5e1e; }
+.cd-tile .cd-lock{ position:absolute; inset:0; background:rgba(70,60,40,.45); border-radius:10px; color:#fff; font-weight:900; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:.8rem; gap:2px; }
+.cd-tile.cd-grey img{ filter:grayscale(1) brightness(.72); }
+.cd-noimg{ height:110px; border-radius:8px; background:linear-gradient(160deg,#a8d4ea,#5b8fc4); display:flex; align-items:center; justify-content:center; font-size:2.2rem; }
+.cd-modal{ position:fixed; inset:0; background:rgba(40,32,18,.55); z-index:70; display:flex; align-items:center; justify-content:center; padding:16px; }
+.cd-modal-card{ background:#fffdf6; border-radius:18px; max-width:430px; width:100%; max-height:92vh; overflow-y:auto; padding:18px; position:relative; }
+.cd-modal-card img.cd-big{ width:100%; max-height:300px; object-fit:cover; object-position:top; border-radius:12px; display:block; }
+.cd-modal-card h3{ margin:10px 0 2px; font-size:1.35rem; }
+.cd-modal-card .cd-era{ color:#8a6d3b; font-weight:900; font-size:.85rem; }
+.cd-point-label{ font-weight:900; color:#b3541e; margin:12px 0 2px; }
+.cd-fact-label{ font-weight:900; color:#2e6b8a; margin:12px 0 2px; }
+.cd-modal-card p{ margin:2px 0; line-height:1.6; }
+.cd-btn{ display:block; width:100%; margin-top:12px; font-size:1.02rem; font-weight:900; padding:12px; border-radius:12px; border:2px solid #d9c9a8; background:#fff3d6; color:#4a3b28; cursor:pointer; }
+.cd-btn.primary{ background:#ffb84d; border-color:#e89b3c; }
+.cd-btn:active{ transform:scale(.98); }
+.cd-known-stamp{ margin-top:12px; text-align:center; font-weight:900; color:#2e7d32; border:3px solid #2e7d32; border-radius:12px; padding:8px; transform:rotate(-3deg); font-size:1.1rem; }
+.cd-hint{ margin-top:12px; text-align:center; font-weight:900; color:#8a6d3b; }
+.cd-vs{ display:flex; gap:10px; align-items:stretch; }
+.cd-fighter{ flex:1; border:2px solid #e3d3ac; border-radius:14px; background:#fff; padding:8px; text-align:center; }
+.cd-fighter img{ width:100%; height:130px; object-fit:cover; object-position:top; border-radius:10px; display:block; }
+.cd-fighter .cd-name{ font-weight:900; margin-top:5px; }
+.cd-hearts{ font-size:1rem; letter-spacing:1px; margin-top:3px; }
+.cd-vs-mark{ align-self:center; font-weight:900; font-size:1.3rem; color:#b3541e; }
+.cd-round{ text-align:center; font-weight:900; margin:12px 0 4px; color:#5b4a2f; }
+.cd-question{ text-align:center; font-size:1.12rem; font-weight:900; line-height:1.6; margin:6px 0; }
+.cd-q-speak{ display:block; margin:0 auto 10px; font-weight:900; padding:8px 18px; border-radius:999px; border:2px solid #d9c9a8; background:#fff; cursor:pointer; }
+.cd-choice{ display:block; width:100%; text-align:left; font-size:1rem; font-weight:700; line-height:1.5; padding:12px 14px; margin:8px 0; border-radius:12px; border:2px solid #e3d3ac; background:#fff; cursor:pointer; }
+.cd-choice.correct{ background:#dff3d8; border-color:#57a773; }
+.cd-choice.wrong{ background:#fbe0e0; border-color:#d66; }
+.cd-feedback{ text-align:center; font-weight:900; font-size:1.05rem; min-height:1.6em; margin:8px 0; }
+.cd-fighter.hit{ animation:cdShake .45s; border-color:#d66; }
+.cd-fighter.atk{ animation:cdLunge .45s; border-color:#57a773; }
+@keyframes cdShake{ 0%,100%{transform:translateX(0)} 25%{transform:translateX(-7px)} 75%{transform:translateX(7px)} }
+@keyframes cdLunge{ 0%,100%{transform:scale(1)} 40%{transform:scale(1.06)} }
+.cd-result{ text-align:center; }
+.cd-result .cd-stamp{ display:inline-block; font-size:1.6rem; font-weight:900; color:#c0392b; border:4px solid #c0392b; border-radius:14px; padding:6px 22px; transform:rotate(-4deg); margin:8px 0; }
+.cd-result img.cd-got{ width:150px; height:190px; object-fit:cover; object-position:top; border-radius:12px; border:3px solid #ffb84d; margin:8px 4px; }
+.cd-pick-note{ text-align:center; font-weight:900; color:#5b4a2f; margin-bottom:10px; }
+.cd-home{ background:#fffdf6; border:2px solid #e8dcc0; border-radius:16px; padding:16px; margin:18px 0; }
+.cd-home h2{ margin:0 0 6px; font-size:1.25rem; }
+.cd-home p{ margin:4px 0; line-height:1.6; }
+
     </style>
   </head>
   <body>
@@ -304,6 +362,19 @@
             <p class="score-line" id="quizScore"></p>
           </div>
         </div>
+      </section>
+
+      
+      <!-- カードで あそぼう -->
+      <section class="block section-card cd-home" aria-label="カードであそぼう">
+        <h2>カードで あそぼう</h2>
+        <p>ちびキャラの カードで あそべるよ。カードを あつめよう！</p>
+        <div class="cd-home-btns">
+          <button class="cd-big-btn" id="cdBtnShiru" type="button">📖 人物を しる</button>
+          <button class="cd-big-btn" id="cdBtnBattle" type="button">⚔️ カードバトル</button>
+          <button class="cd-big-btn" id="cdBtnCol" type="button">🃏 コレクション</button>
+        </div>
+        <p class="cd-count" id="cdCount"></p>
       </section>
 
       <!-- calendar -->
@@ -915,6 +986,361 @@
       /* ---------- init ---------- */
       renderChips(); renderZukan(); renderProgress(); renderCalendar();
       newFind(); newQuiz(); renderScore();
+
+    </script>
+  
+    <div id="cdOverlay" class="cd-overlay" hidden>
+      <div class="cd-head"><span id="cdTitle"></span><button id="cdClose" class="cd-close" type="button" aria-label="とじる">✕</button></div>
+      <div id="cdBody" class="cd-body"></div>
+    </div>
+    <div id="cdModal" class="cd-modal" hidden><div class="cd-modal-card" id="cdModalCard"></div></div>
+<script src="cardimg.js"></script>
+    <script>
+var CD_FACTS = {"himiko": {"h": "うらないの ちからで くにを おさめたと いわれているよ。<ruby>中<rt>ちゅう</rt></ruby><ruby>国<rt>ごく</rt></ruby>の くにとも なかよく していたよ。", "r": "うらないの ちからで くにを おさめたと いわれているよ。ちゅうごくの くにとも なかよく していたよ。"}, "shotoku": {"h": "17の やくそくを つくって、みんなが なかよく くらせる くにを めざしたよ。", "r": "じゅうななの やくそくを つくって、みんなが なかよく くらせる くにを めざしたよ。"}, "nakanoooe": {"h": "<ruby>蘇<rt>そ</rt></ruby><ruby>我<rt>が</rt></ruby>しを たおして、あたらしい くにづくりを はじめたよ。", "r": "そがしを たおして、あたらしい くにづくりを はじめたよ。"}, "shomu": {"h": "みんなが しあわせに なるように、<ruby>奈<rt>な</rt></ruby><ruby>良<rt>ら</rt></ruby>に おおきな だいぶつを つくったよ。", "r": "みんなが しあわせに なるように、ならに おおきな だいぶつを つくったよ。"}, "murasaki": {"h": "ひかる<ruby>源<rt>げん</rt></ruby><ruby>氏<rt>じ</rt></ruby>の ながい おはなしを かいた さっかだよ。", "r": "ひかるげんじの ながい おはなしを かいた さっかだよ。"}, "seisho": {"h": "まわりの ことを おもしろく、すらすらと かいた さっかだよ。", "r": "まわりの ことを おもしろく、すらすらと かいた さっかだよ。"}, "michinaga": {"h": "つきを みて「このよは わたしの もの」と いう うたを よんだと いわれているよ。", "r": "つきを みて、 このよは わたしのもの、 と いう うたを よんだと いわれているよ。"}, "yoritomo": {"h": "かまくらに ばくふを ひらいて、はじめての しょうぐんに なったよ。", "r": "かまくらに ばくふを ひらいて、はじめての しょうぐんに なったよ。"}, "tokimune": {"h": "モンゴルの ぐんたいが やってきた とき、ぶしたちを まとめて にっぽんを まもったよ。", "r": "モンゴルの ぐんたいが やってきた とき、ぶしたちを まとめて にっぽんを まもったよ。"}, "takauji": {"h": "きょうとに ばくふを おいて、むろまちじだいを はじめた しょうぐんだよ。", "r": "きょうとに ばくふを おいて、むろまちじだいを はじめた しょうぐんだよ。"}, "yoshimitsu": {"h": "きんいろに かがやく たてもの『きんかくじ』を たてた、3だいめの しょうぐんだよ。", "r": "きんいろに かがやく たてもの、きんかくじを たてた、さんだいめの しょうぐんだよ。"}, "ikkyu": {"h": "こどもの ころから あたまが よくて、とんちの おはなしが たくさん のこっているよ。", "r": "こどもの ころから あたまが よくて、とんちの おはなしが たくさん のこっているよ。"}, "sesshu": {"h": "くろい すみだけで、やまや みずの けしきを かいた えの めいじんだよ。", "r": "くろい すみだけで、やまや みずの けしきを かいた えの めいじんだよ。"}, "rikyu": {"h": "おちゃを たてる さどうを たいせつに して、しずかな おもてなしの こころを ひろめたよ。", "r": "おちゃを たてる さどうを たいせつに して、しずかな おもてなしの こころを ひろめたよ。"}, "nobunaga": {"h": "あたらしい かんがえで、つよい くにを つくろうとした せんごくぶしょうだよ。", "r": "あたらしい かんがえで、つよい くにを つくろうとした せんごくぶしょうだよ。"}, "hideyoshi": {"h": "のうみんの いえに うまれて、がんばって てんかとういつを なしとげたよ。", "r": "のうみんの いえに うまれて、がんばって てんかとういつを なしとげたよ。"}, "ieyasu": {"h": "えどに ばくふを ひらいて、ながく つづく じだいを つくった しょうぐんだよ。", "r": "えどに ばくふを ひらいて、ながく つづく じだいを つくった しょうぐんだよ。"}, "masamune": {"h": "かたほうの めが みえなかったけれど、せんだいを おおきな まちに したよ。かぶとの みかづきが めじるしだよ。", "r": "かたほうの めが みえなかったけれど、せんだいを おおきな まちに したよ。かぶとの みかづきが めじるしだよ。"}, "musashi": {"h": "2ほんの かたなを つかう「にとうりゅう」で、たくさんの しょうぶに かったよ。", "r": "にほんの かたなを つかう、にとうりゅうで、たくさんの しょうぶに かったよ。"}, "hokusai": {"h": "おおきな なみと ふじさんの えで、せかいでも ゆうめいに なった えしだよ。", "r": "おおきな なみと ふじさんの えで、せかいでも ゆうめいに なった えしだよ。"}, "tadataka": {"h": "にっぽんじゅうを あるいて はかって、せいかくな ちずを つくったよ。", "r": "にっぽんじゅうを あるいて はかって、せいかくな ちずを つくったよ。"}, "ryoma": {"h": "なかよしでは なかった <ruby>薩<rt>さつ</rt></ruby><ruby>摩<rt>ま</rt></ruby>と <ruby>長<rt>ちょう</rt></ruby><ruby>州<rt>しゅう</rt></ruby>を くっつけて、あたらしい くにづくりの きっかけを つくったよ。ブーツを はいていたことでも ゆうめいだよ。", "r": "なかよしでは なかった さつまと ちょうしゅうを くっつけて、あたらしい くにづくりの きっかけを つくったよ。ブーツを はいていたことでも ゆうめいだよ。"}, "saigo": {"h": "おおきな からだと、やさしい こころで、たくさんの ひとに したわれたよ。いぬが だいすきだったよ。", "r": "おおきな からだと、やさしい こころで、たくさんの ひとに したわれたよ。いぬが だいすきだったよ。"}, "kaishu": {"h": "<ruby>西<rt>さい</rt></ruby><ruby>郷<rt>ごう</rt></ruby>さんと はなしあって、たたかわずに <ruby>江<rt>え</rt></ruby><ruby>戸<rt>ど</rt></ruby><ruby>城<rt>じょう</rt></ruby>を あけわたしたよ。ふねにも くわしかったよ。", "r": "さいごうさんと はなしあって、たたかわずに えどじょうを あけわたしたよ。ふねにも くわしかったよ。"}, "yukichi": {"h": "「まなぶことが だいじ」と つたえて、<ruby>慶<rt>けい</rt></ruby><ruby>應<rt>おう</rt></ruby><ruby>義<rt>ぎ</rt></ruby><ruby>塾<rt>じゅく</rt></ruby>という がっこうも つくったよ。いちまんえんさつの ひとでも あるよ。", "r": "まなぶことが だいじ、と つたえて、けいおうぎじゅくという がっこうも つくったよ。いちまんえんさつの ひとでも あるよ。"}, "eiichi": {"h": "500を こえる かいしゃづくりに かかわったよ。あたらしい いちまんえんさつの ひとでも あるよ。", "r": "ごひゃくを こえる かいしゃづくりに かかわったよ。あたらしい いちまんえんさつの ひとでも あるよ。"}, "hideyo": {"h": "びょうきの もとに なる さいきんを しらべて、せかいで かつやくしたよ。せんえんさつの ひとでも あるよ。", "r": "びょうきの もとに なる さいきんを しらべて、せかいで かつやくしたよ。せんえんさつの ひとでも あるよ。"}, "umeko": {"h": "6さいで アメリカへ わたり、かえってきてから おんなのこの ための がっこうを つくったよ。ごせんえんさつの ひとでも あるよ。", "r": "ろくさいで アメリカへ わたり、かえってきてから おんなのこの ための がっこうを つくったよ。ごせんえんさつの ひとでも あるよ。"}};
+(function () {
+  "use strict";
+  var IMG = window.__CARDIMG || {};
+  var STORE_KEY = "rekishiCardsPaidV1";
+  var ERA_LOCKED = [];
+  var BLOCKS = [
+    { id: "kodai", label: "<ruby>古代<rt>こだい</rt></ruby>〜<ruby>平安<rt>へいあん</rt></ruby>" },
+    { id: "kamakura", label: "<ruby>鎌倉<rt>かまくら</rt></ruby>〜<ruby>室町<rt>むろまち</rt></ruby>" },
+    { id: "sengoku", label: "<ruby>戦国<rt>せんごく</rt></ruby>〜<ruby>江戸<rt>えど</rt></ruby>" },
+    { id: "bakumatsu", label: "<ruby>幕末<rt>ばくまつ</rt></ruby>〜<ruby>明治<rt>めいじ</rt></ruby>" }
+  ];
+  var FIGS = (FIGURES.map(function(f){var fc=CD_FACTS[f.id]||{h:'',r:''};return {id:f.id, block:f.block, nameHtml:'<ruby>'+f.n+'<rt>'+f.y+'</rt></ruby>', nameRead:f.y, eraText:f.ey, deedHtml:f.dr, deedRead:f.dy, factHtml:fc.h, factRead:fc.r, locked:false};}));
+  var ERA = [
+    { id: "mammoth", block: "kodai", nameHtml: "<ruby>縄文<rt>じょうもん</rt></ruby>の マンモス", nameRead: "じょうもんの マンモス", eraText: "じょうもんじだい",
+      pointHtml: "むかしの <ruby>日本<rt>にっぽん</rt></ruby>にも いた、<ruby>大<rt>おお</rt></ruby>きな ゾウ", pointRead: "むかしの にっぽんにも いた おおきな ぞう",
+      factHtml: "マンモスの <ruby>牙<rt>きば</rt></ruby>や <ruby>骨<rt>ほね</rt></ruby>が <ruby>日本<rt>にっぽん</rt></ruby>でも <ruby>見<rt>み</rt></ruby>つかっているよ。<ruby>人々<rt>ひとびと</rt></ruby>は <ruby>狩<rt>か</rt></ruby>りを して くらしていたよ。",
+      factRead: "マンモスの きばや ほねが にっぽんでも みつかっているよ。ひとびとは かりを して くらしていたよ。" },
+    { id: "yayoi", block: "kodai", nameHtml: "<ruby>弥生土器<rt>やよいどき</rt></ruby>", nameRead: "やよいどき", eraText: "やよいじだい",
+      pointHtml: "<ruby>弥生時代<rt>やよいじだい</rt></ruby>に <ruby>使<rt>つか</rt></ruby>われた <ruby>土器<rt>どき</rt></ruby>", pointRead: "やよいじだいに つかわれた どき",
+      factHtml: "うすくて じょうぶな <ruby>土器<rt>どき</rt></ruby>。お<ruby>米<rt>こめ</rt></ruby>や <ruby>水<rt>みず</rt></ruby>を <ruby>入<rt>い</rt></ruby>れて、くらしに <ruby>役立<rt>やくだ</rt></ruby>ったよ。",
+      factRead: "うすくて じょうぶな どき。おこめや みずを いれて くらしに やくだったよ。" },
+    { id: "daibutsu", block: "kamakura", nameHtml: "<ruby>鎌倉<rt>かまくら</rt></ruby>の <ruby>大仏<rt>だいぶつ</rt></ruby>", nameRead: "かまくらの だいぶつ", eraText: "かまくらじだい",
+      pointHtml: "<ruby>鎌倉<rt>かまくら</rt></ruby>に ある <ruby>大<rt>おお</rt></ruby>きな <ruby>大仏<rt>だいぶつ</rt></ruby>さま", pointRead: "かまくらに ある おおきな だいぶつさま",
+      factHtml: "<ruby>高<rt>たか</rt></ruby>さは およそ 11メートル。750<ruby>年<rt>ねん</rt></ruby>くらい <ruby>前<rt>まえ</rt></ruby>に つくられたよ。",
+      factRead: "たかさは およそ じゅういちメートル。ななひゃくごじゅうねんくらい まえに つくられたよ。" },
+    { id: "kinkakuji", block: "kamakura", nameHtml: "<ruby>金閣寺<rt>きんかくじ</rt></ruby>", nameRead: "きんかくじ", eraText: "むろまちじだい",
+      pointHtml: "<ruby>足利義満<rt>あしかがよしみつ</rt></ruby>が <ruby>建<rt>た</rt></ruby>てた <ruby>金色<rt>きんいろ</rt></ruby>の お<ruby>寺<rt>てら</rt></ruby>", pointRead: "あしかがよしみつが たてた きんいろの おてら",
+      factHtml: "ほんとうの <ruby>名前<rt>なまえ</rt></ruby>は <ruby>鹿苑寺<rt>ろくおんじ</rt></ruby>。<ruby>金<rt>きん</rt></ruby>ぱくが はってあって、<ruby>池<rt>いけ</rt></ruby>に <ruby>映<rt>うつ</rt></ruby>る <ruby>姿<rt>すがた</rt></ruby>が きれいだよ。",
+      factRead: "ほんとうの なまえは ろくおんじ。きんぱくが はってあって、いけに うつる すがたが きれいだよ。" },
+    { id: "himeji", block: "sengoku", nameHtml: "<ruby>姫路城<rt>ひめじじょう</rt></ruby>", nameRead: "ひめじじょう", eraText: "えどじだい",
+      pointHtml: "<ruby>白<rt>しろ</rt></ruby>くて <ruby>美<rt>うつく</rt></ruby>しい お<ruby>城<rt>しろ</rt></ruby>。<ruby>白鷺城<rt>しらさぎじょう</rt></ruby>とも よばれる", pointRead: "しろくて うつくしい おしろ。しらさぎじょうとも よばれる",
+      factHtml: "<ruby>戦争<rt>せんそう</rt></ruby>や <ruby>地震<rt>じしん</rt></ruby>でも <ruby>壊<rt>こわ</rt></ruby>れずに <ruby>残<rt>のこ</rt></ruby>った、<ruby>世界遺産<rt>せかいいさん</rt></ruby>の お<ruby>城<rt>しろ</rt></ruby>だよ。",
+      factRead: "せんそうや じしんでも こわれずに のこった、せかいいさんの おしろだよ。" },
+    { id: "teppo", block: "sengoku", nameHtml: "<ruby>鉄砲<rt>てっぽう</rt></ruby>", nameRead: "てっぽう", eraText: "せんごくじだい",
+      pointHtml: "<ruby>種子島<rt>たねがしま</rt></ruby>に <ruby>伝<rt>つた</rt></ruby>わった <ruby>鉄砲<rt>てっぽう</rt></ruby>。<ruby>合戦<rt>かっせん</rt></ruby>の やり<ruby>方<rt>かた</rt></ruby>を <ruby>変<rt>か</rt></ruby>えた", pointRead: "たねがしまに つたわった てっぽう。かっせんの やりかたを かえた",
+      factHtml: "<ruby>信長<rt>のぶなが</rt></ruby>は <ruby>長篠<rt>ながし</rt></ruby>の<ruby>戦<rt>たたか</rt></ruby>いで <ruby>鉄砲<rt>てっぽう</rt></ruby>を たくさん <ruby>使<rt>つか</rt></ruby>って <ruby>勝<rt>か</rt></ruby>ったと いわれているよ。",
+      factRead: "のぶながは ながしのの たたかいで てっぽうを たくさん つかって かったと いわれているよ。" },
+    { id: "kurofune", block: "bakumatsu", nameHtml: "<ruby>黒船<rt>くろふね</rt></ruby>", nameRead: "くろふね", eraText: "ばくまつ",
+      pointHtml: "ペリーが <ruby>乗<rt>の</rt></ruby>ってきた <ruby>大<rt>おお</rt></ruby>きな <ruby>黒<rt>くろ</rt></ruby>い <ruby>船<rt>ふね</rt></ruby>", pointRead: "ペリーが のってきた おおきな くろい ふね",
+      factHtml: "<ruby>浦賀<rt>うらが</rt></ruby>に やってきて、<ruby>日本<rt>にっぽん</rt></ruby>に <ruby>国<rt>くに</rt></ruby>を <ruby>開<rt>ひら</rt></ruby>くよう <ruby>求<rt>もと</rt></ruby>めたよ。",
+      factRead: "うらがに やってきて、にっぽんに くにを ひらくよう もとめたよ。" },
+    { id: "locomotive", block: "bakumatsu", nameHtml: "<ruby>蒸気機関車<rt>じょうききかんしゃ</rt></ruby>", nameRead: "じょうききかんしゃ", eraText: "めいじじだい",
+      pointHtml: "<ruby>明治時代<rt>めいじじだい</rt></ruby>に <ruby>走<rt>はし</rt></ruby>り<ruby>始<rt>はじ</rt></ruby>めた <ruby>汽車<rt>きしゃ</rt></ruby>", pointRead: "めいじじだいに はしりはじめた きしゃ",
+      factHtml: "<ruby>最初<rt>さいしょ</rt></ruby>は <ruby>新橋<rt>しんばし</rt></ruby>と <ruby>横浜<rt>よこはま</rt></ruby>の <ruby>間<rt>あいだ</rt></ruby>を <ruby>走<rt>はし</rt></ruby>ったよ。<ruby>人<rt>ひと</rt></ruby>や <ruby>荷物<rt>にもつ</rt></ruby>を <ruby>速<rt>はや</rt></ruby>く <ruby>運<rt>はこ</rt></ruby>べるように なったよ。",
+      factRead: "さいしょは しんばしと よこはまの あいだを はしったよ。ひとや にもつを はやく はこべるように なったよ。" }
+  ];
+  var state = { got: {}, known: {} };
+  try {
+    var s = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
+    if (s.got) state.got = s.got;
+    if (s.known) state.known = s.known;
+  } catch (e) {}
+  function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {} }
+  function $(id) { return document.getElementById(id); }
+  function figById(id) { for (var i = 0; i < FIGS.length; i++) if (FIGS[i].id === id) return FIGS[i]; return null; }
+  function eraById(id) { for (var i = 0; i < ERA.length; i++) if (ERA[i].id === id) return ERA[i]; return null; }
+  function eraLocked(e) { return ERA_LOCKED.indexOf(e.block) >= 0; }
+  function spk(t) { try { speak(t, null); } catch (e) { try { speak(t); } catch (e2) {} } }
+  function shuffle(a) { var r = a.slice(); for (var i = r.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = r[i]; r[i] = r[j]; r[j] = t; } return r; }
+  function imgTag(id, cls) {
+    if (IMG[id]) return '<img class="' + (cls || "") + '" src="' + IMG[id] + '" alt="">';
+    return '<div class="cd-noimg">🌊</div>';
+  }
+  function collectibleFigs() { return FIGS.filter(function (f) { return !f.locked; }); }
+  function collectibleEra() { return ERA.filter(function (e) { return !eraLocked(e); }); }
+  function totalCards() { return collectibleFigs().length + collectibleEra().length; }
+  function gotCount() {
+    var n = 0;
+    collectibleFigs().forEach(function (f) { if (state.got[f.id]) n++; });
+    collectibleEra().forEach(function (e) { if (state.got[e.id]) n++; });
+    return n;
+  }
+  function renderCount() { var el = $("cdCount"); if (el) el.textContent = "コレクション： " + gotCount() + " / " + totalCards() + " まい"; }
+
+  var curView = "shiru";
+  function openCards(view) {
+    curView = view;
+    $("cdOverlay").hidden = false;
+    document.body.style.overflow = "hidden";
+    renderView();
+  }
+  function closeCards() { $("cdOverlay").hidden = true; document.body.style.overflow = ""; renderCount(); }
+  function renderView() {
+    if (curView === "shiru") renderShiru();
+    else if (curView === "battle") renderBattlePick();
+    else renderCollection();
+  }
+
+  /* ---------- しる ---------- */
+  function tileFig(f) {
+    var d = document.createElement("div");
+    d.className = "cd-tile";
+    var tag = "";
+    if (!f.locked) {
+      if (state.known[f.id]) tag = '<span class="cd-tag known">おぼえた ✓</span>';
+      else if (state.got[f.id]) tag = '<span class="cd-tag">ゲットずみ</span>';
+    }
+    d.innerHTML = imgTag(f.id) + '<div class="cd-name">' + f.nameHtml + "</div>" + tag +
+      (f.locked ? '<div class="cd-lock"><span>🔒</span><span>ゆうりょうばん</span></div>' : "");
+    d.addEventListener("click", function () { openDetail("fig", f.id); });
+    return d;
+  }
+  function tileEra(e, forCollection) {
+    var d = document.createElement("div");
+    var locked = eraLocked(e);
+    var got = !!state.got[e.id];
+    d.className = "cd-tile" + (forCollection && !got && !locked ? " cd-grey" : "");
+    var tag = "";
+    if (!locked) tag = got ? '<span class="cd-tag">ゲットずみ</span>' : '<span class="cd-tag">バトルで ゲット</span>';
+    d.innerHTML = imgTag(e.id) + '<div class="cd-name">' + (forCollection && !got && !locked ? "？？？" : e.nameHtml) + "</div>" + tag +
+      (locked ? '<div class="cd-lock"><span>🔒</span><span>ゆうりょうばん</span></div>' : "");
+    d.addEventListener("click", function () { openDetail("era", e.id); });
+    return d;
+  }
+  function renderShiru() {
+    $("cdTitle").innerHTML = "📖 <ruby>人物<rt>じんぶつ</rt></ruby>を しる";
+    var body = $("cdBody"); body.innerHTML = "";
+    var note = document.createElement("p");
+    note.className = "cd-pick-note";
+    note.textContent = "カードを タップすると ワンポイントが よめるよ。";
+    body.appendChild(note);
+    BLOCKS.forEach(function (b) {
+      var h = document.createElement("div");
+      h.className = "cd-block-title"; h.innerHTML = b.label;
+      body.appendChild(h);
+      var g = document.createElement("div"); g.className = "cd-grid";
+      FIGS.filter(function (f) { return f.block === b.id; }).forEach(function (f) { g.appendChild(tileFig(f)); });
+      ERA.filter(function (e) { return e.block === b.id; }).forEach(function (e) { g.appendChild(tileEra(e, false)); });
+      body.appendChild(g);
+    });
+  }
+
+  /* ---------- 詳細 ---------- */
+  function openDetail(kind, id) {
+    var modal = $("cdModal"), card = $("cdModalCard");
+    var html = "";
+    if (kind === "fig") {
+      var f = figById(id); if (!f) return;
+      if (f.locked) {
+        card.innerHTML = '<h3>' + f.nameHtml + '</h3><p class="cd-hint">🔒 この 人物は ゆうりょうばんで あそべるよ。</p>' +
+          '<button class="cd-btn" id="cdModalClose">とじる</button>';
+        modal.hidden = false;
+        $("cdModalClose").addEventListener("click", closeDetail);
+        return;
+      }
+      html = imgTag(f.id, "cd-big") + "<h3>" + f.nameHtml + '</h3><div class="cd-era">' + f.eraText + "</div>" +
+        '<div class="cd-point-label">⭐ ワンポイント</div><p>' + f.deedHtml + "</p>" +
+        '<div class="cd-fact-label">💡 まめちしき</div><p>' + f.factHtml + "</p>" +
+        '<button class="cd-btn" id="cdDetailSpeak">🔊 よんで</button>' +
+        (state.known[f.id]
+          ? '<div class="cd-known-stamp">おぼえた！💮</div>'
+          : '<button class="cd-btn primary" id="cdKnownBtn">おぼえた！（カードを ゲット）</button>') +
+        '<button class="cd-btn" id="cdModalClose">とじる</button>';
+      card.innerHTML = html; modal.hidden = false;
+      $("cdDetailSpeak").addEventListener("click", function () { spk(f.nameRead + "。" + f.deedRead + "。" + f.factRead); });
+      $("cdModalClose").addEventListener("click", closeDetail);
+      var kb = $("cdKnownBtn");
+      if (kb) kb.addEventListener("click", function () {
+        state.known[f.id] = true; state.got[f.id] = true; save(); renderCount();
+        openDetail("fig", f.id); renderView();
+        spk("やったね。" + f.nameRead + "の カードを ゲットしたよ。");
+      });
+    } else {
+      var e = eraById(id); if (!e) return;
+      if (eraLocked(e)) {
+        card.innerHTML = '<h3>' + e.nameHtml + '</h3><p class="cd-hint">🔒 この カードは ゆうりょうばんで あつめられるよ。</p>' +
+          '<button class="cd-btn" id="cdModalClose">とじる</button>';
+        modal.hidden = false;
+        $("cdModalClose").addEventListener("click", closeDetail);
+        return;
+      }
+      html = imgTag(e.id, "cd-big") + "<h3>" + e.nameHtml + '</h3><div class="cd-era">' + e.eraText + "</div>" +
+        '<div class="cd-point-label">⭐ ワンポイント</div><p>' + e.pointHtml + "</p>" +
+        '<div class="cd-fact-label">💡 まめちしき</div><p>' + e.factHtml + "</p>" +
+        '<button class="cd-btn" id="cdDetailSpeak">🔊 よんで</button>' +
+        (state.got[e.id]
+          ? '<div class="cd-known-stamp">コレクションに あるよ ✓</div>'
+          : '<p class="cd-hint">⚔️ バトルで かつと もらえるよ</p>') +
+        '<button class="cd-btn" id="cdModalClose">とじる</button>';
+      card.innerHTML = html; modal.hidden = false;
+      $("cdDetailSpeak").addEventListener("click", function () { spk(e.nameRead + "。" + e.pointRead + "。" + e.factRead); });
+      $("cdModalClose").addEventListener("click", closeDetail);
+    }
+  }
+  function closeDetail() { $("cdModal").hidden = true; }
+
+  /* ---------- コレクション ---------- */
+  function renderCollection() {
+    $("cdTitle").textContent = "🃏 コレクション";
+    var body = $("cdBody"); body.innerHTML = "";
+    var note = document.createElement("p");
+    note.className = "cd-pick-note";
+    note.textContent = gotCount() + " / " + totalCards() + " まい あつまったよ！";
+    body.appendChild(note);
+    BLOCKS.forEach(function (b) {
+      var h = document.createElement("div");
+      h.className = "cd-block-title"; h.innerHTML = b.label;
+      body.appendChild(h);
+      var g = document.createElement("div"); g.className = "cd-grid";
+      FIGS.filter(function (f) { return f.block === b.id; }).forEach(function (f) {
+        if (f.locked) { g.appendChild(tileFig(f)); return; }
+        var d = document.createElement("div");
+        var got = !!state.got[f.id];
+        d.className = "cd-tile" + (got ? "" : " cd-grey");
+        d.innerHTML = imgTag(f.id) + '<div class="cd-name">' + (got ? f.nameHtml : "？？？") + "</div>" +
+          (got ? '<span class="cd-tag">ゲットずみ</span>' : '<span class="cd-tag">まだ</span>');
+        d.addEventListener("click", function () {
+          if (got) openDetail("fig", f.id);
+          else {
+            var card = $("cdModalCard");
+            card.innerHTML = '<p class="cd-hint">この カードは まだだよ。<br>「<ruby>人物<rt>じんぶつ</rt></ruby>を しる」で おぼえるか、バトルで かつと もらえるよ。</p><button class="cd-btn" id="cdModalClose">とじる</button>';
+            $("cdModal").hidden = false;
+            $("cdModalClose").addEventListener("click", closeDetail);
+          }
+        });
+        g.appendChild(d);
+      });
+      ERA.filter(function (e) { return e.block === b.id; }).forEach(function (e) { g.appendChild(tileEra(e, true)); });
+      body.appendChild(g);
+    });
+  }
+
+  /* ---------- バトル ---------- */
+  var B = null;
+  function battlePool() { return collectibleFigs().filter(function (f) { return !!IMG[f.id]; }); }
+  function renderBattlePick() {
+    $("cdTitle").textContent = "⚔️ カードバトル";
+    var body = $("cdBody"); body.innerHTML = "";
+    var note = document.createElement("p");
+    note.className = "cd-pick-note";
+    note.textContent = "たたかう 人物を えらんでね。クイズに こたえて こうげき！";
+    body.appendChild(note);
+    var g = document.createElement("div"); g.className = "cd-grid";
+    battlePool().forEach(function (f) {
+      var d = document.createElement("div");
+      d.className = "cd-tile";
+      d.innerHTML = imgTag(f.id) + '<div class="cd-name">' + f.nameHtml + "</div>";
+      d.addEventListener("click", function () { startBattle(f.id); });
+      g.appendChild(d);
+    });
+    body.appendChild(g);
+  }
+  function hearts(n) { var s = ""; for (var i = 0; i < 3; i++) s += i < n ? "❤️" : "🖤"; return s; }
+  function startBattle(youId) {
+    var pool = battlePool().filter(function (f) { return f.id !== youId; });
+    var cpu = pool[Math.floor(Math.random() * pool.length)];
+    B = { you: figById(youId), cpu: cpu, hpYou: 3, hpCpu: 3, round: 1, busy: false };
+    renderFight();
+    spk("カードバトル。" + B.you.nameRead + " たい " + cpu.nameRead + "。");
+  }
+  function renderFight(feedback) {
+    var body = $("cdBody");
+    var others = battlePool().filter(function (f) { return f.id !== B.cpu.id; });
+    var distract = shuffle(others).slice(0, 2);
+    var choices = shuffle([B.cpu].concat(distract));
+    var html = '<div class="cd-vs">' +
+      '<div class="cd-fighter" id="cdYou"><div class="cd-name">あなた</div>' + imgTag(B.you.id) + '<div class="cd-name">' + B.you.nameHtml + '</div><div class="cd-hearts">' + hearts(B.hpYou) + "</div></div>" +
+      '<div class="cd-vs-mark">VS</div>' +
+      '<div class="cd-fighter" id="cdCpu"><div class="cd-name">CPU</div>' + imgTag(B.cpu.id) + '<div class="cd-name">' + B.cpu.nameHtml + '</div><div class="cd-hearts">' + hearts(B.hpCpu) + "</div></div></div>" +
+      '<div class="cd-round">' + B.round + " ラウンド</div>" +
+      '<div class="cd-question">' + B.cpu.nameHtml + "は なにを した ひと？</div>" +
+      '<button class="cd-q-speak" id="cdQSpeak">🔊 もんだいを よんで</button>' +
+      '<div id="cdChoices">' +
+      choices.map(function (c, i) { return '<button class="cd-choice" data-id="' + c.id + '">' + c.deedHtml + "</button>"; }).join("") +
+      "</div>" +
+      '<div class="cd-feedback" id="cdFeedback">' + (feedback || "") + "</div>";
+    body.innerHTML = html;
+    $("cdQSpeak").addEventListener("click", function () { spk(B.cpu.nameRead + "は なにを した ひと？"); });
+    body.querySelectorAll(".cd-choice").forEach(function (btn) {
+      btn.addEventListener("click", function () { answer(btn); });
+    });
+  }
+  function answer(btn) {
+    if (!B || B.busy) return;
+    B.busy = true;
+    var correct = btn.getAttribute("data-id") === B.cpu.id;
+    var fb = $("cdFeedback");
+    if (correct) {
+      btn.classList.add("correct");
+      B.hpCpu--;
+      $("cdCpu").classList.add("hit"); $("cdYou").classList.add("atk");
+      fb.textContent = "せいかい！ こうげき せいこう！";
+      spk("せいかい！ こうげき せいこう！");
+    } else {
+      btn.classList.add("wrong");
+      B.hpYou--;
+      $("cdYou").classList.add("hit"); $("cdCpu").classList.add("atk");
+      fb.textContent = "ざんねん… あいての こうげき！";
+      spk("ざんねん。あいての こうげき。");
+      $("cdChoices").querySelectorAll(".cd-choice").forEach(function (b) {
+        if (b.getAttribute("data-id") === B.cpu.id) b.classList.add("correct");
+      });
+    }
+    setTimeout(function () {
+      if (B.hpCpu <= 0 || B.hpYou <= 0 || B.round >= 3) { renderResult(); return; }
+      B.round++; B.busy = false; renderFight();
+    }, 1400);
+  }
+  function renderResult() {
+    var win = B.hpCpu < B.hpYou;
+    var draw = B.hpCpu === B.hpYou;
+    var body = $("cdBody");
+    var gotFig = false, gotEra = null;
+    if (win) {
+      if (!state.got[B.cpu.id]) { state.got[B.cpu.id] = true; gotFig = true; }
+      var eras = collectibleEra().filter(function (e) { return e.block === B.cpu.block; });
+      for (var i = 0; i < eras.length; i++) {
+        if (!state.got[eras[i].id]) { state.got[eras[i].id] = true; gotEra = eras[i]; break; }
+      }
+      save(); renderCount();
+    }
+    var html = '<div class="cd-result">';
+    if (win) {
+      html += '<div class="cd-stamp">🏆 あなたの かち！</div>' +
+        "<p><b>" + B.cpu.nameHtml + "</b> の カードを " + (gotFig ? "ゲットしたよ！" : "もう もっているよ。") + "</p>" +
+        '<img class="cd-got" src="' + (IMG[B.cpu.id] || "") + '" alt="">';
+      if (gotEra) html += "<p>じだいカード <b>" + gotEra.nameHtml + "</b> も ゲットしたよ！</p>" + '<img class="cd-got" src="' + (IMG[gotEra.id] || "") + '" alt="">';
+      spk("やったね。あなたの かち。" + B.cpu.nameRead + "の カードを ゲットしたよ。");
+    } else if (draw) {
+      html += '<div class="cd-stamp">ひきわけ</div><p>いい たたかいだったね。また ちょうせんしてね。</p>';
+      spk("ひきわけ。いい たたかいだったね。");
+    } else {
+      html += '<div class="cd-stamp">あいての かち</div><p>ざんねん。また ちょうせんしてね。</p>';
+      spk("あいての かち。ざんねん。また ちょうせんしてね。");
+    }
+    html += '<button class="cd-btn primary" id="cdAgain">もういちど たたかう</button>' +
+      '<button class="cd-btn" id="cdToCol">コレクションを みる</button></div>';
+    body.innerHTML = html;
+    $("cdAgain").addEventListener("click", function () { curView = "battle"; renderBattlePick(); });
+    $("cdToCol").addEventListener("click", function () { curView = "collection"; renderCollection(); });
+    B = null;
+  }
+
+  /* ---------- 初期化 ---------- */
+  var bs = $("cdBtnShiru"), bb = $("cdBtnBattle"), bc = $("cdBtnCol");
+  if (bs) bs.addEventListener("click", function () { openCards("shiru"); });
+  if (bb) bb.addEventListener("click", function () { openCards("battle"); });
+  if (bc) bc.addEventListener("click", function () { openCards("collection"); });
+  var cc = $("cdClose");
+  if (cc) cc.addEventListener("click", closeCards);
+  var mo = $("cdModal");
+  if (mo) mo.addEventListener("click", function (e) { if (e.target === mo) closeDetail(); });
+  renderCount();
+})();
 
     </script>
   </body>
