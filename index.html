@@ -208,8 +208,8 @@
       .meta-line { color: var(--ink-soft); font-size: 0.88rem; margin-top: 10px; }
 
       /* ---------- STEP2 / STEP3 ---------- */
-      .q-prompt { font-size: 1.3rem; font-weight: 900; line-height: 1.5; margin: 4px 0 2px; }
-      .q-prompt .target { color: var(--shu); }
+      .q-prompt { font-size: 1.3rem; font-weight: 900; line-height: 1.5; margin: 4px 0 2px; color:#1a1a1a; }
+      .q-prompt .target { color:#000; }
       .q-img { width: 170px; max-width: 55vw; aspect-ratio: 1; object-fit: cover; border-radius: 14px; border: 2px solid var(--line); display: block; margin: 8px auto; }
       .choices { display: grid; gap: 10px; margin-top: 12px; }
       .choices.portraits { grid-template-columns: 1fr 1fr; }
@@ -316,20 +316,20 @@
     
     /* ---------- カード機能 ---------- */
 .cd-home-btns{ display:flex; flex-wrap:wrap; gap:10px; margin:10px 0 4px; }
-.cd-big-btn{ flex:1 1 140px; font-size:1.05rem; font-weight:900; padding:14px 8px; border-radius:14px; border:2px solid #d9c9a8; background:#fff8ea; color:#4a3b28; cursor:pointer; }
+.cd-big-btn{ flex:1 1 140px; font-size:1.05rem; font-weight:900; padding:14px 8px; border-radius:14px; border:2px solid #d9c9a8; background:#fff8ea; color:#1a1a1a; cursor:pointer; }
 .cd-big-btn:active{ transform:scale(.97); }
-.cd-count{ font-weight:900; color:#7a5b23; margin:6px 0 0; }
-.cd-overlay{ position:fixed; inset:0; background:#fdf6e3; z-index:60; overflow-y:auto; padding:0 0 40px; }
+.cd-count{ font-weight:900; color:#1a1a1a; margin:6px 0 0; }
+.cd-overlay{ position:fixed; inset:0; background:#fdf6e3; color:#1a1a1a; z-index:60; overflow-y:auto; padding:0 0 40px; }
 .cd-head{ position:sticky; top:0; background:#fdf6e3; display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:2px solid #e8dcc0; z-index:2; }
 .cd-head span{ font-size:1.2rem; font-weight:900; }
 .cd-close{ font-size:1.1rem; font-weight:900; width:42px; height:42px; border-radius:50%; border:2px solid #d9c9a8; background:#fff; cursor:pointer; }
 .cd-body{ max-width:560px; margin:0 auto; padding:14px 14px 10px; }
-.cd-block-title{ font-size:1.05rem; font-weight:900; margin:18px 0 8px; color:#5b4a2f; }
+.cd-block-title{ font-size:1.05rem; font-weight:900; margin:18px 0 8px; color:#1a1a1a; }
 .cd-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
 .cd-tile{ position:relative; border:2px solid #e3d3ac; border-radius:12px; background:#fff; padding:6px 4px 8px; text-align:center; cursor:pointer; }
 .cd-tile img{ width:100%; height:150px; object-fit:contain; background:#f6ecd4; border-radius:8px; display:block; }
 .cd-tile .cd-name{ font-weight:900; font-size:.86rem; margin-top:5px; line-height:1.25; }
-.cd-tile .cd-tag{ display:inline-block; font-size:.66rem; font-weight:900; background:#ffe9a8; border-radius:8px; padding:1px 7px; margin-top:3px; color:#7a5b23; }
+.cd-tile .cd-tag{ display:inline-block; font-size:.66rem; font-weight:900; background:#ffe9a8; border-radius:8px; padding:1px 7px; margin-top:3px; color:#1a1a1a; }
 .cd-tile .cd-tag.known{ background:#cdeac0; color:#2e5e1e; }
 .cd-tile .cd-lock{ position:absolute; inset:0; background:rgba(70,60,40,.45); border-radius:10px; color:#fff; font-weight:900; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:.8rem; gap:2px; }
 .cd-tile.cd-grey img{ filter:grayscale(1) brightness(.72); }
@@ -337,28 +337,28 @@
 .cd-modal[hidden]{ display:none; }
 .cd-overlay[hidden]{ display:none; }
 .cd-modal{ position:fixed; inset:0; background:rgba(40,32,18,.55); z-index:70; display:flex; align-items:center; justify-content:center; padding:16px; }
-.cd-modal-card{ background:#fffdf6; border-radius:18px; max-width:430px; width:100%; max-height:92vh; overflow-y:auto; padding:18px; position:relative; }
+.cd-modal-card{ background:#fffdf6; color:#1a1a1a; border-radius:18px; max-width:430px; width:100%; max-height:92vh; overflow-y:auto; padding:18px; position:relative; }
 .cd-modal-card img.cd-big{ width:100%; max-height:320px; object-fit:contain; background:#f6ecd4; border-radius:12px; display:block; }
 .cd-modal-card h3{ margin:10px 0 2px; font-size:1.35rem; }
-.cd-modal-card .cd-era{ color:#8a6d3b; font-weight:900; font-size:.85rem; }
+.cd-modal-card .cd-era{ color:#1a1a1a; font-weight:900; font-size:.85rem; }
 .cd-point-label{ font-weight:900; color:#b3541e; margin:12px 0 2px; }
 .cd-fact-label{ font-weight:900; color:#2e6b8a; margin:12px 0 2px; }
 .cd-modal-card p{ margin:2px 0; line-height:1.6; }
-.cd-btn{ display:block; width:100%; margin-top:12px; font-size:1.02rem; font-weight:900; padding:12px; border-radius:12px; border:2px solid #d9c9a8; background:#fff3d6; color:#4a3b28; cursor:pointer; }
+.cd-btn{ display:block; width:100%; margin-top:12px; font-size:1.02rem; font-weight:900; padding:12px; border-radius:12px; border:2px solid #d9c9a8; background:#fff3d6; color:#1a1a1a; cursor:pointer; }
 .cd-btn.primary{ background:#ffb84d; border-color:#e89b3c; }
 .cd-btn:active{ transform:scale(.98); }
 .cd-known-stamp{ margin-top:12px; text-align:center; font-weight:900; color:#2e7d32; border:3px solid #2e7d32; border-radius:12px; padding:8px; transform:rotate(-3deg); font-size:1.1rem; }
-.cd-hint{ margin-top:12px; text-align:center; font-weight:900; color:#8a6d3b; }
+.cd-hint{ margin-top:12px; text-align:center; font-weight:900; color:#1a1a1a; }
 .cd-vs{ display:flex; gap:10px; align-items:stretch; }
 .cd-fighter{ flex:1; border:2px solid #e3d3ac; border-radius:14px; background:#fff; padding:8px; text-align:center; }
 .cd-fighter img{ width:100%; height:150px; object-fit:contain; background:#f6ecd4; border-radius:10px; display:block; }
 .cd-fighter .cd-name{ font-weight:900; margin-top:5px; }
 .cd-hearts{ font-size:1rem; letter-spacing:1px; margin-top:3px; }
 .cd-vs-mark{ align-self:center; font-weight:900; font-size:1.3rem; color:#b3541e; }
-.cd-round{ text-align:center; font-weight:900; margin:12px 0 4px; color:#5b4a2f; }
-.cd-question{ text-align:center; font-size:1.12rem; font-weight:900; line-height:1.6; margin:6px 0; }
+.cd-round{ text-align:center; font-weight:900; margin:12px 0 4px; color:#1a1a1a; }
+.cd-question{ text-align:center; font-size:1.12rem; font-weight:900; line-height:1.6; margin:6px 0; color:#000; }
 .cd-q-speak{ display:block; margin:0 auto 10px; font-weight:900; padding:8px 18px; border-radius:999px; border:2px solid #d9c9a8; background:#fff; cursor:pointer; }
-.cd-choice{ display:block; width:100%; text-align:left; font-size:1rem; font-weight:700; line-height:1.5; padding:12px 14px; margin:8px 0; border-radius:12px; border:2px solid #e3d3ac; background:#fff; cursor:pointer; }
+.cd-choice{ display:block; width:100%; text-align:left; color:#1a1a1a; font-size:1rem; font-weight:700; line-height:1.5; padding:12px 14px; margin:8px 0; border-radius:12px; border:2px solid #e3d3ac; background:#fff; cursor:pointer; }
 .cd-choice.correct{ background:#dff3d8; border-color:#57a773; }
 .cd-choice.wrong{ background:#fbe0e0; border-color:#d66; }
 .cd-feedback{ text-align:center; font-weight:900; font-size:1.05rem; min-height:1.6em; margin:8px 0; }
@@ -369,10 +369,18 @@
 .cd-result{ text-align:center; }
 .cd-result .cd-stamp{ display:inline-block; font-size:1.6rem; font-weight:900; color:#c0392b; border:4px solid #c0392b; border-radius:14px; padding:6px 22px; transform:rotate(-4deg); margin:8px 0; }
 .cd-result img.cd-got{ width:150px; height:190px; object-fit:contain; background:#f6ecd4; border-radius:12px; border:3px solid #ffb84d; margin:8px 4px; }
-.cd-pick-note{ text-align:center; font-weight:900; color:#5b4a2f; margin-bottom:10px; }
+.cd-pick-note{ text-align:center; font-weight:900; color:#1a1a1a; margin-bottom:10px; }
 .cd-home{ background:#fffdf6; border:2px solid #e8dcc0; border-radius:16px; padding:16px; margin:18px 0; }
 .cd-home h2{ margin:0 0 6px; font-size:1.25rem; }
 .cd-home p{ margin:4px 0; line-height:1.6; }
+.cd-speak-sm{ font-weight:900; padding:6px 14px; border-radius:999px; border:2px solid #d9c9a8; background:#fff; cursor:pointer; font-size:.85rem; color:#1a1a1a; }
+.cd-block-head{ display:flex; align-items:center; gap:10px; margin:18px 0 8px; }
+.cd-block-head .cd-block-title{ margin:0; }
+.cd-note-row{ text-align:center; margin:6px 0 2px; }
+.cd-choice-row{ display:flex; gap:8px; align-items:stretch; margin:8px 0; }
+.cd-choice-row .cd-choice{ flex:1; margin:0; }
+.cd-choice-speak{ flex:0 0 52px; border-radius:12px; border:2px solid #e3d3ac; background:#fff8ea; font-size:1.05rem; cursor:pointer; }
+
 
     </style>
   </head>
@@ -519,6 +527,7 @@
       <section class="block section-card cd-home" aria-label="カードであそぼう">
         <h2>カードで あそぼう</h2>
         <p>ちびキャラの カードで あそべるよ。カードを あつめよう！</p>
+        <button class="cd-speak-sm" id="cdHomeSpeak" type="button">🔊 よんで</button>
         <div class="cd-home-btns">
           <button class="cd-big-btn" id="cdBtnShiru" type="button">📖 人物を しる</button>
           <button class="cd-big-btn" id="cdBtnBattle" type="button">⚔️ カードバトル</button>
@@ -1549,10 +1558,10 @@ var CD_BLOCK_OF = {"himiko": "kodai", "shotoku": "kodai", "nakanoooe": "kodai", 
   var STORE_KEY = "rekishiCardsTrialV1";
   var ERA_LOCKED = ["sengoku", "bakumatsu"];
   var BLOCKS = [
-    { id: "kodai", label: "<ruby>古代<rt>こだい</rt></ruby>〜<ruby>平安<rt>へいあん</rt></ruby>" },
-    { id: "kamakura", label: "<ruby>鎌倉<rt>かまくら</rt></ruby>〜<ruby>室町<rt>むろまち</rt></ruby>" },
-    { id: "sengoku", label: "<ruby>戦国<rt>せんごく</rt></ruby>〜<ruby>江戸<rt>えど</rt></ruby>" },
-    { id: "bakumatsu", label: "<ruby>幕末<rt>ばくまつ</rt></ruby>〜<ruby>明治<rt>めいじ</rt></ruby>" }
+    { id: "kodai", label: "<ruby>古代<rt>こだい</rt></ruby>〜<ruby>平安<rt>へいあん</rt></ruby>", labelRead: "こだいから へいあん" },
+    { id: "kamakura", label: "<ruby>鎌倉<rt>かまくら</rt></ruby>〜<ruby>室町<rt>むろまち</rt></ruby>", labelRead: "かまくらから むろまち" },
+    { id: "sengoku", label: "<ruby>戦国<rt>せんごく</rt></ruby>〜<ruby>江戸<rt>えど</rt></ruby>", labelRead: "せんごくから えど" },
+    { id: "bakumatsu", label: "<ruby>幕末<rt>ばくまつ</rt></ruby>〜<ruby>明治<rt>めいじ</rt></ruby>", labelRead: "ばくまつから めいじ" }
   ];
   var FIGS = (PEOPLE.map(function(p){return {id:p.id, block:CD_BLOCK_OF[p.id], nameHtml:p.nameHtml, nameRead:p.nameRead, eraText:p.eraRead, deedHtml:p.deedHtml, deedRead:p.deedRead, factHtml:p.factHtml, factRead:p.factRead, locked:!isTrial(p.id)};}));
   var ERA = [
@@ -1602,6 +1611,27 @@ var CD_BLOCK_OF = {"himiko": "kodai", "shotoku": "kodai", "nakanoooe": "kodai", 
   function eraLocked(e) { return ERA_LOCKED.indexOf(e.block) >= 0; }
   function spk(t) { try { speak(t, null); } catch (e) { try { speak(t); } catch (e2) {} } }
   function shuffle(a) { var r = a.slice(); for (var i = r.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = r[i]; r[i] = r[j]; r[j] = t; } return r; }
+  function speakRow(getText) {
+    var wrap = document.createElement("div");
+    wrap.className = "cd-note-row";
+    var btn = document.createElement("button");
+    btn.className = "cd-speak-sm";
+    btn.textContent = "🔊 よんで";
+    btn.addEventListener("click", function () { spk(getText()); });
+    wrap.appendChild(btn);
+    return wrap;
+  }
+  function blockHead(b, getNames) {
+    var wrap = document.createElement("div");
+    wrap.className = "cd-block-head";
+    var h = document.createElement("div");
+    h.className = "cd-block-title"; h.innerHTML = b.label;
+    var btn = document.createElement("button");
+    btn.className = "cd-speak-sm"; btn.textContent = "🔊 よんで";
+    btn.addEventListener("click", function () { spk(getNames()); });
+    wrap.appendChild(h); wrap.appendChild(btn);
+    return wrap;
+  }
   function imgTag(id, cls) {
     if (IMG[id]) return '<img class="' + (cls || "") + '" src="' + IMG[id] + '" alt="">';
     return '<div class="cd-noimg">🌊</div>';
@@ -1664,10 +1694,14 @@ var CD_BLOCK_OF = {"himiko": "kodai", "shotoku": "kodai", "nakanoooe": "kodai", 
     note.className = "cd-pick-note";
     note.textContent = "カードを タップすると ワンポイントが よめるよ。";
     body.appendChild(note);
+    body.appendChild(speakRow(function () { return "じんぶつを しる。カードを タップすると ワンポイントが よめるよ。"; }));
     BLOCKS.forEach(function (b) {
-      var h = document.createElement("div");
-      h.className = "cd-block-title"; h.innerHTML = b.label;
-      body.appendChild(h);
+      body.appendChild(blockHead(b, function () {
+        var names = [];
+        FIGS.filter(function (f) { return f.block === b.id; }).forEach(function (f) { names.push(f.nameRead); });
+        ERA.filter(function (e) { return e.block === b.id; }).forEach(function (e) { names.push(e.nameRead); });
+        return b.labelRead + "。" + names.join("、") + "。";
+      }));
       var g = document.createElement("div"); g.className = "cd-grid";
       FIGS.filter(function (f) { return f.block === b.id; }).forEach(function (f) { g.appendChild(tileFig(f)); });
       ERA.filter(function (e) { return e.block === b.id; }).forEach(function (e) { g.appendChild(tileEra(e, false)); });
@@ -1683,8 +1717,10 @@ var CD_BLOCK_OF = {"himiko": "kodai", "shotoku": "kodai", "nakanoooe": "kodai", 
       var f = figById(id); if (!f) return;
       if (f.locked) {
         card.innerHTML = '<h3>' + f.nameHtml + '</h3><p class="cd-hint">🔒 この 人物は ゆうりょうばんで あそべるよ。</p>' +
+          '<button class="cd-btn" id="cdLockSpeak">🔊 よんで</button>' +
           '<button class="cd-btn" id="cdModalClose">とじる</button>';
         modal.hidden = false;
+        $("cdLockSpeak").addEventListener("click", function () { spk(f.nameRead + "。この じんぶつは ゆうりょうばんで あそべるよ。"); });
         $("cdModalClose").addEventListener("click", closeDetail);
         return;
       }
@@ -1709,8 +1745,10 @@ var CD_BLOCK_OF = {"himiko": "kodai", "shotoku": "kodai", "nakanoooe": "kodai", 
       var e = eraById(id); if (!e) return;
       if (eraLocked(e)) {
         card.innerHTML = '<h3>' + e.nameHtml + '</h3><p class="cd-hint">🔒 この カードは ゆうりょうばんで あつめられるよ。</p>' +
+          '<button class="cd-btn" id="cdLockSpeak">🔊 よんで</button>' +
           '<button class="cd-btn" id="cdModalClose">とじる</button>';
         modal.hidden = false;
+        $("cdLockSpeak").addEventListener("click", function () { spk(e.nameRead + "。この カードは ゆうりょうばんで あつめられるよ。"); });
         $("cdModalClose").addEventListener("click", closeDetail);
         return;
       }
@@ -1737,10 +1775,19 @@ var CD_BLOCK_OF = {"himiko": "kodai", "shotoku": "kodai", "nakanoooe": "kodai", 
     note.className = "cd-pick-note";
     note.textContent = gotCount() + " / " + totalCards() + " まい あつまったよ！";
     body.appendChild(note);
+    body.appendChild(speakRow(function () {
+      var names = [];
+      collectibleFigs().forEach(function (f) { if (state.got[f.id]) names.push(f.nameRead); });
+      collectibleEra().forEach(function (e) { if (state.got[e.id]) names.push(e.nameRead); });
+      return "コレクション。" + gotCount() + " / " + totalCards() + " まい あつまったよ。" + (names.length ? "あつめた カードは、" + names.join("、") + "。" : "");
+    }));
     BLOCKS.forEach(function (b) {
-      var h = document.createElement("div");
-      h.className = "cd-block-title"; h.innerHTML = b.label;
-      body.appendChild(h);
+      body.appendChild(blockHead(b, function () {
+        var names = [];
+        FIGS.filter(function (f) { return f.block === b.id; }).forEach(function (f) { if (state.got[f.id]) names.push(f.nameRead); });
+        ERA.filter(function (e) { return e.block === b.id; }).forEach(function (e) { if (state.got[e.id]) names.push(e.nameRead); });
+        return b.labelRead + "。" + (names.length ? names.join("、") + "を あつめたよ。" : "まだ カードが ないよ。");
+      }));
       var g = document.createElement("div"); g.className = "cd-grid";
       FIGS.filter(function (f) { return f.block === b.id; }).forEach(function (f) {
         if (f.locked) { g.appendChild(tileFig(f)); return; }
@@ -1753,8 +1800,9 @@ var CD_BLOCK_OF = {"himiko": "kodai", "shotoku": "kodai", "nakanoooe": "kodai", 
           if (got) openDetail("fig", f.id);
           else {
             var card = $("cdModalCard");
-            card.innerHTML = '<p class="cd-hint">この カードは まだだよ。<br>「<ruby>人物<rt>じんぶつ</rt></ruby>を しる」で おぼえるか、バトルで かつと もらえるよ。</p><button class="cd-btn" id="cdModalClose">とじる</button>';
+            card.innerHTML = '<p class="cd-hint">この カードは まだだよ。<br>「<ruby>人物<rt>じんぶつ</rt></ruby>を しる」で おぼえるか、バトルで かつと もらえるよ。</p><button class="cd-btn" id="cdLockSpeak">🔊 よんで</button><button class="cd-btn" id="cdModalClose">とじる</button>';
             $("cdModal").hidden = false;
+            $("cdLockSpeak").addEventListener("click", function () { spk("この カードは まだだよ。じんぶつを しるで おぼえるか、バトルで かつと もらえるよ。"); });
             $("cdModalClose").addEventListener("click", closeDetail);
           }
         });
@@ -1775,6 +1823,11 @@ var CD_BLOCK_OF = {"himiko": "kodai", "shotoku": "kodai", "nakanoooe": "kodai", 
     note.className = "cd-pick-note";
     note.textContent = "たたかう 人物を えらんでね。クイズに こたえて こうげき！";
     body.appendChild(note);
+    body.appendChild(speakRow(function () {
+      var names = [];
+      battlePool().forEach(function (f) { names.push(f.nameRead); });
+      return "カードバトル。たたかう じんぶつを えらんでね。" + names.join("、") + "。";
+    }));
     var g = document.createElement("div"); g.className = "cd-grid";
     battlePool().forEach(function (f) {
       var d = document.createElement("div");
@@ -1798,6 +1851,7 @@ var CD_BLOCK_OF = {"himiko": "kodai", "shotoku": "kodai", "nakanoooe": "kodai", 
     var others = battlePool().filter(function (f) { return f.id !== B.cpu.id; });
     var distract = shuffle(others).slice(0, 2);
     var choices = shuffle([B.cpu].concat(distract));
+    B.choices = choices;
     var html = '<div class="cd-vs">' +
       '<div class="cd-fighter" id="cdYou"><div class="cd-name">あなた</div>' + imgTag(B.you.id) + '<div class="cd-name">' + B.you.nameHtml + '</div><div class="cd-hearts">' + hearts(B.hpYou) + "</div></div>" +
       '<div class="cd-vs-mark">VS</div>' +
@@ -1806,11 +1860,18 @@ var CD_BLOCK_OF = {"himiko": "kodai", "shotoku": "kodai", "nakanoooe": "kodai", 
       '<div class="cd-question">' + B.cpu.nameHtml + "は なにを した ひと？</div>" +
       '<button class="cd-q-speak" id="cdQSpeak">🔊 もんだいを よんで</button>' +
       '<div id="cdChoices">' +
-      choices.map(function (c, i) { return '<button class="cd-choice" data-id="' + c.id + '">' + c.deedHtml + "</button>"; }).join("") +
+      choices.map(function (c, i) { return '<div class="cd-choice-row"><button class="cd-choice" data-id="' + c.id + '">' + c.deedHtml + '</button><button class="cd-choice-speak" data-i="' + i + '">🔊</button></div>'; }).join("") +
       "</div>" +
       '<div class="cd-feedback" id="cdFeedback">' + (feedback || "") + "</div>";
     body.innerHTML = html;
-    $("cdQSpeak").addEventListener("click", function () { spk(B.cpu.nameRead + "は なにを した ひと？"); });
+    $("cdQSpeak").addEventListener("click", function () {
+      var t = B.cpu.nameRead + "は なにを した ひと？";
+      (B.choices || []).forEach(function (c, i) { t += " " + (i + 1) + "ばん、" + c.deedRead + "。"; });
+      spk(t);
+    });
+    body.querySelectorAll(".cd-choice-speak").forEach(function (sb) {
+      sb.addEventListener("click", function () { var c = (B.choices || [])[Number(sb.getAttribute("data-i"))]; if (c) spk(c.deedRead); });
+    });
     body.querySelectorAll(".cd-choice").forEach(function (btn) {
       btn.addEventListener("click", function () { answer(btn); });
     });
@@ -1868,9 +1929,17 @@ var CD_BLOCK_OF = {"himiko": "kodai", "shotoku": "kodai", "nakanoooe": "kodai", 
       html += '<div class="cd-stamp">あいての かち</div><p>ざんねん。また ちょうせんしてね。</p>';
       spk("あいての かち。ざんねん。また ちょうせんしてね。");
     }
-    html += '<button class="cd-btn primary" id="cdAgain">もういちど たたかう</button>' +
+    html += '<button class="cd-btn" id="cdResultSpeak">🔊 よんで</button>' +
+      '<button class="cd-btn primary" id="cdAgain">もういちど たたかう</button>' +
       '<button class="cd-btn" id="cdToCol">コレクションを みる</button></div>';
     body.innerHTML = html;
+    var cpuRead = B.cpu.nameRead;
+    $("cdResultSpeak").addEventListener("click", function () {
+      var t = win ? ("やったね。あなたの かち。" + cpuRead + "の カードを " + (gotFig ? "ゲットしたよ。" : "もう もっているよ。") + (gotEra ? "じだいカード、" + gotEra.nameRead + "も ゲットしたよ。" : ""))
+        : draw ? "ひきわけ。いい たたかいだったね。また ちょうせんしてね。"
+        : "あいての かち。ざんねん。また ちょうせんしてね。";
+      spk(t);
+    });
     $("cdAgain").addEventListener("click", function () { curView = "battle"; renderBattlePick(); });
     $("cdToCol").addEventListener("click", function () { curView = "collection"; renderCollection(); });
     B = null;
@@ -1885,6 +1954,8 @@ var CD_BLOCK_OF = {"himiko": "kodai", "shotoku": "kodai", "nakanoooe": "kodai", 
   if (cc) cc.addEventListener("click", closeCards);
   var mo = $("cdModal");
   if (mo) mo.addEventListener("click", function (e) { if (e.target === mo) closeDetail(); });
+  var hs = $("cdHomeSpeak");
+  if (hs) hs.addEventListener("click", function () { spk("カードで あそぼう。ちびキャラの カードで あそべるよ。カードを あつめよう。コレクションは " + gotCount() + " / " + totalCards() + " まい。"); });
   renderCount();
 })();
 
